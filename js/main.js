@@ -1,19 +1,26 @@
 window.onload = () => {
     const calender_container = document.querySelector(".calender");
     const last_date = monthLastDate(new Date());
+    const cell_number = (last_date + month_first_day) <= 28 ? 28 : 35;
 
-    for(let i = 1;i <= last_date; i++){
-        if((i % 7) == 0){
+    for(let i = 1 - month_first_day; i <= cell_number; i++){
+        if((i % 7) == 0 || i == (1 - month_first_day)){
             const week_box = document.createElement("div");
             week_box.classList.add("week");
-            week_box.dataset.wn = (i / 7);
+            if(i == (1 - month_first_day)){
+                week_box.dataset.wn = "1";
+            }else {
+                week_box.dataset.wn = ((c / 7) + 1);
+            }
 
             calender_container.appendChild(week_box);
         }
 
         const date_box = document.createElement("p");
         date_box.classList.add("date");
-        date_box.textContent = i + "日";
+        if(i > 0 && i <= last_date){
+            date_box.textContent = i + "日";
+        }
 
         const belong_week_box = document.querySelector(".week[data-wn='" + ((i - (i % 7)) / 7) + "']");
 
