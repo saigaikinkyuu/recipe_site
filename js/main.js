@@ -1,4 +1,4 @@
-document.onload = () => {
+window.onload = () => {
     const calender_container = document.querySelector(".calender");
     const last_date = monthLastDate(new Date());
 
