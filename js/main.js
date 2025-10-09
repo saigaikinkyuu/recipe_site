@@ -4,8 +4,9 @@ window.onload = () => {
     const month_first_day = monthFirstDay(new Date());
     const cell_number = (last_date + month_first_day) <= 28 ? 28 : 35;
 
-    for(let i = 1 - month_first_day; i <= cell_number; i++){
-        if(((i % 7) == 0 && i !== 0) || i == (1 - month_first_day)){
+    for(let i = 1; i <= cell_number; i++){
+        let c = i - month_first_day;
+        if(((i % 7) == 0 && i !== 0) || i == 1){
             const week_box = document.createElement("div");
             week_box.classList.add("week");
             if(i == (1 - month_first_day)){
@@ -19,8 +20,8 @@ window.onload = () => {
 
         const date_box = document.createElement("p");
         date_box.classList.add("date");
-        if(i > 0 && i <= last_date){
-            date_box.textContent = i + "日";
+        if(c > 0 && c <= last_date){
+            date_box.textContent = c + "日";
         }
 
         const belong_week_box = document.querySelector(".week[data-wn='" + (((i - (i % 7)) / 7) + 1) + "']");
