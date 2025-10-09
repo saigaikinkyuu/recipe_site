@@ -5,7 +5,7 @@ window.onload = () => {
     const cell_number = (last_date + month_first_day) <= 28 ? 28 : 35;
 
     for(let i = 1 - month_first_day; i <= cell_number; i++){
-        if((i % 7) == 0 || i == (1 - month_first_day)){
+        if(((i % 7) == 0 && i !== 0) || i == (1 - month_first_day)){
             const week_box = document.createElement("div");
             week_box.classList.add("week");
             if(i == (1 - month_first_day)){
