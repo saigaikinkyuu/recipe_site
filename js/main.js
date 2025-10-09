@@ -23,7 +23,7 @@ window.onload = () => {
             date_box.textContent = i + "日";
         }
 
-        const belong_week_box = document.querySelector(".week[data-wn='" + ((i - (i % 7)) / 7) + "']");
+        const belong_week_box = document.querySelector(".week[data-wn='" + (((i - (i % 7)) / 7) + 1) + "']");
 
         if(!belong_week_box){
             console.error("fetch_error");
