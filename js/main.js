@@ -1,6 +1,7 @@
 window.onload = () => {
     const calender_container = document.querySelector(".calender");
     const last_date = monthLastDate(new Date());
+    const month_first_day = monthFirstDay(new Date());
     const cell_number = (last_date + month_first_day) <= 28 ? 28 : 35;
 
     for(let i = 1 - month_first_day; i <= cell_number; i++){
@@ -56,4 +57,8 @@ function monthLastDate(newDate){
             return 31
         }
     }
+}
+
+function monthFirstDay(newDate){
+    return new Date(newDate.getFullYear() + "/" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "/01").getDay()
 }
