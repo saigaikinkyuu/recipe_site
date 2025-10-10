@@ -28,6 +28,6 @@ auth.onAuthStateChanged(user => {
             }
         })
     }else {
-        window.location.href = "./login";
+        window.location.href = "../login";
     }
 })
