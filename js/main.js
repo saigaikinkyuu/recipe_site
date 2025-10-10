@@ -24,6 +24,12 @@ window.onload = () => {
             date_box.textContent = c + "日";
         }
 
+        if(i % 7 == 0){
+            date_box.dataset.right = "true";
+        }else {
+            date_box.dataset.right = "false";
+        }
+
         const belong_week_box = document.querySelector(".week[data-wn='" + ((((i - 1) - ((i - 1) % 7)) / 7) + 1) + "']");
 
         if(!belong_week_box){
