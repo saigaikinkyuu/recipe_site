@@ -66,6 +66,23 @@ function Main(){
     }
 }
 
+function getRecipeList(){
+    try{
+        const snapshot = await db.collection("recipe").get(); 
+        
+        const recipes = [];
+        snapshot.forEach(doc => {
+            // ドキュメントIDとデータを取得
+            recipes.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+    }catch(e){
+        console.error(e);
+    }
+}
+
 function monthLastDate(newDate){
     // jan-jul
     const first_mon = 6;
