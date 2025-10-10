@@ -1,4 +1,3 @@
-
 const firebaseConfig = {
     apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
     authDomain: "home-recipe-be23b.firebaseapp.com",
@@ -13,7 +12,7 @@ const app = firebase.initializeApp(firebaseConfig);
 const auth = app.auth();
 const db = app.firestore();
 
-window.onload = () => {
+function Main(){
     const calender_container = document.querySelector(".calender");
     const last_date = monthLastDate(new Date());
     const month_first_day = monthFirstDay(new Date());
@@ -96,3 +95,12 @@ function monthLastDate(newDate){
 function monthFirstDay(newDate){
     return new Date(newDate.getFullYear() + "/" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "/01").getDay()
 }
+
+
+auth.onAuthStateChanged(user => {
+    if (user) {
+        Main();
+    }else {
+        window.location.href = "./login"
+    }
+})
