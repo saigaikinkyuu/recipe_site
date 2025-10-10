@@ -4,6 +4,11 @@ window.onload = () => {
     const month_first_day = monthFirstDay(new Date());
     const cell_number = (last_date + month_first_day) <= 28 ? 28 : 35;
 
+    const calender_ttl = document.createElement("h2");
+    calender_ttl.textContent = (new Date().getMonth() + 1) + "月";
+
+    calender_container.appendChild(calender_ttl);
+
     for(let i = 1; i <= cell_number; i++){
         let c = i - month_first_day;
         if((((i - 1) % 7) == 0 && i !== 1) || i == 1){

@@ -1,6 +1,10 @@
 .calender{
-    width: calc(100% - 2%);
+    width: calc(100% - 4%);
     margin: 0px 1%;
+    padding: 10px 1%;
+    background-color: #fff3ba;
+    border-radius: 10px;
+    box-shadow: #0000005c 4px 4px 5px;
 }
 
 .week{
