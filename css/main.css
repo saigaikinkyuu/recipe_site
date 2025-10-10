@@ -1,3 +1,8 @@
+*{
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-style: normal;
+}
+
 .calender{
     width: calc(100% - 4%);
     margin: 0px 1%;
@@ -5,6 +10,12 @@
     background-color: #fff3ba;
     border-radius: 10px;
     box-shadow: #0000005c 4px 4px 5px;
+}
+
+.calender_ttl{
+    text-align: center;
+    color: #f46000;
+    margin: 10px 0px;
 }
 
 .week{
@@ -30,4 +41,9 @@
 
 .date[data-right="true"]{
     border-right: 2px dashed black;
+}
+
+.date{
+    text-align: center;
+    font-size: 20px;
 }

@@ -6,6 +6,7 @@ window.onload = () => {
 
     const calender_ttl = document.createElement("h2");
     calender_ttl.textContent = (new Date().getMonth() + 1) + "月";
+    calender_ttl.classList.add("calender_ttl")
 
     calender_container.appendChild(calender_ttl);
 
