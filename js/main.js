@@ -101,6 +101,6 @@ auth.onAuthStateChanged(user => {
     if (user) {
         Main();
     }else {
-        window.location.href = "./login"
+        window.location.href = "./login";
     }
 })
