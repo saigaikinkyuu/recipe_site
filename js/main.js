@@ -120,7 +120,6 @@ async function Main(){
                             window.location.href = `./recipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
                         })
                     }else {
-                        const diet_json = diet[i]["recipe"];
                         const diet_lists = document.createElement("div");
                         diet_lists.classList.add("diet_lists");
 
