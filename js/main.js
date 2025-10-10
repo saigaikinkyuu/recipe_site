@@ -28,7 +28,7 @@ window.onload = () => {
         date_box.classList.add("date");
 
         const date_txt = document.createElement("p");
-        date_txt.classList.add("p");
+        date_txt.classList.add("date_p");
 
         if(c > 0 && c <= last_date){
             date_txt.textContent = c + "日";
