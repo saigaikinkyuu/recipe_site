@@ -25,5 +25,5 @@
 }
 
 .date[data-right="true"]{
-    border: 2px dashed black;
+    border-right: 2px dashed black;
 }
