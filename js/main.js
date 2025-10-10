@@ -315,6 +315,10 @@ auth.onAuthStateChanged(user => {
                 }
             }
         })
+
+        await db.collection("recipe").doc("20251011").set({
+            status: {"a" : "test"}
+        });
         Main();
     }else {
         window.location.href = "./login";
