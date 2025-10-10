@@ -21,7 +21,7 @@ auth.onAuthStateChanged(user => {
                 const db_data = snapshot.data();
 
                 if(db_data["status"] == "stop"){
-                    document.querySelector(".container")?.querySelector("p")?.textContent = db_data["mes"];
+                    document.querySelector(".container").querySelector("p").textContent = db_data["mes"];
                 }else {
                     window.location.href = "../";
                 }
