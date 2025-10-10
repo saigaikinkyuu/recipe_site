@@ -39,3 +39,12 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+div{
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
