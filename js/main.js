@@ -49,8 +49,11 @@ async function Main(){
         const date_txt = document.createElement("p");
         date_txt.classList.add("date_p");
 
+        let isCorrectBox = false;
+
         if(c > 0 && c <= last_date){
             date_txt.textContent = c + "日";
+            isCorrectBox = true;
         }
 
         if(i % 7 == 0){
@@ -69,7 +72,7 @@ async function Main(){
             belong_week_box.appendChild(date_box);
         }
 
-        if(recipes_json[date_box.dataset.d]){
+        if(recipes_json[date_box.dataset.d] && isCorrectBox){
             date_box.dataset.set = "true";
         }else {
             date_box.dataset.set = "false";
@@ -323,9 +326,3 @@ auth.onAuthStateChanged(user => {
         window.location.href = "./login";
     }
 })
-
-async function setDB(){
-    await db.collection("recipe").doc("20251011").set({
-        status: {"a" : "test"}
-    });
-}
