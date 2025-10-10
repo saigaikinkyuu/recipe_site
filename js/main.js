@@ -316,11 +316,16 @@ auth.onAuthStateChanged(user => {
             }
         })
 
-        await db.collection("recipe").doc("20251011").set({
-            status: {"a" : "test"}
-        });
+        setDB();
+
         Main();
     }else {
         window.location.href = "./login";
     }
 })
+
+async function setDB(){
+    await db.collection("recipe").doc("20251011").set({
+        status: {"a" : "test"}
+    });
+}
