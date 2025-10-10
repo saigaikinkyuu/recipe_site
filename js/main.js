@@ -6,10 +6,10 @@ window.onload = () => {
 
     for(let i = 1; i <= cell_number; i++){
         let c = i - month_first_day;
-        if(((i % 7) == 0 && i !== 0) || i == 1){
+        if((((i - 1) % 7) == 0 && i !== 1) || i == 1){
             const week_box = document.createElement("div");
             week_box.classList.add("week");
-            if(i == (1 - month_first_day)){
+            if(i == 1){
                 week_box.dataset.wn = "1";
             }else {
                 week_box.dataset.wn = ((i / 7) + 1);
