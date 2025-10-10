@@ -14,22 +14,10 @@
     <div class="calender"></div>
     <div class="list"></div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
-        const firebaseConfig = {
-            apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
-            authDomain: "home-recipe-be23b.firebaseapp.com",
-            projectId: "home-recipe-be23b",
-            storageBucket: "home-recipe-be23b.firebasestorage.app",
-            messagingSenderId: "801879261323",
-            appId: "1:801879261323:web:0d2f9552d1058ee99d948e",
-            measurementId: "G-Y12V9FEK27"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore-compat.js"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>
