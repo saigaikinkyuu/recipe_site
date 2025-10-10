@@ -12,7 +12,7 @@ window.onload = () => {
             if(i == 1){
                 week_box.dataset.wn = "1";
             }else {
-                week_box.dataset.wn = ((i / 7) + 1);
+                week_box.dataset.wn = (((i - 1) / 7) + 1);
             }
 
             calender_container.appendChild(week_box);
