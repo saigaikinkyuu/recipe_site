@@ -24,10 +24,14 @@ window.onload = () => {
             calender_container.appendChild(week_box);
         }
 
-        const date_box = document.createElement("p");
+        const date_box = document.createElement("div");
         date_box.classList.add("date");
+
+        const date_txt = document.createElement("p");
+        date_txt.classList.add("p");
+
         if(c > 0 && c <= last_date){
-            date_box.textContent = c + "日";
+            date_txt.textContent = c + "日";
         }
 
         if(i % 7 == 0){
@@ -35,6 +39,8 @@ window.onload = () => {
         }else {
             date_box.dataset.right = "false";
         }
+
+        date_box.appendChild(date_txt);
 
         const belong_week_box = document.querySelector(".week[data-wn='" + ((((i - 1) - ((i - 1) % 7)) / 7) + 1) + "']");
 

@@ -43,7 +43,21 @@
     border-right: 2px dashed black;
 }
 
+.date[data-set="true"]{
+    background-color: #ffda63;
+}
+
+.date[data-set="false"]{
+    background-color: #a8a8a86e;
+}
+
 .date{
+    display: flex;
+    align-items: center;
+}
+
+.date_p{
+    margin: 0px;
     text-align: center;
     font-size: 20px;
 }
