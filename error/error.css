@@ -1,0 +1,23 @@
+body {
+    background-color: #f9f4f4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-style: normal;
+}
+
+h1, h2, h3 {
+    color: #ff0000;
+}
+
+.container{
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
