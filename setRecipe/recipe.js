@@ -286,9 +286,7 @@ async function Main() {
                     }
                 }
             } catch (e) {
-                const fail_data = localStorage.getItem("data")?localStorage.getItem("data") : [];
-                fail_data.push(cook_json);
-                localStorage.setItem("data", fail_data);
+                localStorage.setItem("data-" + new Date().getTime(), cook_json.toString());
 
                 error_disavailabled_submit = true;
 
