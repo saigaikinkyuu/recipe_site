@@ -259,24 +259,35 @@ async function addForm() {
 
     const cook_item_ttl = document.createElement("h4");
     cook_item_ttl.classList.add("cook_item_ttl");
-    cook_item_ttl.textContent = ((document.querySelector("form").querySelectorAll("div")).length + 1) + "品目";
+    cook_item_ttl.textContent = ((document.querySelector("form").querySelectorAll(".form_cook_div")).length + 1) + "品目";
     cook_item_box.appendChild(cook_item_ttl);
 
     const delete_btn = document.createElement("button");
     delete_btn.classList.add("delete_btn");
     delete_btn.textContent = "×";
     
-    if(!document.querySelector("form").querySelector("div")){
-        delete_btn.addEventListener('click' , (e) => {
+    if(document.querySelector("form").querySelector(".form_cook_div")){
+        delete_btn.addEventListener('click' , async (e) => {
             e.preventDefault();
-            const confirm_log = confirm("このフィールドを削除しますか？")
-            if(confirm_log){
+            const result = await Swal.fire({
+                title: '本当に削除しますか？',
+                text: '一度削除すると元に戻せません。',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'はい',
+                cancelButtonText: 'いいえ'
+            });
+            
+            if (result.isConfirmed) {
+                Swal.fire('削除しました！', '', 'success');
                 form_cook_div.remove();
             }else {
-                alert("削除できませんでした。")
+                Swal.fire('削除に失敗しました', '', 'error');
             }
         })
-        delete_btn.style.opacity = "0";
+    }else {
+        Swal.fire('このフィールドは削除できません', '', 'error');
+        delete_btn.style.backgroundColor = "rgb(169 169 169)";
     }
     cook_item_box.appendChild(delete_btn);
 
