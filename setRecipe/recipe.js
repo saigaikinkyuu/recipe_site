@@ -154,7 +154,7 @@ async function Main() {
             steps_box.insertBefore(step_input, steps_box.querySelectorAll(".steps")[(steps_box.querySelectorAll(".steps")).length - 1]);
         })*/
 
-        submit.addEventListener('click', () => {
+        submit.addEventListener('click', async () => {
             try {
                 if(error_disavailabled_submit){
                     alert("実行中の予期せぬエラーにより処理を停止しました。")
