@@ -108,8 +108,6 @@ async function Main() {
                         cook_json.push({ "ttl": ttl_pr, "ninzu": ninzu_pr, "ingredients": ing_prs, "steps": step_prs });
                     })
 
-                    aaa;
-
                     let request_flag = false;
 
                     if (db_json["exist"]) {

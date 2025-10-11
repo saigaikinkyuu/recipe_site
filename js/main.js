@@ -76,6 +76,8 @@ async function Main() {
             date_box.dataset.set = "true";
         } else if(!recipes_json[date_box.dataset.d] && isCorrectBox){
             date_box.dataset.set = "false";
+        }else {
+            continue
         }
 
         date_box.addEventListener('click', () => {
@@ -93,6 +95,8 @@ async function Main() {
                 const list_ttl_head = document.createElement("h2");
                 list_ttl_head.classList.add("list_ttl_head");
                 list_ttl_head.textContent = (date_box.dataset.d).slice(0, 4) + "年" + (date_box.dataset.d).slice(4, 6) + "月" + (date_box.dataset.d).slice(6, 8);
+                
+                div_list.appendChild(list_ttl_head);
 
                 for (let i = 0; i < diet.length; i++) {
                     const list_ttl = document.createElement("h3");
