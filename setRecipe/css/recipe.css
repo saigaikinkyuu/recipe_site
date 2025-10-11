@@ -53,8 +53,13 @@ input{
     font-weight: bold;
 }
 
+.ingredients_box > div{
+    display: flex;
+}
+
 .ingredients_name , .ingredients_amount{
     width: calc(50% - 11px);
+    margin: 8px 4px;
 }
 
 .steps{
