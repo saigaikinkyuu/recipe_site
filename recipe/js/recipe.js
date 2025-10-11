@@ -40,6 +40,8 @@ async function Main() {
                         if (recipe[time]) {
                             const recipes = recipe[time]["recipe"];
 
+                            document.querySelector(".time").textContent = id.slice(0,4) + "年" + id.slice(4,6) + "月" + id.slice(6,8) + "日－" + time;
+
                             recipes.forEach(item => {
                                 const container = document.querySelector(".container");
 
@@ -52,14 +54,14 @@ async function Main() {
 
                                 box.appendChild(box_ttl);
 
-                                const box_ninzu = document.createElement("h4");
-                                box_ninzu.classList.add("box_ninzu");
-                                box_ninzu.textContent = item["ninzu"];
-
-                                box.appendChild(box_ninzu);
-
                                 const box_ingredients = document.createElement("div");
                                 box_ingredients.classList.add("box_ingredients");
+
+                                const ingredients_ttl = document.createElement("h3");
+                                ingredients_ttl.classList.add(ingredients_ttl);
+                                ingredients_ttl.textContent = `材料【 ${item["ninzu"]} 】`;
+
+                                box_ingredients.appendChild(ingredients_ttl);
 
                                 const ingredients = item["ingredients"];
                                 ingredients.forEach(child => {
@@ -90,11 +92,11 @@ async function Main() {
                                 let step_num = 0;
                                 steps.forEach(child => {
                                     const steps_box = document.createElement("div");
-                                    steps_box.classList.add("ingredient_box");
+                                    steps_box.classList.add("steps_box");
 
                                     const steps_num = document.createElement("h4");
                                     steps_num.classList.add("steps_num");
-                                    steps_num.textContent = steps_num;
+                                    steps_num.textContent = step_num;
 
                                     const steps_name = document.createElement("h4");
                                     steps_name.classList.add("steps_name");
