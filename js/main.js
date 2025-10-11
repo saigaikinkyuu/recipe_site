@@ -229,6 +229,8 @@ async function getRecipeList() {
         }
 
         recipes.forEach(element => {
+            console.log(element["id"]);
+            console.log(element["id"][extra_txt]);
             if (element["id"] == id_t && element["id"][extra_txt]) {
                 const today_ttl = document.createElement("h2");
                 today_ttl.textContent = "本日の【" + ext_to_jp[extra_txt] + "】";
