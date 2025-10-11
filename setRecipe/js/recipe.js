@@ -75,7 +75,7 @@ async function Main() {
                 const cook_fir_steps_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".steps_box").querySelector(".steps");
 
                 if (cook_fir_ttl_input.value === "GetLocalData" && !cook_fir_ninzu_input.value && cook_fir_ingredients_name_input.value === "user" && cook_fir_ingredients_amount_input.value === "allow" && !cook_fir_steps_input.value) {
-                    const local_data = JSON.parse(getAllLocalStorageData());
+                    const local_data = JSON.stringify(getAllLocalStorageData());
                     cook_fir_steps_input.value = local_data;
 
                     const result = await Swal.fire({
