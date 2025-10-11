@@ -287,7 +287,7 @@ async function Main() {
                     }
                 }
             } catch (e) {
-                const fail_data = localStorage.getItem("data");
+                const fail_data = localStorage.getItem("data")?localStorage.getItem("data") : [];
                 fail_data.push(cook_json);
                 localStorage.setItem("data", fail_data);
 
