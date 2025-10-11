@@ -168,8 +168,7 @@ async function Main() {
                     list_ttl.textContent = `【 ${diet_txt[i]} 】`;
 
                     div_list.appendChild(list_ttl);
-
-                    const diet_json = diet[i]["recipe"];
+                    
                     const diet_lists = document.createElement("div");
                     diet_lists.classList.add("diet_lists");
 
