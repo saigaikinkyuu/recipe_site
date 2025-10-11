@@ -43,7 +43,7 @@ async function Main() {
         const steps_btn = document.querySelector("#steps_add");*/
         const submit = document.querySelector("#submit");
 
-        ttl = `${id.slice(0, 4)}年${id.slice(4, 6)}月${id.slice(6, 8)}日－${time}`;
+        ttl.textContent = `${id.slice(0, 4)}年${id.slice(4, 6)}月${id.slice(6, 8)}日－${time}`;
 
         /*url_btn.addEventListener('click', () => {
             const url = url_input.value;
