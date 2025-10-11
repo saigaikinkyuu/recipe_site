@@ -389,7 +389,7 @@ async function addForm() {
                         ing_input_name = ing_box.querySelector("div").querySelector(".ingredients_name");
                         ing_input_amount = ing_box.querySelector("div").querySelector(".ingredients_amount");
                     } else {
-                        const ing_inputs = document.createAttribute("div");
+                        const ing_inputs = document.createElement("div");
 
                         ing_input_name = document.createElement("input");
                         ing_input_name.classList.add("ingredients_name");
