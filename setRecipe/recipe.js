@@ -352,6 +352,7 @@ async function addForm() {
     const steps_btn = document.createElement("button");
     steps_btn.classList.add("add_submit");
     steps_btn.classList.add("steps_add");
+    steps_btn.textContent = "＋";
     steps_box.appendChild(steps_btn);
 
     form_cook_div.appendChild(url_input, document.querySelector(".cook_add"));
