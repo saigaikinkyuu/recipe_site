@@ -28,6 +28,9 @@ async function Main() {
 
     await getRecipeList();
 
+    const list_defo = document.createElement("h3");
+    list_defo.textContent = "確認する日付を選択してください";
+
     for (let i = 1; i <= cell_number; i++) {
         let c = i - month_first_day;
         if ((((i - 1) % 7) == 0 && i !== 1) || i == 1) {
@@ -264,7 +267,6 @@ async function getRecipeList() {
 }
 
 function monthLastDate(newDate) {
-    // jan-jul
     const first_mon = 6;
 
     if (newDate.getMonth() <= first_mon) {
