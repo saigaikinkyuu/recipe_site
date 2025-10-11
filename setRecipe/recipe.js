@@ -20,7 +20,7 @@ function getParam(propaty) {
     return new URLSearchParams(document.location.search).get(propaty)
 }
 
-function Main() {
+async function Main() {
     const id = getParam("id");
     const time = getParam("time");
 
@@ -303,7 +303,7 @@ function Main() {
     }
 }
 
-function addForm() {
+async function addForm() {
     const form_cook_div = document.createElement("div");
     form_cook_div.classList.add("form_cook_div");
 
