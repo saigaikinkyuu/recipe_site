@@ -6,21 +6,24 @@
     <title>レシピ登録</title>
 </head>
 <body>
+    <h3>????年??月??日－?????</h3>
     <form>
-        <h3>????年??月??日－?????</h3>
-        <input type="url" id="url" placeholder="URL（Cookpad）" />
-        <button id="url_submit">URLで参照する</button>
-        <input type="text" id="ttl" placeholder="料理名" />
-        <input type="number" id="ninzu" placeholder="n人前">
-        <div id="ingradients_box">
+        <input type="url" class="url" placeholder="URL（Cookpad）" />
+        <button class="url_submit">参照</button>
+        <input type="text" class="ttl" placeholder="料理名" />
+        <input type="number" class="ninzu" placeholder="n人前" />
+        <div class="ingradients_box">
             <div>
-                <input type="text" class="ingradients_name" placeholder="材料名" />
-                <input type="text" class="ingradients_amount" placeholder="分量" />
+                <input name="ingradients_name" type="text" class="ingradients_name" placeholder="材料名" />
+                <input name="ingradients_amount" type="text" class="ingradients_amount" placeholder="分量" />
             </div>
+            <button class="add_submit ing_add">＋</button>
         </div>
-        <div id="steps_box">
-            <textarea class="steps"></textarea>
+        <div class="steps_box">
+            <textarea name="steps" class="steps" placeholder="手順"></textarea>
+            <button class="add_submit steps_add">＋</button>
         </div>
+        <button class="add_submit cook_add">＋</button>
         <button id="submit">送信</button>
     </form>
 </body>

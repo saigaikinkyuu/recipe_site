@@ -319,8 +319,6 @@ auth.onAuthStateChanged(user => {
             }
         })
 
-        setDB();
-
         Main();
     }else {
         window.location.href = "./login";
