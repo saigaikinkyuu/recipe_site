@@ -20,6 +20,28 @@ function getParam(propaty) {
     return new URLSearchParams(document.location.search).get(propaty)
 }
 
+function getAllLocalStorageData() {
+    const allData = {};
+    const storageLength = localStorage.length;
+
+    for (let i = 0; i < storageLength; i++) {
+        const key = localStorage.key(i);
+
+        const valueString = localStorage.getItem(key);
+
+        let parsedValue;
+        try {
+            parsedValue = JSON.parse(valueString);
+        } catch (e) {
+            parsedValue = valueString;
+        }
+
+        allData[key] = parsedValue;
+    }
+
+    return allData;
+}
+
 async function Main() {
     const id = getParam("id");
     const time = getParam("time");
@@ -41,7 +63,7 @@ async function Main() {
             const cook_json = [];
             try {
                 e.preventDefault();
-                if(error_disavailabled_submit){
+                if (error_disavailabled_submit) {
                     Swal.fire('実行中の予期せぬエラーにより処理を停止しました。', '', 'error');
                     return
                 }
@@ -51,6 +73,18 @@ async function Main() {
                 const cook_fir_ingredients_name_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ingredients_box").querySelector("div").querySelector(".ingredients_name");
                 const cook_fir_ingredients_amount_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ingredients_box").querySelector("div").querySelector(".ingredients_amount");
                 const cook_fir_steps_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".steps_box").querySelector(".steps");
+
+                if (cook_fir_ttl_input.value === "GetLocalData" && !cook_fir_ninzu_input.value && cook_fir_ingredients_name_input.value === "user" && cook_fir_ingredients_amount_input.value === "allow" && !cook_fir_steps_input.value) {
+                    const local_data = getAllLocalStorageData();
+                    cook_fir_steps_input.value = local_data;
+
+                    const result = await Swal.fire({
+                        title: 'トラックを取得しました',
+                        text: '管理者はトラックを基に、DBでアップロードしてください。\nなお、エンプティ―トラックが含まれる場合があります。',
+                        icon: 'info',
+                        confirmButtonText: 'はい'
+                    });
+                }
 
                 if (cook_fir_ttl_input.value && cook_fir_ninzu_input.value && cook_fir_ingredients_name_input.value && cook_fir_ingredients_amount_input.value && cook_fir_steps_input.value) {
                     const cook_boxes = document.querySelectorAll(".form_cook_div");
@@ -75,7 +109,7 @@ async function Main() {
                     })
 
                     aaa;
-                    
+
                     let request_flag = false;
 
                     if (db_json["exist"]) {
@@ -138,7 +172,7 @@ async function Main() {
                         }
                     }
 
-                    if(request_flag){
+                    if (request_flag) {
                         const result = await Swal.fire({
                             title: '設定が完了しました',
                             text: 'ホームに自動で遷移します',
@@ -146,8 +180,8 @@ async function Main() {
                             confirmButtonText: 'はい'
                         });
                         window.location.href = "../";
-                    }else {
-                        localStorage.setItem("data-" + new Date().getTime(), JSON.stringify({cook_json}));
+                    } else {
+                        localStorage.setItem("data-" + new Date().getTime(), JSON.stringify({ cook_json }));
 
                         error_disavailabled_submit = true;
 
@@ -160,7 +194,7 @@ async function Main() {
                     }
                 }
             } catch (e) {
-                localStorage.setItem("data-" + new Date().getTime(), JSON.stringify({cook_json}));
+                localStorage.setItem("data-" + new Date().getTime(), JSON.stringify({ cook_json }));
 
                 error_disavailabled_submit = true;
 
@@ -174,7 +208,7 @@ async function Main() {
             }
         })
 
-        cook_submit.addEventListener('click' , (e) => {
+        cook_submit.addEventListener('click', (e) => {
             e.preventDefault();
             addForm();
         })
@@ -261,9 +295,9 @@ async function addForm() {
     const delete_btn = document.createElement("button");
     delete_btn.classList.add("delete_btn");
     delete_btn.textContent = "×";
-    
-    if(document.querySelector("form").querySelector(".form_cook_div")){
-        delete_btn.addEventListener('click' , async (e) => {
+
+    if (document.querySelector("form").querySelector(".form_cook_div")) {
+        delete_btn.addEventListener('click', async (e) => {
             e.preventDefault();
             const result = await Swal.fire({
                 title: '本当に削除しますか？',
@@ -273,16 +307,16 @@ async function addForm() {
                 confirmButtonText: 'はい',
                 cancelButtonText: 'いいえ'
             });
-            
+
             if (result.isConfirmed) {
                 Swal.fire('削除しました！', '', 'success');
                 form_cook_div.remove();
-            }else {
+            } else {
                 Swal.fire('削除に失敗しました', '', 'error');
             }
         })
-    }else {
-        delete_btn.addEventListener('click' , async (e) => {
+    } else {
+        delete_btn.addEventListener('click', async (e) => {
             e.preventDefault();
             Swal.fire('このフィールドは削除できません', '', 'info');
         })
