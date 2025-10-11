@@ -87,7 +87,7 @@ async function Main() {
 
                                 const steps = item["steps"];
 
-                                let steps_num = 0;
+                                let step_num = 0;
                                 steps.forEach(child => {
                                     const steps_box = document.createElement("div");
                                     steps_box.classList.add("ingredient_box");
@@ -105,7 +105,7 @@ async function Main() {
 
                                     box_steps.appendChild(steps_box);
 
-                                    steps_num++
+                                    step_num++
                                 })
 
                                 box.appendChild(box_steps);
