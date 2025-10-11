@@ -60,7 +60,7 @@ async function Main() {
                 if (url_json["ttl"] && url_json["ninzu"] && url_json["ingrants"] && url_json["steps"]) {
                     ttl_input.value = url_json["ttl"];
 
-                    ninzu_input.value = (url_input["ninzu"]).replace("人前", "");
+                    ninzu_input.value = (url_input["ninzu"]).replace("人分", "");
 
                     let ingrants_num = 0;
 
@@ -323,7 +323,7 @@ async function addForm() {
     const ninzu_input = document.createElement("input");
     ninzu_input.setAttribute("type", "number");
     ninzu_input.setAttribute("class", "ninzu");
-    ninzu_input.setAttribute("placeholder", "n人前");
+    ninzu_input.setAttribute("placeholder", "n人分");
 
     const ing_box = document.createElement("div");
     ing_box.setAttribute("class", "ingredients_box");
@@ -379,7 +379,7 @@ async function addForm() {
             if (url_json["ttl"] && url_json["ninzu"] && url_json["ingredients"] && url_json["steps"]) {
                 ttl_input.value = url_json["ttl"];
 
-                ninzu_input.value = (url_input["ninzu"]).replace("人前", "");
+                ninzu_input.value = (url_json["ninzu"]).replace("人分", "");
 
                 let ingredients_num = 0;
 
