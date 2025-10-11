@@ -40,7 +40,7 @@ input{
     background-color: #ffbb00;
     color: white;
     padding: 10px 15px;
-    margin: 5px 5px 5px 0;
+    margin: 5px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -82,7 +82,7 @@ input{
     background-color: #ffbb00;
     color: white;
     padding: 10px 15px;
-    margin: 5px;
+    margin: 5px 5px 5px 0;
     border: none;
     border-radius: 4px;
     cursor: pointer;
