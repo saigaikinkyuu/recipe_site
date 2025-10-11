@@ -74,11 +74,12 @@ async function Main() {
 
         if (recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "true";
-        } else {
+        } else if(!recipes_json[date_box.dataset.d] && isCorrectBox){
             date_box.dataset.set = "false";
         }
 
         date_box.addEventListener('click', () => {
+            document.querySelector(".list").innerHTML = "";
             if (recipes_json[date_box.dataset.d]) {
                 const diet_txt = ["朝食", "昼食", "夕食"];
                 const diet_txt_en = ["breakfast", "lunch", "dinner"];
@@ -124,7 +125,7 @@ async function Main() {
                                 window.location.href = `./recipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
                             })
 
-                            return
+                            continue
                         }
                     }
                     const diet_lists = document.createElement("div");
@@ -167,50 +168,26 @@ async function Main() {
                     list_ttl.textContent = `【 ${diet_txt[i]} 】`;
 
                     div_list.appendChild(list_ttl);
-                    if (diet[i]) {
-                        const diet_json = diet[i]["recipe"];
-                        const diet_lists = document.createElement("div");
-                        diet_lists.classList.add("diet_lists");
-                        diet_json.forEach(item => {
-                            const list_diet_ttl = document.createElement("h3");
-                            list_diet_ttl.classList.add("list_diet_ttl");
-                            list_diet_ttl.textContent = item["ttl"];
 
-                            diet_lists.appendChild(list_diet_ttl);
-                        });
+                    const diet_json = diet[i]["recipe"];
+                    const diet_lists = document.createElement("div");
+                    diet_lists.classList.add("diet_lists");
 
-                        div_list.appendChild(diet_lists);
+                    const diet_none_txt = document.createElement("h3");
+                    diet_none_txt.classList.add("list_diet_ttl");
+                    diet_none_txt.textContent = "レシピが登録されていません";
 
-                        const recipe_btn = document.createElement("button");
-                        recipe_btn.classList.add("recipe_btn");
-                        recipe_btn.textContent = "レシピを開く";
+                    div_list.appendChild(diet_none_txt);
 
-                        div_list.appendChild(recipe_btn);
+                    const recipe_btn = document.createElement("button");
+                    recipe_btn.classList.add("recipe_btn");
+                    recipe_btn.textContent = "レシピを登録する";
 
-                        recipe_btn.addEventListener('click', () => {
-                            window.location.href = `./recipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
-                        })
-                    } else {
-                        const diet_json = diet[i]["recipe"];
-                        const diet_lists = document.createElement("div");
-                        diet_lists.classList.add("diet_lists");
+                    div_list.appendChild(recipe_btn);
 
-                        const diet_none_txt = document.createElement("h3");
-                        diet_none_txt.classList.add("list_diet_ttl");
-                        diet_none_txt.textContent = "レシピが登録されていません";
-
-                        div_list.appendChild(diet_none_txt);
-
-                        const recipe_btn = document.createElement("button");
-                        recipe_btn.classList.add("recipe_btn");
-                        recipe_btn.textContent = "レシピを登録する";
-
-                        div_list.appendChild(recipe_btn);
-
-                        recipe_btn.addEventListener('click', () => {
-                            window.location.href = `./setRecipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
-                        })
-                    }
+                    recipe_btn.addEventListener('click', () => {
+                        window.location.href = `./setRecipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
+                    })
                 }
             }
         })
