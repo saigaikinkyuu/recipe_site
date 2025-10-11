@@ -14,7 +14,7 @@ const db = app.firestore();
 
 let recipes_json = {};
 
-async function Main(){
+async function Main() {
     const calender_container = document.querySelector(".calender");
     const last_date = monthLastDate(new Date());
     const month_first_day = monthFirstDay(new Date());
@@ -28,14 +28,14 @@ async function Main(){
 
     await getRecipeList();
 
-    for(let i = 1; i <= cell_number; i++){
+    for (let i = 1; i <= cell_number; i++) {
         let c = i - month_first_day;
-        if((((i - 1) % 7) == 0 && i !== 1) || i == 1){
+        if ((((i - 1) % 7) == 0 && i !== 1) || i == 1) {
             const week_box = document.createElement("div");
             week_box.classList.add("week");
-            if(i == 1){
+            if (i == 1) {
                 week_box.dataset.wn = "1";
-            }else {
+            } else {
                 week_box.dataset.wn = (((i - 1) / 7) + 1);
             }
 
@@ -51,14 +51,14 @@ async function Main(){
 
         let isCorrectBox = false;
 
-        if(c > 0 && c <= last_date){
+        if (c > 0 && c <= last_date) {
             date_txt.textContent = c + "日";
             isCorrectBox = true;
         }
 
-        if(i % 7 == 0){
+        if (i % 7 == 0) {
             date_box.dataset.right = "true";
-        }else {
+        } else {
             date_box.dataset.right = "false";
         }
 
@@ -66,24 +66,24 @@ async function Main(){
 
         const belong_week_box = document.querySelector(".week[data-wn='" + ((((i - 1) - ((i - 1) % 7)) / 7) + 1) + "']");
 
-        if(!belong_week_box){
+        if (!belong_week_box) {
             console.error("fetch_error");
-        }else {
+        } else {
             belong_week_box.appendChild(date_box);
         }
 
-        if(recipes_json[date_box.dataset.d] && isCorrectBox){
+        if (recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "true";
-        }else {
+        } else {
             date_box.dataset.set = "false";
         }
 
-        date_box.addEventListener('click' , () => {
-            if(recipes_json[date_box.dataset.d]){
-                const diet_txt = ["朝食" , "昼食" , "夕食"];
-                const diet_txt_en = ["breakfast" , "lunch" , "dinner"];
+        date_box.addEventListener('click', () => {
+            if (recipes_json[date_box.dataset.d]) {
+                const diet_txt = ["朝食", "昼食", "夕食"];
+                const diet_txt_en = ["breakfast", "lunch", "dinner"];
                 const diet = [];
-                diet.push(recipes_json[date_box.dataset.d]["mornning"]);
+                diet.push(recipes_json[date_box.dataset.d]["breakfast"]);
                 diet.push(recipes_json[date_box.dataset.d]["lunch"]);
                 diet.push(recipes_json[date_box.dataset.d]["dinner"]);
 
@@ -91,61 +91,65 @@ async function Main(){
 
                 const list_ttl_head = document.createElement("h2");
                 list_ttl_head.classList.add("list_ttl_head");
-                list_ttl_head.textContent = (date_box.dataset.d).slice(0,4) + "年" + (date_box.dataset.d).slice(4,6) + "月" + (date_box.dataset.d).slice(6,8);
+                list_ttl_head.textContent = (date_box.dataset.d).slice(0, 4) + "年" + (date_box.dataset.d).slice(4, 6) + "月" + (date_box.dataset.d).slice(6, 8);
 
-                for(let i = 0;i < diet.length;i++){
+                for (let i = 0; i < diet.length; i++) {
                     const list_ttl = document.createElement("h3");
                     list_ttl.classList.add("list_ttl");
                     list_ttl.textContent = `【 ${diet_txt[i]} 】`;
 
                     div_list.appendChild(list_ttl);
-                    if(diet[i]){
-                        const diet_json = diet[i]["recipe"];
-                        const diet_lists = document.createElement("div");
-                        diet_lists.classList.add("diet_lists");
-                        diet_json.forEach(item => {
-                            const list_diet_ttl = document.createElement("h3");
-                            list_diet_ttl.classList.add("list_diet_ttl");
-                            list_diet_ttl.textContent = item["ttl"];
+                    if (diet[i]) {
+                        if (Object.keys(diet[i]).length) {
+                            const diet_json = diet[i]["recipe"];
+                            const diet_lists = document.createElement("div");
+                            diet_lists.classList.add("diet_lists");
+                            diet_json.forEach(item => {
+                                const list_diet_ttl = document.createElement("h3");
+                                list_diet_ttl.classList.add("list_diet_ttl");
+                                list_diet_ttl.textContent = item["ttl"];
 
-                            diet_lists.appendChild(list_diet_ttl);
-                        });
+                                diet_lists.appendChild(list_diet_ttl);
+                            });
 
-                        div_list.appendChild(diet_lists);
+                            div_list.appendChild(diet_lists);
 
-                        const recipe_btn = document.createElement("button");
-                        recipe_btn.classList.add("recipe_btn");
-                        recipe_btn.textContent = "レシピを開く";
+                            const recipe_btn = document.createElement("button");
+                            recipe_btn.classList.add("recipe_btn");
+                            recipe_btn.textContent = "レシピを開く";
 
-                        div_list.appendChild(recipe_btn);
+                            div_list.appendChild(recipe_btn);
 
-                        recipe_btn.addEventListener('click' , () => {
-                            window.location.href = `./recipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
-                        })
-                    }else {
-                        const diet_lists = document.createElement("div");
-                        diet_lists.classList.add("diet_lists");
+                            recipe_btn.addEventListener('click', () => {
+                                window.location.href = `./recipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
+                            })
 
-                        const diet_none_txt = document.createElement("h3");
-                        diet_none_txt.classList.add("list_diet_ttl");
-                        diet_none_txt.textContent = "レシピが登録されていません";
-
-                        div_list.appendChild(diet_none_txt);
-
-                        const recipe_btn = document.createElement("button");
-                        recipe_btn.classList.add("recipe_btn");
-                        recipe_btn.textContent = "レシピを登録する";
-
-                        div_list.appendChild(recipe_btn);
-
-                        recipe_btn.addEventListener('click' , () => {
-                            window.location.href = `./setRecipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
-                        })
+                            return
+                        }
                     }
+                    const diet_lists = document.createElement("div");
+                    diet_lists.classList.add("diet_lists");
+
+                    const diet_none_txt = document.createElement("h3");
+                    diet_none_txt.classList.add("list_diet_ttl");
+                    diet_none_txt.textContent = "レシピが登録されていません";
+
+                    div_list.appendChild(diet_none_txt);
+
+                    const recipe_btn = document.createElement("button");
+                    recipe_btn.classList.add("recipe_btn");
+                    recipe_btn.textContent = "レシピを登録する";
+
+                    div_list.appendChild(recipe_btn);
+
+                    recipe_btn.addEventListener('click', () => {
+                        window.location.href = `./setRecipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
+                    })
+
                 }
-            }else {
-                const diet_txt = ["朝食" , "昼食" , "夕食"];
-                const diet_txt_en = ["breakfast" , "lunch" , "dinner"];
+            } else {
+                const diet_txt = ["朝食", "昼食", "夕食"];
+                const diet_txt_en = ["breakfast", "lunch", "dinner"];
                 const diet = [];
                 diet.push(null);
                 diet.push(null);
@@ -155,15 +159,15 @@ async function Main(){
 
                 const list_ttl_head = document.createElement("h2");
                 list_ttl_head.classList.add("list_ttl_head");
-                list_ttl_head.textContent = (date_box.dataset.d).slice(0,4) + "年" + (date_box.dataset.d).slice(4,6) + "月" + (date_box.dataset.d).slice(6,8);
+                list_ttl_head.textContent = (date_box.dataset.d).slice(0, 4) + "年" + (date_box.dataset.d).slice(4, 6) + "月" + (date_box.dataset.d).slice(6, 8);
 
-                for(let i = 0;i < diet.length;i++){
+                for (let i = 0; i < diet.length; i++) {
                     const list_ttl = document.createElement("h3");
                     list_ttl.classList.add("list_ttl");
                     list_ttl.textContent = `【 ${diet_txt[i]} 】`;
 
                     div_list.appendChild(list_ttl);
-                    if(diet[i]){
+                    if (diet[i]) {
                         const diet_json = diet[i]["recipe"];
                         const diet_lists = document.createElement("div");
                         diet_lists.classList.add("diet_lists");
@@ -183,10 +187,10 @@ async function Main(){
 
                         div_list.appendChild(recipe_btn);
 
-                        recipe_btn.addEventListener('click' , () => {
+                        recipe_btn.addEventListener('click', () => {
                             window.location.href = `./recipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
                         })
-                    }else {
+                    } else {
                         const diet_json = diet[i]["recipe"];
                         const diet_lists = document.createElement("div");
                         diet_lists.classList.add("diet_lists");
@@ -203,7 +207,7 @@ async function Main(){
 
                         div_list.appendChild(recipe_btn);
 
-                        recipe_btn.addEventListener('click' , () => {
+                        recipe_btn.addEventListener('click', () => {
                             window.location.href = `./setRecipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
                         })
                     }
@@ -213,10 +217,10 @@ async function Main(){
     }
 }
 
-async function getRecipeList(){
-    try{
-        const snapshot = await db.collection("recipe").get(); 
-        
+async function getRecipeList() {
+    try {
+        const snapshot = await db.collection("recipe").get();
+
         const recipes = [];
         snapshot.forEach(doc => {
             // ドキュメントIDとデータを取得
@@ -230,18 +234,18 @@ async function getRecipeList(){
         const id_t = new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + new Date().getDate()).slice(-2);
         let extra_txt = "";
 
-        const ext_to_jp = {"breakfast" : "朝食" , "lunch" : "昼食" , "dinner" : "夕食"};
+        const ext_to_jp = { "breakfast": "朝食", "lunch": "昼食", "dinner": "夕食" };
 
-        if(4 <= now_h && now_h <= 10){
+        if (4 <= now_h && now_h <= 10) {
             extra_txt = "breakfast";
-        }else if(11 <= now_h && now_h <= 14){
+        } else if (11 <= now_h && now_h <= 14) {
             extra_txt = "lunch";
-        }else if(15 <= now_h && now_h <= 22){
+        } else if (15 <= now_h && now_h <= 22) {
             extra_txt = "dinner";
         }
 
         recipes.forEach(element => {
-            if(element["id"] == id_t && element["id"][extra_txt]){
+            if (element["id"] == id_t && element["id"][extra_txt]) {
                 const today_ttl = document.createElement("h2");
                 today_ttl.textContent = "本日の【" + ext_to_jp[extra_txt] + "】";
                 today_ttl.classList.add("today_ttl");
@@ -261,7 +265,7 @@ async function getRecipeList(){
                 document.querySelector("todaysMenue").appendChild(today_ttl);
                 document.querySelector("todaysMenue").appendChild(today_ul);
 
-                today_ul.addEventListener('click' , () => {
+                today_ul.addEventListener('click', () => {
                     window.location.href = `./recipe/?id=${element["id"]}&time=${extra_txt}`;
                 })
             }
@@ -270,57 +274,57 @@ async function getRecipeList(){
             recipes_json[element["id"]] = element;
         });
 
-    }catch(e){
+    } catch (e) {
         console.error(e);
     }
 }
 
-function monthLastDate(newDate){
+function monthLastDate(newDate) {
     // jan-jul
     const first_mon = 6;
 
-    if(newDate.getMonth() <= first_mon){
-        if((newDate.getMonth() % 2) == 0){
+    if (newDate.getMonth() <= first_mon) {
+        if ((newDate.getMonth() % 2) == 0) {
             return 31
-        }else {
-            if(newDate.getMonth() == 1){
-                if((newDate.getFullYear() % 4) == 0){
+        } else {
+            if (newDate.getMonth() == 1) {
+                if ((newDate.getFullYear() % 4) == 0) {
                     return 29
-                }else {
+                } else {
                     return 28
                 }
             }
             return 30
         }
-    }else {
-        if((newDate.getMonth() % 2) == 0){
+    } else {
+        if ((newDate.getMonth() % 2) == 0) {
             return 30
-        }else {
+        } else {
             return 31
         }
     }
 }
 
-function monthFirstDay(newDate){
+function monthFirstDay(newDate) {
     return new Date(newDate.getFullYear() + "/" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "/01").getDay()
 }
 
 auth.onAuthStateChanged(user => {
     if (user) {
         const unsubscribe = db.collection("server")
-        .doc("db")
-        .onSnapshot((snapshot) => {
-            if (snapshot.exists) {
-                const db_data = snapshot.data();
+            .doc("db")
+            .onSnapshot((snapshot) => {
+                if (snapshot.exists) {
+                    const db_data = snapshot.data();
 
-                if(db_data["status"] == "stop"){
-                    window.location.href = "./error";
+                    if (db_data["status"] == "stop") {
+                        window.location.href = "./error";
+                    }
                 }
-            }
-        })
+            })
 
         Main();
-    }else {
+    } else {
         window.location.href = "./login";
     }
 })
