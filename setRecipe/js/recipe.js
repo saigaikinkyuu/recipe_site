@@ -376,16 +376,16 @@ async function addForm() {
         const url_json = await recipe_gas.json();
 
         if (url_json["ttl"] !== "none") {
-            if (url_json["ttl"] && url_json["ninzu"] && url_json["ingrants"] && url_json["steps"]) {
+            if (url_json["ttl"] && url_json["ninzu"] && url_json["ingradients"] && url_json["steps"]) {
                 ttl_input.value = url_json["ttl"];
 
                 ninzu_input.value = (url_input["ninzu"]).replace("人前", "");
 
-                let ingrants_num = 0;
+                let ingradients_num = 0;
 
-                (url_json["ingrants"]).forEach(item => {
+                (url_json["ingradients"]).forEach(item => {
                     let ing_input_name, ing_input_amount;
-                    if (ingrants_num == 0) {
+                    if (ingradients_num == 0) {
                         ing_input_name = ing_box.querySelector("div").querySelector(".ingradients_name");
                         ing_input_amount = ing_box.querySelector("div").querySelector(".ingradients_amount");
                     } else {
@@ -412,7 +412,7 @@ async function addForm() {
                     ing_input_name.value = item["name"];
                     ing_input_amount.value = item["amount"];
 
-                    ingrants_num++
+                    ingradients_num++
                 });
 
                 let steps_num = 0;
