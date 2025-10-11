@@ -42,7 +42,7 @@ async function Main() {
             try {
                 e.preventDefault();
                 if(error_disavailabled_submit){
-                    alert("実行中の予期せぬエラーにより処理を停止しました。")
+                    Swal.fire('実行中の予期せぬエラーにより処理を停止しました。', '', 'error');
                     return
                 }
 
@@ -137,17 +137,24 @@ async function Main() {
                     }
 
                     if(request_flag){
-                        alert("設定が完了しました。\nホームに自動で遷移します。");
+                        const result = await Swal.fire({
+                            title: '設定が完了しました',
+                            text: 'ホームに自動で遷移します',
+                            icon: 'success',
+                            confirmButtonText: 'はい'
+                        });
                         window.location.href = "../";
                     }else {
-                        const fail_data = localStorage.getItem("data");
-                        fail_data.push(cook_json);
-                        localStorage.setItem("data", fail_data);
+                        localStorage.setItem("data-" + new Date().getTime(), cook_json.toString());
 
                         error_disavailabled_submit = true;
 
-                        alert("YOUR REQUEST IS FAILED.\nPLEASE TELL THE SITE MANAGER ABOUT THIS IMMIDIATELY.");
-                        alert("ページをリロードせずに管理者に連絡ください。");
+                        const result = await Swal.fire({
+                            title: '設定に失敗しました',
+                            text: 'ページを再読み込みせず、管理者にご連絡ください。\nなお、入力されたデータは自動で保存しています。',
+                            icon: 'error',
+                            confirmButtonText: 'はい'
+                        });
                     }
                 }
             } catch (e) {
@@ -156,7 +163,12 @@ async function Main() {
                 error_disavailabled_submit = true;
 
                 console.error(e);
-                alert(`SUBMIT REQUEST WAS REJECTED.\nDETAIL:${e}`);
+                const result = await Swal.fire({
+                    title: '予期せぬエラーが発生しました',
+                    text: `不明なエラーにより処理を停止しました。\n${e}`,
+                    icon: 'error',
+                    confirmButtonText: 'はい'
+                });
             }
         })
 
@@ -332,7 +344,7 @@ async function addForm() {
                         ing_inputs.appendChild(ing_input_name);
                         ing_inputs.appendChild(ing_input_amount);
 
-                        ing_box.insertBefore(ing_inputs, ing_box.querySelectorAll("div")[(ing_box.querySelectorAll("div")).length - 1]);
+                        ing_box.insertBefore(ing_inputs, ing_box.querySelectorAll("button"));
                     }
 
                     ing_input_name.value = item["name"];
@@ -353,7 +365,7 @@ async function addForm() {
                         step_input.setAttribute("name", "steps");
                         step_input.setAttribute("placeholder", "手順")
 
-                        steps_box.insertBefore(step_input, steps_box.querySelectorAll(".steps")[(steps_box.querySelectorAll(".steps")).length - 1]);
+                        steps_box.insertBefore(step_input, steps_box.querySelectorAll("button"));
                     }
 
                     step_input.value = item;
@@ -361,10 +373,20 @@ async function addForm() {
                     steps_num++
                 });
             } else {
-                alert(`FAILED FETCH EXCHANGE.`);
+                const result = Swal.fire({
+                    title: 'データの読み込みに失敗しました',
+                    text: '参照したサイトのページからデータを正常に読み込めませんでした',
+                    icon: 'error',
+                    confirmButtonText: 'はい'
+                });
             }
         } else {
-            alert(`FAILED FETCH FUNCTION.${url_json["error"]}`);
+            const result = Swal.fire({
+                title: 'データの取得を中断しました',
+                text: `参照したページが存在しないため取得を中断しました。${url_json["error"]}`,
+                icon: 'info',
+                confirmButtonText: 'はい'
+            });
             console.error(url_json["error"]);
         }
     })
