@@ -282,7 +282,7 @@ async function addForm() {
     }else {
         delete_btn.addEventListener('click' , async (e) => {
             e.preventDefault();
-            Swal.fire('このフィールドは削除できません', '', 'error');
+            Swal.fire('このフィールドは削除できません', '', 'info');
         })
         delete_btn.style.backgroundColor = "rgb(169 169 169)";
     }
