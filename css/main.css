@@ -3,6 +3,25 @@
     font-style: normal;
 }
 
+.todaysMenue{
+    width: calc(100% - 4%);
+    margin: 20px 1%;
+    padding: 10px 1%;
+    background-color: #fff3ba;
+    border-radius: 10px;
+    box-shadow: #0000005c 4px 4px 5px;
+}
+
+.todaysMenue > h2{
+    margin: 5px 20px;
+    color: #f46000;
+}
+
+.todaysMenue > .today_ul{
+    font-size: 18px;
+    color: #ff7900;
+}
+
 .calender{
     width: calc(100% - 4%);
     margin: 0px 1%;
@@ -81,7 +100,7 @@
     width: calc(100% - 4%);
     margin: 20px 1%;
     padding: 10px 1%;
-    background-color: #ffe471;
+    background-color: #fff3ba;
     border-radius: 10px;
     box-shadow: #00000066 4px 4px 5px;
 }
