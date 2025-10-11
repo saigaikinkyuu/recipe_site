@@ -154,8 +154,9 @@ async function Main() {
             steps_box.insertBefore(step_input, steps_box.querySelectorAll(".steps")[(steps_box.querySelectorAll(".steps")).length - 1]);
         })*/
 
-        submit.addEventListener('click', async () => {
+        submit.addEventListener('click', async (e) => {
             try {
+                e.preventDefault();
                 if(error_disavailabled_submit){
                     alert("実行中の予期せぬエラーにより処理を停止しました。")
                     return
@@ -297,7 +298,8 @@ async function Main() {
             }
         })
 
-        cook_submit.addEventListener('click' , () => {
+        cook_submit.addEventListener('click' , (e) => {
+            e.preventDefault();
             addForm();
         })
     }
@@ -364,7 +366,8 @@ async function addForm() {
 
     document.querySelector("form").insertBefore(form_cook_div, document.querySelector(".cook_add"))
 
-    url_btn.addEventListener('click', async () => {
+    url_btn.addEventListener('click', async (e) => {
+        e.preventDefault();
         const url = url_input.value;
         if (!url) return
         if (!url.includes("https://cookpad.com/jp/recipes/")) return
@@ -443,7 +446,8 @@ async function addForm() {
         }
     })
 
-    ing_btn.addEventListener('click', () => {
+    ing_btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const ing_inputs = document.createAttribute("div");
 
         const ing_input_name = document.createElement("input");
@@ -464,7 +468,8 @@ async function addForm() {
         ing_box.insertBefore(ing_inputs, ing_box.querySelectorAll("div")[(ing_box.querySelectorAll("div")).length - 1]);
     })
 
-    steps_btn.addEventListener('click', () => {
+    steps_btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const step_input = document.createElement("textarea");
         step_input.classList.add("steps");
         step_input.setAttribute("name", "steps");
