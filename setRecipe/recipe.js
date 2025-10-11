@@ -167,7 +167,7 @@ async function Main() {
                 const cook_fir_ninzu_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ninzu");
                 const cook_fir_ingradients_name_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ingradients_box").querySelector("div").querySelector(".ingradients_name");
                 const cook_fir_ingradients_amount_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ingradients_box").querySelector("div").querySelector(".ingradients_amount");
-                const cook_fir_steps_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".steps_box").querySelector("steps");
+                const cook_fir_steps_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".steps_box").querySelector(".steps");
 
                 if (cook_fir_ttl_input.value && cook_fir_ninzu_input.value && cook_fir_ingradients_name_input.value && cook_fir_ingradients_amount_input.value && cook_fir_steps_input.value) {
                     const cook_boxes = document.querySelectorAll(".form_cook_div");
