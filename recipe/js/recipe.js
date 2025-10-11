@@ -58,7 +58,7 @@ async function Main() {
                                 box_ingredients.classList.add("box_ingredients");
 
                                 const ingredients_ttl = document.createElement("h3");
-                                ingredients_ttl.classList.add(ingredients_ttl);
+                                ingredients_ttl.classList.add("ingredients_ttl");
                                 ingredients_ttl.textContent = `材料【 ${item["ninzu"]} 】`;
 
                                 box_ingredients.appendChild(ingredients_ttl);
