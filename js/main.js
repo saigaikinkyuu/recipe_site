@@ -246,8 +246,8 @@ async function getRecipeList() {
                     today_ul.appendChild(today_li);
                 })
 
-                document.querySelector("todaysMenue").appendChild(today_ttl);
-                document.querySelector("todaysMenue").appendChild(today_ul);
+                document.querySelector(".todaysMenue").appendChild(today_ttl);
+                document.querySelector(".todaysMenue").appendChild(today_ul);
 
                 today_ul.addEventListener('click', () => {
                     window.location.href = `./recipe/?id=${element["id"]}&time=${extra_txt}`;
