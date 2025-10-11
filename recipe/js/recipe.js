@@ -63,6 +63,8 @@ async function Main() {
 
                                 box_ingredients.appendChild(ingredients_ttl);
 
+                                ingredients_num = 0;
+
                                 const ingredients = item["ingredients"];
                                 ingredients.forEach(child => {
                                     const ingredient_box = document.createElement("div");
@@ -76,10 +78,16 @@ async function Main() {
                                     ingredient_amount.classList.add("ingredient_amount");
                                     ingredient_amount.textContent = child["amount"];
 
+                                    if(ingredients_num == ingredients.length){
+                                        ingredient_box.style.borderBottom = "0px";
+                                    }
+
                                     ingredient_box.appendChild(ingredient_name);
                                     ingredient_box.appendChild(ingredient_amount);
 
                                     box_ingredients.appendChild(ingredient_box);
+
+                                    ingredients_num++
                                 })
 
                                 box.appendChild(box_ingredients);
