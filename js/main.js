@@ -44,7 +44,7 @@ async function Main(){
 
         const date_box = document.createElement("div");
         date_box.classList.add("date");
-        date_box.dataset.d = new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + new Date().getDate()).slice(-2);
+        date_box.dataset.d = new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + c).slice(-2);
 
         const date_txt = document.createElement("p");
         date_txt.classList.add("date_p");
@@ -267,7 +267,7 @@ async function getRecipeList(){
             }
 
             recipes_json[element["id"]] = {};
-            recipes_json[element["id"]][extra_txt] = element[extra_txt]["recipe"];
+            recipes_json[element["id"]] = element;
         });
 
     }catch(e){
