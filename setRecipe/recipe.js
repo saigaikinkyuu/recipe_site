@@ -363,7 +363,7 @@ async function addForm() {
 
     document.querySelector("form").insertBefore(form_cook_div, document.querySelector(".cook_add"))
 
-    url_btn.addEventListener('click', () => {
+    url_btn.addEventListener('click', async () => {
         const url = url_input.value;
         if (!url) return
         if (!url.includes("https://cookpad.com/jp/recipes/")) return
