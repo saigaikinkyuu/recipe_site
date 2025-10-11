@@ -27,9 +27,12 @@ function Main() {
     if (!id || !time) {
         window.location.href = "../";
     } else {
+        document.querySelector("form").innerHTML = `<button class="add_submit cook_add">＋</button><button id="submit">送信</button>`;
         getDB(id);
+        addForm();
 
         const ttl = document.querySelector("h3");
+        const cook_submit = document.querySelector(".cook_add");
         /*const url_input = document.querySelector("#url");
         const url_btn = document.querySelector("#url_submit");
         const ttl_input = document.querySelector("#ttl");
@@ -292,6 +295,10 @@ function Main() {
                 console.error(e);
                 alert(`SUBMIT REQUEST WAS REJECTED.\nDETAIL:${e}`);
             }
+        })
+
+        cook_submit.addEventListener('click' , () => {
+            addForm();
         })
     }
 }
