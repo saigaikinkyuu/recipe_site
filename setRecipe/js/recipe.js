@@ -33,126 +33,9 @@ async function Main() {
 
         const ttl = document.querySelector("h3");
         const cook_submit = document.querySelector(".cook_add");
-        /*const url_input = document.querySelector("#url");
-        const url_btn = document.querySelector("#url_submit");
-        const ttl_input = document.querySelector("#ttl");
-        const ninzu_input = document.querySelector("#ninzu");
-        const ing_box = document.querySelector("#ingredients_box");
-        const ing_btn = document.querySelector("#ing_add");
-        const steps_box = document.querySelector("#steps_box");
-        const steps_btn = document.querySelector("#steps_add");*/
         const submit = document.querySelector("#submit");
 
         ttl.textContent = `${id.slice(0, 4)}年${id.slice(4, 6)}月${id.slice(6, 8)}日－${time}`;
-
-        /*url_btn.addEventListener('click', () => {
-            const url = url_input.value;
-            if (!url) return
-            if (!url.includes("https://cookpad.com/jp/recipes/")) return
-
-            const recipe_gas = await fetch(`https://script.google.com/macros/s/AKfycbx2q9Dwir-cKJxRMqkhEui7zAEuFBA2eRx8KPnNd3oUUdgXZPx0QOCuoB6zyTZgpUxV/exec?p=${url}`);
-            if (!recipe_gas.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const url_json = await recipe_gas.json();
-
-            if (url_json["ttl"] !== "none") {
-                if (url_json["ttl"] && url_json["ninzu"] && url_json["ingrants"] && url_json["steps"]) {
-                    ttl_input.value = url_json["ttl"];
-
-                    ninzu_input.value = (url_input["ninzu"]).replace("人分", "");
-
-                    let ingrants_num = 0;
-
-                    (url_json["ingrants"]).forEach(item => {
-                        let ing_input_name, ing_input_amount;
-                        if (ingrants_num == 0) {
-                            ing_input_name = ing_box.querySelector("div").querySelector(".ingredients_name");
-                            ing_input_amount = ing_box.querySelector("div").querySelector(".ingredients_amount");
-                        } else {
-                            const ing_inputs = document.createAttribute("div");
-
-                            ing_input_name = document.createElement("input");
-                            ing_input_name.classList.add("ingredients_name");
-                            ing_input_name.setAttribute("name", "ingredients_name");
-                            ing_input_name.setAttribute("type", "text");
-                            ing_input_name.setAttribute("placeholder", "材料名")
-
-                            ing_input_amount = document.createElement("input");
-                            ing_input_amount.classList.add("ing_input_amount");
-                            ing_input_amount.setAttribute("name", "ing_input_amount");
-                            ing_input_amount.setAttribute("type", "text");
-                            ing_input_amount.setAttribute("placeholder", "分量")
-
-                            ing_inputs.appendChild(ing_input_name);
-                            ing_inputs.appendChild(ing_input_amount);
-
-                            ing_box.insertBefore(ing_inputs, ing_box.querySelectorAll("div")[(ing_box.querySelectorAll("div")).length - 1]);
-                        }
-
-                        ing_input_name.value = item["name"];
-                        ing_input_amount.value = item["amount"];
-
-                        ingrants_num++
-                    });
-
-                    let steps_num = 0;
-
-                    (url_json["steps"]).forEach(item => {
-                        let step_input;
-                        if (steps_num == 0) {
-                            step_input = steps_box.querySelector("steps");
-                        } else {
-                            step_input = document.createElement("textarea");
-                            step_input.classList.add("steps");
-                            step_input.setAttribute("name", "steps");
-                            step_input.setAttribute("placeholder", "手順")
-
-                            steps_box.insertBefore(step_input, steps_box.querySelectorAll(".steps")[(steps_box.querySelectorAll(".steps")).length - 1]);
-                        }
-
-                        step_input.value = item;
-
-                        steps_num++
-                    });
-                } else {
-                    alert(`FAILED FETCH EXCHANGE.`);
-                }
-            } else {
-                alert(`FAILED FETCH FUNCTION.${url_json["error"]}`);
-                console.error(url_json["error"]);
-            }
-        })
-
-        ing_btn.addEventListener('click', () => {
-            const ing_inputs = document.createAttribute("div");
-
-            const ing_input_name = document.createElement("input");
-            ing_input_name.classList.add("ingredients_name");
-            ing_input_name.setAttribute("name", "ingredients_name");
-            ing_input_name.setAttribute("type", "text");
-            ing_input_name.setAttribute("placeholder", "材料名")
-
-            const ing_input_amount = document.createElement("input");
-            ing_input_amount.classList.add("ing_input_amount");
-            ing_input_amount.setAttribute("name", "ing_input_amount");
-            ing_input_amount.setAttribute("type", "text");
-            ing_input_amount.setAttribute("placeholder", "分量")
-
-            ing_inputs.appendChild(ing_input_name);
-            ing_inputs.appendChild(ing_input_amount);
-
-            ing_box.insertBefore(ing_inputs, ing_box.querySelectorAll("div")[(ing_box.querySelectorAll("div")).length - 1]);
-        })
-
-        steps_btn.addEventListener('click', () => {
-            const step_input = document.createElement("textarea");
-            step_input.classList.add("steps");
-            step_input.setAttribute("name", "steps");
-            step_input.setAttribute("placeholder", "手順")
-
-            steps_box.insertBefore(step_input, steps_box.querySelectorAll(".steps")[(steps_box.querySelectorAll(".steps")).length - 1]);
-        })*/
 
         submit.addEventListener('click', async (e) => {
             const cook_json = [];
@@ -371,11 +254,19 @@ async function addForm() {
     steps_btn.textContent = "＋";
     steps_box.appendChild(steps_btn);
 
-    if(!document.querySelector("form").querySelector("div")){
-        const delete_btn = document.createElement("button");
-        delete_btn.classList.add("delete_btn");
-        delete_btn.textContent = "×";
+    const cook_item_box = document.createElement("div");
+    cook_item_box.classList.add("cook_item_box");
 
+    const cook_item_ttl = document.createElement("h4");
+    cook_item_ttl.classList.add("cook_item_ttl");
+    cook_item_ttl.textContent = ((document.querySelector("form").querySelectorAll("div")).length + 1) + "品目";
+    cook_item_box.appendChild(cook_item_ttl);
+
+    const delete_btn = document.createElement("button");
+    delete_btn.classList.add("delete_btn");
+    delete_btn.textContent = "×";
+    
+    if(!document.querySelector("form").querySelector("div")){
         delete_btn.addEventListener('click' , (e) => {
             e.preventDefault();
             const confirm_log = confirm("このフィールドを削除しますか？")
@@ -385,10 +276,11 @@ async function addForm() {
                 alert("削除できませんでした。")
             }
         })
-
-        form_cook_div.appendChild(delete_btn);
+        delete_btn.style.opacity = "0";
     }
+    cook_item_box.appendChild(delete_btn);
 
+    form_cook_div.appendChild(cook_item_box);
     form_cook_div.appendChild(url_input_label);
     form_cook_div.appendChild(url_input);
     form_cook_div.appendChild(url_btn);
