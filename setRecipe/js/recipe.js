@@ -334,11 +334,12 @@ async function addForm() {
     ninzu_input.setAttribute("class", "ninzu");
     ninzu_input.setAttribute("placeholder", "n人分");
 
-    const ing_input_label = document.createElement("h4");
-    ing_input_label.textContent = "材料：";
-
     const ing_box = document.createElement("div");
     ing_box.setAttribute("class", "ingredients_box");
+
+    const ing_input_label = document.createElement("h4");
+    ing_input_label.textContent = "材料：";
+    ing_box.appendChild(ing_input_label);
 
     const ing_box_div = document.createElement("div");
     ing_box_div.innerHTML = `<input name="ingredients_name" type="text" class="ingredients_name" placeholder="材料名" />
@@ -351,11 +352,12 @@ async function addForm() {
     ing_btn.textContent = "＋";
     ing_box.appendChild(ing_btn);
 
-    const ing_input_label = document.createElement("h4");
-    ing_input_label.textContent = "手順：";
-
     const steps_box = document.createElement("div");
     steps_box.classList.add("steps_box");
+
+    const steps_input_label = document.createElement("h4");
+    steps_input_label.textContent = "手順：";
+    steps_box.appendChild(steps_input_label);
 
     const steps_box_textarea = document.createElement("textarea");
     steps_box_textarea.setAttribute("name", "steps");
@@ -387,9 +389,12 @@ async function addForm() {
         form_cook_div.appendChild(delete_btn);
     }
 
+    form_cook_div.appendChild(url_input_label);
     form_cook_div.appendChild(url_input);
     form_cook_div.appendChild(url_btn);
+    form_cook_div.appendChild(ttl_input_label);
     form_cook_div.appendChild(ttl_input);
+    form_cook_div.appendChild(ninzu_input_label);
     form_cook_div.appendChild(ninzu_input);
     form_cook_div.appendChild(ing_box);
     form_cook_div.appendChild(steps_box);
