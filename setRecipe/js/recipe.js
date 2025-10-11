@@ -73,24 +73,6 @@ async function Main() {
 
                         cook_json.push({ "ttl": ttl_pr, "ninzu": ninzu_pr, "ingredients": ing_prs, "steps": step_prs });
                     })
-                    /*
-                    const ttl_pr = ttl_input.value;
-                    const ninzu_pr = ninzu_input.value;
-    
-                    let ing_prs = [];
-    
-                    const ing_values = ing_box.querySelectorAll("div");
-                    ing_values.forEach(item => {
-                        ing_prs.push({ "name": item.querySelector(".ingredients_name").value, "amount": item.querySelector(".ingredients_amount").value });
-                    })
-    
-                    let step_prs = [];
-    
-                    const steps_values = steps_box.querySelectorAll(".steps");
-                    steps_values.forEach(item => {
-                        step_prs.push(item.value);
-                    })
-                    */
                     
                     let request_flag = false;
 
