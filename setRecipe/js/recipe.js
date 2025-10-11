@@ -306,6 +306,9 @@ async function addForm() {
     const form_cook_div = document.createElement("div");
     form_cook_div.classList.add("form_cook_div");
 
+    const url_input_label = document.createElement("h4");
+    url_input_label.textContent = "参照のURL：";
+
     const url_input = document.createElement("input");
     url_input.setAttribute("type", "url");
     url_input.setAttribute("class", "url");
@@ -315,15 +318,24 @@ async function addForm() {
     url_btn.setAttribute("class", "url_submit");
     url_btn.textContent = "参照";
 
+    const ttl_input_label = document.createElement("h4");
+    ttl_input_label.textContent = "料理名：";
+
     const ttl_input = document.createElement("input");
     ttl_input.setAttribute("type", "text");
     ttl_input.setAttribute("class", "ttl");
     ttl_input.setAttribute("placeholder", "料理名");
 
+    const ninzu_input_label = document.createElement("h4");
+    ninzu_input_label.textContent = "人数：";
+
     const ninzu_input = document.createElement("input");
     ninzu_input.setAttribute("type", "number");
     ninzu_input.setAttribute("class", "ninzu");
     ninzu_input.setAttribute("placeholder", "n人分");
+
+    const ing_input_label = document.createElement("h4");
+    ing_input_label.textContent = "材料：";
 
     const ing_box = document.createElement("div");
     ing_box.setAttribute("class", "ingredients_box");
@@ -338,6 +350,9 @@ async function addForm() {
     ing_btn.classList.add("ing_add");
     ing_btn.textContent = "＋";
     ing_box.appendChild(ing_btn);
+
+    const ing_input_label = document.createElement("h4");
+    ing_input_label.textContent = "手順：";
 
     const steps_box = document.createElement("div");
     steps_box.classList.add("steps_box");
@@ -354,12 +369,30 @@ async function addForm() {
     steps_btn.textContent = "＋";
     steps_box.appendChild(steps_btn);
 
-    form_cook_div.appendChild(url_input, document.querySelector(".cook_add"));
-    form_cook_div.appendChild(url_btn, document.querySelector(".cook_add"));
-    form_cook_div.appendChild(ttl_input, document.querySelector(".cook_add"));
-    form_cook_div.appendChild(ninzu_input, document.querySelector(".cook_add"));
-    form_cook_div.appendChild(ing_box, document.querySelector(".cook_add"));
-    form_cook_div.appendChild(steps_box, document.querySelector(".cook_add"));
+    if(!document.querySelector("form").querySelector("div")){
+        const delete_btn = document.createElement("button");
+        delete_btn.classList.add("delete_btn");
+        delete_btn.textContent = "×";
+
+        delete_btn.addEventListener('click' , (e) => {
+            e.preventDefault();
+            const confirm_log = confirm("このフィールドを削除しますか？")
+            if(confirm_log){
+                form_cook_div.remove();
+            }else {
+                alert("削除できませんでした。")
+            }
+        })
+
+        form_cook_div.appendChild(delete_btn);
+    }
+
+    form_cook_div.appendChild(url_input);
+    form_cook_div.appendChild(url_btn);
+    form_cook_div.appendChild(ttl_input);
+    form_cook_div.appendChild(ninzu_input);
+    form_cook_div.appendChild(ing_box);
+    form_cook_div.appendChild(steps_box);
 
     document.querySelector("form").insertBefore(form_cook_div, document.querySelector(".cook_add"))
 
@@ -398,8 +431,8 @@ async function addForm() {
                         ing_input_name.setAttribute("placeholder", "材料名")
 
                         ing_input_amount = document.createElement("input");
-                        ing_input_amount.classList.add("ing_input_amount");
-                        ing_input_amount.setAttribute("name", "ing_input_amount");
+                        ing_input_amount.classList.add("ingredients_amount");
+                        ing_input_amount.setAttribute("name", "ingredients_amount");
                         ing_input_amount.setAttribute("type", "text");
                         ing_input_amount.setAttribute("placeholder", "分量")
 
@@ -420,7 +453,7 @@ async function addForm() {
                 (url_json["steps"]).forEach(item => {
                     let step_input;
                     if (steps_num == 0) {
-                        step_input = steps_box.querySelector("steps");
+                        step_input = steps_box.querySelector(".steps");
                     } else {
                         step_input = document.createElement("textarea");
                         step_input.classList.add("steps");
