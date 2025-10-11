@@ -147,7 +147,7 @@ async function Main() {
                         });
                         window.location.href = "../";
                     }else {
-                        localStorage.setItem("data-" + new Date().getTime(), {cook_json});
+                        localStorage.setItem("data-" + new Date().getTime(), JSON.stringify({cook_json}));
 
                         error_disavailabled_submit = true;
 
@@ -160,7 +160,7 @@ async function Main() {
                     }
                 }
             } catch (e) {
-                localStorage.setItem("data-" + new Date().getTime(), {cook_json});
+                localStorage.setItem("data-" + new Date().getTime(), JSON.stringify({cook_json}));
 
                 error_disavailabled_submit = true;
 
