@@ -16,7 +16,7 @@ function getParam(propaty) {
     return new URLSearchParams(document.location.search).get(propaty)
 }
 
-function Main() {
+async function Main() {
     try {
         const id = getParam("id");
         const time = getParam("time");
