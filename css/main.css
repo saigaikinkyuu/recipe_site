@@ -90,6 +90,19 @@
     text-align: center;
 }
 
+.list_ttl_head{
+    border-bottom: 4px solid #ff6600;
+    color: #ff6600;
+    width: fit-content;
+    padding: 0px 10px;
+    margin: 5px 10px;
+}
+
+.list_diet_ttl{
+    width: calc(100% - 10%);
+    margin: 10px 5%;
+}
+
 .list_diet_ttl.isNone{
     color: red;
     border-radius: 5px;
