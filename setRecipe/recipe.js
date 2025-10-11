@@ -177,7 +177,7 @@ async function Main() {
                         const ninzu_pr = item.querySelector(".ninzu").value;
 
                         let ing_prs = [];
-                        const ing_values = item.querySelector(".ingredients").querySelectorAll("div");
+                        const ing_values = item.querySelector(".ingradients_box").querySelectorAll("div");
                         ing_values.forEach(child => {
                             ing_prs.push({ "name": child.querySelector(".ingradients_name").value, "amount": child.querySelector(".ingradients_amount").value });
                         })
