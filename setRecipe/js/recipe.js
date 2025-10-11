@@ -73,6 +73,8 @@ async function Main() {
 
                         cook_json.push({ "ttl": ttl_pr, "ninzu": ninzu_pr, "ingredients": ing_prs, "steps": step_prs });
                     })
+
+                    aaa;
                     
                     let request_flag = false;
 
@@ -145,7 +147,7 @@ async function Main() {
                         });
                         window.location.href = "../";
                     }else {
-                        localStorage.setItem("data-" + new Date().getTime(), cook_json.toString());
+                        localStorage.setItem("data-" + new Date().getTime(), {cook_json});
 
                         error_disavailabled_submit = true;
 
@@ -158,7 +160,7 @@ async function Main() {
                     }
                 }
             } catch (e) {
-                localStorage.setItem("data-" + new Date().getTime(), cook_json.toString());
+                localStorage.setItem("data-" + new Date().getTime(), {cook_json});
 
                 error_disavailabled_submit = true;
 
