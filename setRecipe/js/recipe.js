@@ -344,7 +344,7 @@ async function addForm() {
                         ing_inputs.appendChild(ing_input_name);
                         ing_inputs.appendChild(ing_input_amount);
 
-                        ing_box.insertBefore(ing_inputs, ing_box.querySelectorAll("button"));
+                        ing_box.insertBefore(ing_inputs, ing_box.querySelector("button"));
                     }
 
                     ing_input_name.value = item["name"];
@@ -365,7 +365,7 @@ async function addForm() {
                         step_input.setAttribute("name", "steps");
                         step_input.setAttribute("placeholder", "手順")
 
-                        steps_box.insertBefore(step_input, steps_box.querySelectorAll("button"));
+                        steps_box.insertBefore(step_input, steps_box.querySelector("button"));
                     }
 
                     step_input.value = item;
