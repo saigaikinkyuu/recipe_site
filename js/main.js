@@ -133,6 +133,7 @@ async function Main() {
 
                     const diet_none_txt = document.createElement("h3");
                     diet_none_txt.classList.add("list_diet_ttl");
+                    diet_none_txt.classList.add("isNone");
                     diet_none_txt.textContent = "レシピが登録されていません";
 
                     div_list.appendChild(diet_none_txt);
@@ -168,12 +169,13 @@ async function Main() {
                     list_ttl.textContent = `【 ${diet_txt[i]} 】`;
 
                     div_list.appendChild(list_ttl);
-                    
+
                     const diet_lists = document.createElement("div");
                     diet_lists.classList.add("diet_lists");
 
                     const diet_none_txt = document.createElement("h3");
                     diet_none_txt.classList.add("list_diet_ttl");
+                    diet_none_txt.classList.add("isNone");
                     diet_none_txt.textContent = "レシピが登録されていません";
 
                     div_list.appendChild(diet_none_txt);
