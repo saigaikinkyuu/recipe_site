@@ -87,6 +87,12 @@ async function Main() {
                                 const box_steps = document.createElement("div");
                                 box_steps.classList.add("box_steps");
 
+                                const steps_ttl = document.createElement("h3");
+                                steps_ttl.classList.add("steps_ttl");
+                                steps_ttl.textContent = `【 手順 】`;
+                                
+                                box_steps.appendChild(steps_ttl);
+
                                 const steps = item["steps"];
 
                                 let step_num = 0;
@@ -94,15 +100,19 @@ async function Main() {
                                     const steps_box = document.createElement("div");
                                     steps_box.classList.add("steps_box");
 
+                                    const steps_num_box = document.createElement("div");
+                                    steps_num_box.classList.add("steps_num");
+
                                     const steps_num = document.createElement("h4");
-                                    steps_num.classList.add("steps_num");
-                                    steps_num.textContent = step_num;
+                                    steps_num.textContent = step_num + 1;
 
                                     const steps_name = document.createElement("h4");
                                     steps_name.classList.add("steps_name");
                                     steps_name.textContent = child;
 
-                                    steps_box.appendChild(steps_num);
+                                    steps_num_box.appendChild(steps_num);
+
+                                    steps_box.appendChild(steps_num_box);
                                     steps_box.appendChild(steps_name);
 
                                     box_steps.appendChild(steps_box);
