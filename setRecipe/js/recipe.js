@@ -37,7 +37,7 @@ async function Main() {
         const url_btn = document.querySelector("#url_submit");
         const ttl_input = document.querySelector("#ttl");
         const ninzu_input = document.querySelector("#ninzu");
-        const ing_box = document.querySelector("#ingradients_box");
+        const ing_box = document.querySelector("#ingredients_box");
         const ing_btn = document.querySelector("#ing_add");
         const steps_box = document.querySelector("#steps_box");
         const steps_btn = document.querySelector("#steps_add");*/
@@ -67,14 +67,14 @@ async function Main() {
                     (url_json["ingrants"]).forEach(item => {
                         let ing_input_name, ing_input_amount;
                         if (ingrants_num == 0) {
-                            ing_input_name = ing_box.querySelector("div").querySelector(".ingradients_name");
-                            ing_input_amount = ing_box.querySelector("div").querySelector(".ingradients_amount");
+                            ing_input_name = ing_box.querySelector("div").querySelector(".ingredients_name");
+                            ing_input_amount = ing_box.querySelector("div").querySelector(".ingredients_amount");
                         } else {
                             const ing_inputs = document.createAttribute("div");
 
                             ing_input_name = document.createElement("input");
-                            ing_input_name.classList.add("ingradients_name");
-                            ing_input_name.setAttribute("name", "ingradients_name");
+                            ing_input_name.classList.add("ingredients_name");
+                            ing_input_name.setAttribute("name", "ingredients_name");
                             ing_input_name.setAttribute("type", "text");
                             ing_input_name.setAttribute("placeholder", "材料名")
 
@@ -128,8 +128,8 @@ async function Main() {
             const ing_inputs = document.createAttribute("div");
 
             const ing_input_name = document.createElement("input");
-            ing_input_name.classList.add("ingradients_name");
-            ing_input_name.setAttribute("name", "ingradients_name");
+            ing_input_name.classList.add("ingredients_name");
+            ing_input_name.setAttribute("name", "ingredients_name");
             ing_input_name.setAttribute("type", "text");
             ing_input_name.setAttribute("placeholder", "材料名")
 
@@ -165,11 +165,11 @@ async function Main() {
 
                 const cook_fir_ttl_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ttl");
                 const cook_fir_ninzu_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ninzu");
-                const cook_fir_ingradients_name_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ingradients_box").querySelector("div").querySelector(".ingradients_name");
-                const cook_fir_ingradients_amount_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ingradients_box").querySelector("div").querySelector(".ingradients_amount");
+                const cook_fir_ingredients_name_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ingredients_box").querySelector("div").querySelector(".ingredients_name");
+                const cook_fir_ingredients_amount_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".ingredients_box").querySelector("div").querySelector(".ingredients_amount");
                 const cook_fir_steps_input = document.querySelectorAll(".form_cook_div")[0].querySelector(".steps_box").querySelector(".steps");
 
-                if (cook_fir_ttl_input.value && cook_fir_ninzu_input.value && cook_fir_ingradients_name_input.value && cook_fir_ingradients_amount_input.value && cook_fir_steps_input.value) {
+                if (cook_fir_ttl_input.value && cook_fir_ninzu_input.value && cook_fir_ingredients_name_input.value && cook_fir_ingredients_amount_input.value && cook_fir_steps_input.value) {
                     const cook_boxes = document.querySelectorAll(".form_cook_div");
 
                     cook_boxes.forEach(item => {
@@ -177,9 +177,9 @@ async function Main() {
                         const ninzu_pr = item.querySelector(".ninzu").value;
 
                         let ing_prs = [];
-                        const ing_values = item.querySelector(".ingradients_box").querySelectorAll("div");
+                        const ing_values = item.querySelector(".ingredients_box").querySelectorAll("div");
                         ing_values.forEach(child => {
-                            ing_prs.push({ "name": child.querySelector(".ingradients_name").value, "amount": child.querySelector(".ingradients_amount").value });
+                            ing_prs.push({ "name": child.querySelector(".ingredients_name").value, "amount": child.querySelector(".ingredients_amount").value });
                         })
 
                         let step_prs = [];
@@ -198,7 +198,7 @@ async function Main() {
     
                     const ing_values = ing_box.querySelectorAll("div");
                     ing_values.forEach(item => {
-                        ing_prs.push({ "name": item.querySelector(".ingradients_name").value, "amount": item.querySelector(".ingradients_amount").value });
+                        ing_prs.push({ "name": item.querySelector(".ingredients_name").value, "amount": item.querySelector(".ingredients_amount").value });
                     })
     
                     let step_prs = [];
@@ -326,11 +326,11 @@ async function addForm() {
     ninzu_input.setAttribute("placeholder", "n人前");
 
     const ing_box = document.createElement("div");
-    ing_box.setAttribute("class", "ingradients_box");
+    ing_box.setAttribute("class", "ingredients_box");
 
     const ing_box_div = document.createElement("div");
-    ing_box_div.innerHTML = `<input name="ingradients_name" type="text" class="ingradients_name" placeholder="材料名" />
-                         <input name="ingradients_amount" type="text" class="ingradients_amount" placeholder="分量" />`;
+    ing_box_div.innerHTML = `<input name="ingredients_name" type="text" class="ingredients_name" placeholder="材料名" />
+                         <input name="ingredients_amount" type="text" class="ingredients_amount" placeholder="分量" />`;
     ing_box.appendChild(ing_box_div);
 
     const ing_btn = document.createElement("button");
@@ -376,24 +376,24 @@ async function addForm() {
         const url_json = await recipe_gas.json();
 
         if (url_json["ttl"] !== "none") {
-            if (url_json["ttl"] && url_json["ninzu"] && url_json["ingradients"] && url_json["steps"]) {
+            if (url_json["ttl"] && url_json["ninzu"] && url_json["ingredients"] && url_json["steps"]) {
                 ttl_input.value = url_json["ttl"];
 
                 ninzu_input.value = (url_input["ninzu"]).replace("人前", "");
 
-                let ingradients_num = 0;
+                let ingredients_num = 0;
 
-                (url_json["ingradients"]).forEach(item => {
+                (url_json["ingredients"]).forEach(item => {
                     let ing_input_name, ing_input_amount;
-                    if (ingradients_num == 0) {
-                        ing_input_name = ing_box.querySelector("div").querySelector(".ingradients_name");
-                        ing_input_amount = ing_box.querySelector("div").querySelector(".ingradients_amount");
+                    if (ingredients_num == 0) {
+                        ing_input_name = ing_box.querySelector("div").querySelector(".ingredients_name");
+                        ing_input_amount = ing_box.querySelector("div").querySelector(".ingredients_amount");
                     } else {
                         const ing_inputs = document.createAttribute("div");
 
                         ing_input_name = document.createElement("input");
-                        ing_input_name.classList.add("ingradients_name");
-                        ing_input_name.setAttribute("name", "ingradients_name");
+                        ing_input_name.classList.add("ingredients_name");
+                        ing_input_name.setAttribute("name", "ingredients_name");
                         ing_input_name.setAttribute("type", "text");
                         ing_input_name.setAttribute("placeholder", "材料名")
 
@@ -412,7 +412,7 @@ async function addForm() {
                     ing_input_name.value = item["name"];
                     ing_input_amount.value = item["amount"];
 
-                    ingradients_num++
+                    ingredients_num++
                 });
 
                 let steps_num = 0;
@@ -448,8 +448,8 @@ async function addForm() {
         const ing_inputs = document.createAttribute("div");
 
         const ing_input_name = document.createElement("input");
-        ing_input_name.classList.add("ingradients_name");
-        ing_input_name.setAttribute("name", "ingradients_name");
+        ing_input_name.classList.add("ingredients_name");
+        ing_input_name.setAttribute("name", "ingredients_name");
         ing_input_name.setAttribute("type", "text");
         ing_input_name.setAttribute("placeholder", "材料名")
 

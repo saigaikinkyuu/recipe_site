@@ -48,7 +48,7 @@ input{
     font-weight: bold;
 }
 
-.ingradients_name , .ingradients_amount{
+.ingredients_name , .ingredients_amount{
     width: calc(50% - 11px);
 }
 
