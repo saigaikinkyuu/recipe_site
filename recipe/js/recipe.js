@@ -34,7 +34,7 @@ async function Main() {
         } else {
             const unsubscribe = db.collection("recipe")
                 .doc(id)
-                .onSnapshot((snapshot) => {
+                .onSnapshot(async (snapshot) => {
                     if (snapshot.exists) {
                         const recipe = snapshot.data();
                         if (recipe[time]) {
