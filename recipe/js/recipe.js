@@ -78,7 +78,7 @@ async function Main() {
                                     ingredient_amount.classList.add("ingredient_amount");
                                     ingredient_amount.textContent = child["amount"];
 
-                                    if(ingredients_num == ingredients.length){
+                                    if((ingredients_num + 1) == ingredients.length){
                                         ingredient_box.style.borderBottom = "0px";
                                     }
 
