@@ -510,7 +510,7 @@ async function addStepsInput(field){
 
 async function setData(time) {
     try {
-        if (Object.keys(db_json).length > 0) {
+        if (Object.keys(db_json).length <= 0) {
             const result = await Swal.fire({
                 title: 'データの取得に失敗しました',
                 text: `データベースへのリクエストに失敗しました。`,
