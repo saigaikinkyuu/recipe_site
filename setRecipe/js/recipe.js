@@ -584,11 +584,11 @@ async function setData(time) {
                     const steps = time_data[i]["steps"];
                     let steps_num = 0;
                     steps.forEach(async child => {
-                        let fileds;
+                        let fields;
                         if(steps_num > 0){
                             fields = await addStepsInput(form_i.querySelector(".steps_box"));
                         }else{
-                            fileds = form_i.querySelector(".steps_box").querySelector(".steps");
+                            fields = form_i.querySelector(".steps_box").querySelector(".steps");
                         }
                         fields.value = child;
                         steps_num++;
