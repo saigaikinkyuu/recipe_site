@@ -573,7 +573,7 @@ async function setData(time) {
                         }else {
                             fields = [];
                             fields.push(form_i.querySelector(".ingredients_box").querySelector("div").querySelector(".ingredients_name"));
-                            fields.push(form_i.querySelector(".ingredients_box").querySelector("div").querySelector(".amount"));
+                            fields.push(form_i.querySelector(".ingredients_box").querySelector("div").querySelector(".ingredients_amount"));
                         }
 
                         fields[0].value = child["name"];
@@ -585,12 +585,13 @@ async function setData(time) {
                     let steps_num = 0;
                     steps.forEach(async child => {
                         let fileds;
-                        if(fields > 0){
+                        if(steps_num > 0){
                             fields = await addStepsInput(form_i.querySelector(".steps_box"));
                         }else{
                             fileds = form_i.querySelector(".steps_box").querySelector(".steps");
                         }
                         fields.value = child;
+                        steps_num++;
                     })
 
                     console.log("h");
