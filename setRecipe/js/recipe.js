@@ -374,7 +374,7 @@ async function addForm() {
                         ing_input_amount.classList.add("ingredients_amount");
                         ing_input_amount.setAttribute("name", "ingredients_amount");
                         ing_input_amount.setAttribute("type", "text");
-                        ing_input_amount.setAttribute("placeholder", "分量")
+                        ing_input_amount.setAttribute("placeholder", "分量");
 
                         ing_inputs.appendChild(ing_input_name);
                         ing_inputs.appendChild(ing_input_amount);
@@ -437,10 +437,10 @@ async function addForm() {
         ing_input_name.setAttribute("placeholder", "材料名")
 
         const ing_input_amount = document.createElement("input");
-        ing_input_amount.classList.add("ing_input_amount");
-        ing_input_amount.setAttribute("name", "ing_input_amount");
+        ing_input_amount.classList.add("ingredients_amount");
+        ing_input_amount.setAttribute("name", "ingredients_amount");
         ing_input_amount.setAttribute("type", "text");
-        ing_input_amount.setAttribute("placeholder", "分量")
+        ing_input_amount.setAttribute("placeholder", "分量");
 
         ing_inputs.appendChild(ing_input_name);
         ing_inputs.appendChild(ing_input_amount);
@@ -487,7 +487,7 @@ async function addIngInput(field) {
     ing_input_amount.classList.add("ing_input_amount");
     ing_input_amount.setAttribute("name", "ing_input_amount");
     ing_input_amount.setAttribute("type", "text");
-    ing_input_amount.setAttribute("placeholder", "分量")
+    ing_input_amount.setAttribute("placeholder", "分量");
 
     ing_inputs.appendChild(ing_input_name);
     ing_inputs.appendChild(ing_input_amount);
@@ -564,15 +564,32 @@ async function setData(time) {
                     form_i.querySelector(".ninzu").value = time_data[i]["ninzu"];
 
                     const ingredients = time_data[i]["ingredients"];
+                    let ingredients_num = 0;
                     ingredients.forEach(async child => {
-                        const fields = await addIngInput(form_i.querySelector(".ingredients_box"));
+                        let fields;
+
+                        if(ingredients > 0){
+                            fields = await addIngInput(form_i.querySelector(".ingredients_box"));
+                        }else {
+                            fields = [];
+                            fields.push(form_i.querySelector(".ingredients_box").querySelector("div").querySelector(".ingredients_name"));
+                            fields.push(form_i.querySelector(".ingredients_box").querySelector("div").querySelector(".amount"));
+                        }
+
                         fields[0].value = child["name"];
                         fields[1].value = child["amount"];
+                        ingredients_num++
                     })
 
                     const steps = time_data[i]["steps"];
+                    let steps_num = 0;
                     steps.forEach(async child => {
-                        const fields = await addStepsInput(form_i.querySelector(".steps"));
+                        let fileds;
+                        if(fields > 0){
+                            fields = await addStepsInput(form_i.querySelector(".steps_box"));
+                        }else{
+                            fileds = form_i.querySelector(".steps_box").querySelector(".steps");
+                        }
                         fields.value = child;
                     })
 
