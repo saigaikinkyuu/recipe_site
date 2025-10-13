@@ -460,7 +460,7 @@ async function addForm() {
 }
 
 async function getDB(id) {
-    const unsubscribe = db.collection("recipe")
+    const unsubscribe = await db.collection("recipe")
         .doc(id)
         .onSnapshot((snapshot) => {
             if (snapshot.exists) {
@@ -513,7 +513,7 @@ async function setData(time) {
         if (Object.keys(db_json).length > 0) {
             const result = await Swal.fire({
                 title: 'データの取得に失敗しました',
-                text: `データベースへのリクエストが失敗しました。`,
+                text: `データベースへのリクエストに失敗しました。`,
                 icon: 'error',
                 confirmButtonText: 'はい'
             })
