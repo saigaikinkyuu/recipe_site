@@ -63,7 +63,7 @@ async function Main() {
 
                                 box_ingredients.appendChild(ingredients_ttl);
 
-                                ingredients_num = 0;
+                                let ingredients_num = 0;
 
                                 const ingredients = item["ingredients"];
                                 ingredients.forEach(child => {
