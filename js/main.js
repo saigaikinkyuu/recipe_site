@@ -77,9 +77,9 @@ async function Main() {
 
         if (recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "true";
-        } else if(!recipes_json[date_box.dataset.d] && isCorrectBox){
+        } else if (!recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "false";
-        }else {
+        } else {
             continue
         }
 
@@ -98,7 +98,7 @@ async function Main() {
                 const list_ttl_head = document.createElement("h2");
                 list_ttl_head.classList.add("list_ttl_head");
                 list_ttl_head.textContent = (date_box.dataset.d).slice(0, 4) + "年" + (date_box.dataset.d).slice(4, 6) + "月" + (date_box.dataset.d).slice(6, 8) + "日";
-                
+
                 div_list.appendChild(list_ttl_head);
 
                 for (let i = 0; i < diet.length; i++) {
@@ -233,28 +233,30 @@ async function getRecipeList() {
 
         recipes.forEach(element => {
             if (element["id"] == id_t && element[extra_txt]) {
-                const today_ttl = document.createElement("h2");
-                today_ttl.textContent = "本日の【" + ext_to_jp[extra_txt] + "】";
-                today_ttl.classList.add("today_ttl");
+                if (Object.keys(element[extra_txt]) > 0) {
+                    const today_ttl = document.createElement("h2");
+                    today_ttl.textContent = "本日の【" + ext_to_jp[extra_txt] + "】";
+                    today_ttl.classList.add("today_ttl");
 
-                const today_ul = document.createElement("ul");
-                today_ul.classList.add("today_ul");
+                    const today_ul = document.createElement("ul");
+                    today_ul.classList.add("today_ul");
 
-                const recipes_elem = element[extra_txt]["recipe"];
-                recipes_elem.forEach(item => {
-                    const today_li = document.createElement("li");
-                    today_li.classList.add("today_li");
-                    today_li.textContent = item["ttl"];
+                    const recipes_elem = element[extra_txt]["recipe"];
+                    recipes_elem.forEach(item => {
+                        const today_li = document.createElement("li");
+                        today_li.classList.add("today_li");
+                        today_li.textContent = item["ttl"];
 
-                    today_ul.appendChild(today_li);
-                })
+                        today_ul.appendChild(today_li);
+                    })
 
-                document.querySelector(".todaysMenue").appendChild(today_ttl);
-                document.querySelector(".todaysMenue").appendChild(today_ul);
+                    document.querySelector(".todaysMenue").appendChild(today_ttl);
+                    document.querySelector(".todaysMenue").appendChild(today_ul);
 
-                today_ul.addEventListener('click', () => {
-                    window.location.href = `./recipe/?id=${element["id"]}&time=${extra_txt}`;
-                })
+                    today_ul.addEventListener('click', () => {
+                        window.location.href = `./recipe/?id=${element["id"]}&time=${extra_txt}`;
+                    })
+                }
             }
 
             recipes_json[element["id"]] = {};

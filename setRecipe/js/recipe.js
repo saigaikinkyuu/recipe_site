@@ -548,14 +548,14 @@ async function setData(time) {
                     form_i.querySelector(".ninzu").value = time_data[i]["ninzu"];
                     
                     const ingredients = time_data[i]["ingredients"];
-                    ingredients.forEach(child => {
+                    ingredients.forEach(async child => {
                         const fields = await addIngInput(form_i.querySelector(".ingredients_box"));
                         fields[0].value = child["name"];
                         fields[1].value = child["amount"];
                     })
 
                     const steps = time_data[i]["steps"];
-                    steps.forEach(child => {
+                    steps.forEach(async child => {
                         const fields = await addStepsInput(form_i.querySelector(".steps"));
                         fields.value = child;
                     })
