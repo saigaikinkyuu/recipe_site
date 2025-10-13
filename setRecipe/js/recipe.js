@@ -50,9 +50,9 @@ async function Main() {
         window.location.href = "../";
     } else {
         document.querySelector("form").innerHTML = `<button class="add_submit cook_add">＋</button><button id="submit">送信</button>`;
-        await getDB(id);
-        await addForm();
-        await setData(time);
+        const get_db_func = await getDB(id);
+        const add_form_func = await addForm();
+        const set_data_func = await setData(time);
 
         const ttl = document.querySelector("h3");
         const cook_submit = document.querySelector(".cook_add");
