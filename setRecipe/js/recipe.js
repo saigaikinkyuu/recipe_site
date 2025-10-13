@@ -50,8 +50,9 @@ async function Main() {
         window.location.href = "../";
     } else {
         document.querySelector("form").innerHTML = `<button class="add_submit cook_add">＋</button><button id="submit">送信</button>`;
-        getDB(id);
-        addForm();
+        await getDB(id);
+        await addForm();
+        await setData(time);
 
         const ttl = document.querySelector("h3");
         const cook_submit = document.querySelector(".cook_add");
@@ -80,7 +81,7 @@ async function Main() {
 
                     const result = await Swal.fire({
                         title: 'トラックを取得しました',
-                        text: '管理者はトラックを基に、DBでアップロードしてください。\nなお、エンプティ―トラックが含まれる場合があります。',
+                        text: '管理者はトラックを基に、DBにアップロードしてください。\nなお、エンプティ―トラックが含まれる場合があります。',
                         icon: 'info',
                         confirmButtonText: 'はい'
                     });
@@ -458,7 +459,7 @@ async function addForm() {
     })
 }
 
-function getDB(id) {
+async function getDB(id) {
     const unsubscribe = db.collection("recipe")
         .doc(id)
         .onSnapshot((snapshot) => {
@@ -471,6 +472,104 @@ function getDB(id) {
                 db_json["exist"] = false;
             }
         })
+}
+
+async function addIngInput(field){
+    const ing_inputs = document.createAttribute("div");
+
+    const ing_input_name = document.createElement("input");
+    ing_input_name.classList.add("ingredients_name");
+    ing_input_name.setAttribute("name", "ingredients_name");
+    ing_input_name.setAttribute("type", "text");
+    ing_input_name.setAttribute("placeholder", "材料名")
+
+    const ing_input_amount = document.createElement("input");
+    ing_input_amount.classList.add("ing_input_amount");
+    ing_input_amount.setAttribute("name", "ing_input_amount");
+    ing_input_amount.setAttribute("type", "text");
+    ing_input_amount.setAttribute("placeholder", "分量")
+
+    ing_inputs.appendChild(ing_input_name);
+    ing_inputs.appendChild(ing_input_amount);
+
+    field.insertBefore(ing_inputs, field.querySelectorAll("div")[(field.querySelectorAll("div")).length - 1]);
+
+    return [ing_input_name , ing_input_amount];
+}
+
+async function addStepsInput(field){
+    const step_input = document.createElement("textarea");
+    step_input.classList.add("steps");
+    step_input.setAttribute("name", "steps");
+    step_input.setAttribute("placeholder", "手順")
+
+    field.insertBefore(step_input, field.querySelectorAll(".steps")[(field.querySelectorAll(".steps")).length - 1]);
+
+    return step_input;
+}
+
+async function setData(time) {
+    try {
+        if (!db_json) {
+            const result = await Swal.fire({
+                title: 'データの取得に失敗しました',
+                text: `データベースへのリクエストが失敗しました。`,
+                icon: 'error',
+                confirmButtonText: 'はい'
+            })
+            window.location.href = "../";
+            return
+        }
+
+        if(db_json["data"][time]){
+            const time_data = db_json["data"][time]?.recipe;
+
+            if(time_data){
+                for(let i = 0;i < time_data.length;i++){
+                    if(i > 0){
+                        await addForm();
+                    }
+                    
+                    const form_i = document.querySelectorAll(".form_cook_div")[i];
+
+                    if(!form_i){
+                        throw new Error("Unknown Error:The need element is not found!");
+                    }
+
+                    if(!time_data[i].ttl || !time_data[i].ninzu || !time_data[i].ingredients || !time_data[i].steps){
+                        throw new Error("DB Error:Data of DB is broken!");
+                    }
+
+                    if(typeof time_data[i].ttl !== "string" || typeof time_data[i].ninzu !== "number" || typeof time_data[i].ingredients !== "object" || typeof time_data[i].steps !== "object"){
+                        throw new Error("DB Error:Type of data is wrong!")
+                    }
+
+                    form_i.querySelector(".ttl").value = time_data[i]["ttl"];
+                    form_i.querySelector(".ninzu").value = time_data[i]["ninzu"];
+                    
+                    const ingredients = time_data[i]["ingredients"];
+                    ingredients.forEach(child => {
+                        const fields = await addIngInput(form_i.querySelector(".ingredients_box"));
+                        fields[0].value = child["name"];
+                        fields[1].value = child["amount"];
+                    })
+
+                    const steps = time_data[i]["steps"];
+                    steps.forEach(child => {
+                        const fields = await addStepsInput(form_i.querySelector(".steps"));
+                        fields.value = child;
+                    })
+                }
+            }
+        }
+    }catch(e){
+        const result = await Swal.fire({
+            title: '予期せぬエラーが発生しました',
+            text: `${e}`,
+            icon: 'error',
+            confirmButtonText: 'はい'
+        })
+    }
 }
 
 auth.onAuthStateChanged(user => {
