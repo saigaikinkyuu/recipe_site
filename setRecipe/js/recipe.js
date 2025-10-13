@@ -50,9 +50,9 @@ async function Main() {
         window.location.href = "../";
     } else {
         document.querySelector("form").innerHTML = `<button class="add_submit cook_add">＋</button><button id="submit">送信</button>`;
-        const get_db_func = await getDB(id);
-        const add_form_func = await addForm();
-        const set_data_func = await setData(time);
+        await getDB(id);
+        await addForm();
+        await setData(time);
 
         const ttl = document.querySelector("h3");
         const cook_submit = document.querySelector(".cook_add");
@@ -462,19 +462,19 @@ async function addForm() {
 async function getDB(id) {
     const unsubscribe = await db.collection("recipe")
         .doc(id)
-        .onSnapshot((snapshot) => {
-            if (snapshot.exists) {
-                const db_data = snapshot.data();
+        .get();
 
-                db_json["exist"] = true;
-                db_json["data"] = db_data;
-            } else {
-                db_json["exist"] = false;
-            }
-        })
+    if (snapshot.exists) {
+        const db_data = snapshot.data();
+
+        db_json["exist"] = true;
+        db_json["data"] = db_data;
+    } else {
+        db_json["exist"] = false;
+    }
 }
 
-async function addIngInput(field){
+async function addIngInput(field) {
     const ing_inputs = document.createAttribute("div");
 
     const ing_input_name = document.createElement("input");
@@ -494,10 +494,10 @@ async function addIngInput(field){
 
     field.insertBefore(ing_inputs, field.querySelectorAll("div")[(field.querySelectorAll("div")).length - 1]);
 
-    return [ing_input_name , ing_input_amount];
+    return [ing_input_name, ing_input_amount];
 }
 
-async function addStepsInput(field){
+async function addStepsInput(field) {
     const step_input = document.createElement("textarea");
     step_input.classList.add("steps");
     step_input.setAttribute("name", "steps");
@@ -525,36 +525,36 @@ async function setData(time) {
 
         console.log(db_json["data"]);
 
-        if(db_json["data"][time]){
+        if (db_json["data"][time]) {
             console.log("b");
 
             const time_data = db_json["data"][time]?.recipe;
 
-            if(time_data){
+            if (time_data) {
                 console.log("c")
 
-                for(let i = 0;i < time_data.length;i++){
+                for (let i = 0; i < time_data.length; i++) {
                     console.log("d")
 
-                    if(i > 0){
+                    if (i > 0) {
                         await addForm();
                     }
-                    
+
                     const form_i = document.querySelectorAll(".form_cook_div")[i];
 
-                    if(!form_i){
+                    if (!form_i) {
                         throw new Error("Unknown Error:The need element is not found!");
                     }
 
                     console.log("e");
 
-                    if(!time_data[i].ttl || !time_data[i].ninzu || !time_data[i].ingredients || !time_data[i].steps){
+                    if (!time_data[i].ttl || !time_data[i].ninzu || !time_data[i].ingredients || !time_data[i].steps) {
                         throw new Error("DB Error:Data of DB is broken!");
                     }
 
                     console.log("f");
 
-                    if(typeof time_data[i].ttl !== "string" || typeof time_data[i].ninzu !== "number" || typeof time_data[i].ingredients !== "object" || typeof time_data[i].steps !== "object"){
+                    if (typeof time_data[i].ttl !== "string" || typeof time_data[i].ninzu !== "number" || typeof time_data[i].ingredients !== "object" || typeof time_data[i].steps !== "object") {
                         throw new Error("DB Error:Type of data is wrong!")
                     }
 
@@ -562,7 +562,7 @@ async function setData(time) {
 
                     form_i.querySelector(".ttl").value = time_data[i]["ttl"];
                     form_i.querySelector(".ninzu").value = time_data[i]["ninzu"];
-                    
+
                     const ingredients = time_data[i]["ingredients"];
                     ingredients.forEach(async child => {
                         const fields = await addIngInput(form_i.querySelector(".ingredients_box"));
@@ -580,7 +580,7 @@ async function setData(time) {
                 }
             }
         }
-    }catch(e){
+    } catch (e) {
         const result = await Swal.fire({
             title: '予期せぬエラーが発生しました',
             text: `${e}`,
