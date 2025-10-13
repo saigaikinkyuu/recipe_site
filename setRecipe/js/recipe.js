@@ -568,7 +568,7 @@ async function setData(time) {
                     ingredients.forEach(async child => {
                         let fields;
 
-                        if(ingredients > 0){
+                        if(ingredients_num > 0){
                             fields = await addIngInput(form_i.querySelector(".ingredients_box"));
                         }else {
                             fields = [];
