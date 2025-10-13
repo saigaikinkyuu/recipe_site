@@ -233,7 +233,7 @@ async function getRecipeList() {
 
         recipes.forEach(element => {
             if (element["id"] == id_t && element[extra_txt]) {
-                if (Object.keys(element[extra_txt]) > 0) {
+                if (Object.keys(element[extra_txt]).length > 0) {
                     const today_ttl = document.createElement("h2");
                     today_ttl.textContent = "本日の【" + ext_to_jp[extra_txt] + "】";
                     today_ttl.classList.add("today_ttl");
