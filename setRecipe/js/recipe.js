@@ -428,7 +428,7 @@ async function addForm() {
 
     ing_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        const ing_inputs = document.createAttribute("div");
+        const ing_inputs = document.createElement("div");
 
         const ing_input_name = document.createElement("input");
         ing_input_name.classList.add("ingredients_name");
@@ -475,7 +475,7 @@ async function getDB(id) {
 }
 
 async function addIngInput(field) {
-    const ing_inputs = document.createAttribute("div");
+    const ing_inputs = document.createElement("div");
 
     const ing_input_name = document.createElement("input");
     ing_input_name.classList.add("ingredients_name");
