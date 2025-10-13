@@ -554,7 +554,7 @@ async function setData(time) {
 
                     console.log("f");
 
-                    if (typeof time_data[i].ttl !== "string" || typeof time_data[i].ninzu !== "number" || typeof time_data[i].ingredients !== "object" || typeof time_data[i].steps !== "object") {
+                    if (typeof time_data[i].ttl !== "string" || typeof time_data[i].ninzu !== "string" || typeof time_data[i].ingredients !== "object" || typeof time_data[i].steps !== "object") {
                         throw new Error("DB Error:Type of data is wrong!")
                     }
 
