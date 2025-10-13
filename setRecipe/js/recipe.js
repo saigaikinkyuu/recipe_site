@@ -521,11 +521,19 @@ async function setData(time) {
             return
         }
 
+        console.log("a");
+
         if(db_json["data"][time]){
+            console.log("b");
+
             const time_data = db_json["data"][time]?.recipe;
 
             if(time_data){
+                console.log("c")
+
                 for(let i = 0;i < time_data.length;i++){
+                    console.log("d")
+
                     if(i > 0){
                         await addForm();
                     }
@@ -536,13 +544,19 @@ async function setData(time) {
                         throw new Error("Unknown Error:The need element is not found!");
                     }
 
+                    console.log("e");
+
                     if(!time_data[i].ttl || !time_data[i].ninzu || !time_data[i].ingredients || !time_data[i].steps){
                         throw new Error("DB Error:Data of DB is broken!");
                     }
 
+                    console.log("f");
+
                     if(typeof time_data[i].ttl !== "string" || typeof time_data[i].ninzu !== "number" || typeof time_data[i].ingredients !== "object" || typeof time_data[i].steps !== "object"){
                         throw new Error("DB Error:Type of data is wrong!")
                     }
+
+                    console.log("g")
 
                     form_i.querySelector(".ttl").value = time_data[i]["ttl"];
                     form_i.querySelector(".ninzu").value = time_data[i]["ninzu"];
@@ -559,6 +573,8 @@ async function setData(time) {
                         const fields = await addStepsInput(form_i.querySelector(".steps"));
                         fields.value = child;
                     })
+
+                    console.log("h");
                 }
             }
         }
