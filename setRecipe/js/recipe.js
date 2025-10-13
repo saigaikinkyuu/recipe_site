@@ -484,8 +484,8 @@ async function addIngInput(field) {
     ing_input_name.setAttribute("placeholder", "材料名")
 
     const ing_input_amount = document.createElement("input");
-    ing_input_amount.classList.add("ing_input_amount");
-    ing_input_amount.setAttribute("name", "ing_input_amount");
+    ing_input_amount.classList.add("ingredients_amount");
+    ing_input_amount.setAttribute("name", "ingredients_amount");
     ing_input_amount.setAttribute("type", "text");
     ing_input_amount.setAttribute("placeholder", "分量");
 
