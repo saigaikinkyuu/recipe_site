@@ -460,7 +460,7 @@ async function addForm() {
 }
 
 async function getDB(id) {
-    const unsubscribe = await db.collection("recipe")
+    const snapshot = await db.collection("recipe")
         .doc(id)
         .get();
 
