@@ -445,7 +445,7 @@ async function addForm() {
         ing_inputs.appendChild(ing_input_name);
         ing_inputs.appendChild(ing_input_amount);
 
-        ing_box.insertBefore(ing_inputs, ing_box.querySelectorAll("div")[(ing_box.querySelectorAll("div")).length - 1]);
+        ing_box.insertBefore(ing_inputs, ing_box.querySelector("button"));
     })
 
     steps_btn.addEventListener('click', (e) => {
@@ -455,7 +455,7 @@ async function addForm() {
         step_input.setAttribute("name", "steps");
         step_input.setAttribute("placeholder", "手順")
 
-        steps_box.insertBefore(step_input, steps_box.querySelectorAll(".steps")[(steps_box.querySelectorAll(".steps")).length - 1]);
+        steps_box.insertBefore(step_input, steps_box.querySelector("button"));
     })
 }
 
@@ -492,7 +492,7 @@ async function addIngInput(field) {
     ing_inputs.appendChild(ing_input_name);
     ing_inputs.appendChild(ing_input_amount);
 
-    field.insertBefore(ing_inputs, field.querySelectorAll("div")[(field.querySelectorAll("div")).length - 1]);
+    field.insertBefore(ing_inputs, field.querySelector("button"));
 
     return [ing_input_name, ing_input_amount];
 }
@@ -503,7 +503,7 @@ async function addStepsInput(field) {
     step_input.setAttribute("name", "steps");
     step_input.setAttribute("placeholder", "手順")
 
-    field.insertBefore(step_input, field.querySelectorAll(".steps")[(field.querySelectorAll(".steps")).length - 1]);
+    field.insertBefore(step_input, field.querySelector("button"));
 
     return step_input;
 }
