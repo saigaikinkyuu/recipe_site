@@ -19,7 +19,7 @@ async function Main() {
     const last_date = monthLastDate(new Date());
     const month_first_day = monthFirstDay(new Date());
     const cell_number = (last_date + month_first_day) <= 28 ? 28 : 35;
-    const next_month = (new Date().getMonth() + 1) >= 12 ? (new Date().getMonth() - 11) : (new Date().getMonth() + 1);
+    const next_month_num = (new Date().getMonth() + 1) >= 12 ? (new Date().getMonth() - 11) : (new Date().getMonth() + 1);
 
     const calender_ttl = document.createElement("h2");
     calender_ttl.textContent = (new Date().getMonth() + 1) + "月";
@@ -38,7 +38,7 @@ async function Main() {
 
     const next_month = document.createElement("button");
     next_month.classList.add("next_month");
-    next_month.textContent = `${next_month}月`;
+    next_month.textContent = `${next_month_num}月`;
 
     month_btns.appendChild(now_month);
     month_btns.appendChild(next_month);
