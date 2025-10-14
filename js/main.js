@@ -369,7 +369,7 @@ function monthLastDate(newDate) {
 function monthFirstDay(newDate) {
     return new Date(newDate.getFullYear() + "/" + ("0" + (newDate.getMonth() + 1)).slice(-2) + "/01").getDay()
 }
-
+/*
 auth.onAuthStateChanged(user => {
     if (user) {
         const unsubscribe = db.collection("server")
@@ -389,3 +389,4 @@ auth.onAuthStateChanged(user => {
         window.location.href = "./login";
     }
 })
+*/

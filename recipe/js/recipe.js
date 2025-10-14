@@ -182,7 +182,7 @@ async function Main() {
         console.error(e);
     }
 }
-
+/*
 auth.onAuthStateChanged(user => {
     if (user) {
         const unsubscribe = db.collection("server")
@@ -202,3 +202,4 @@ auth.onAuthStateChanged(user => {
         window.location.href = "../login";
     }
 })
+*/
