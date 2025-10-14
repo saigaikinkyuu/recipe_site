@@ -71,7 +71,7 @@ async function Main() {
     await setCalender(last_date,month_first_day,cell_number,[new Date().getFullYear() , (new Date().getMonth() + 1)]);
 }
 
-async function setCalender(calender_container,last_date,month_first_day,cell_number,month){
+async function setCalender(last_date,month_first_day,cell_number,month){
     const calender_container = document.querySelector(".calender");
     if(calender_container.querySelector(".calender_ttl")){
         calender_container.querySelector(".calender_ttl").remove();
