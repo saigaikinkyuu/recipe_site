@@ -81,7 +81,7 @@ input:focus,textarea:focus{
 }
 
 .steps{
-    width: calc(100% - 22px);
+    width: calc(84% - 22px);
     height: 60px;
     resize: none;
     padding: 10px;
@@ -90,6 +90,15 @@ input:focus,textarea:focus{
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+}
+
+.step_textarea_box{
+    display: flex;
+}
+
+.step_submit_box{
+    display: flex;
+    align-items: center;
 }
 
 #submit{
