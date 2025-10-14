@@ -92,7 +92,7 @@ input:focus,textarea:focus{
     box-sizing: border-box;
 }
 
-.step_textarea_box{
+.step_txtarea_box{
     display: flex;
 }
 

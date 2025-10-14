@@ -271,11 +271,16 @@ async function addForm() {
     steps_input_label.textContent = "手順：";
     steps_box.appendChild(steps_input_label);
 
+    const step_box = document.createElement("div");
+    step_box.classList.add("step_txtarea_box");
+
     const steps_box_textarea = document.createElement("textarea");
     steps_box_textarea.setAttribute("name", "steps");
     steps_box_textarea.setAttribute("class", "steps");
     steps_box_textarea.setAttribute("placeholder", "手順");
-    steps_box.appendChild(steps_box_textarea);
+    step_box.appendChild(steps_box_textarea);
+
+    steps_box.appendChild(step_box);
 
     const steps_btn = document.createElement("button");
     steps_btn.classList.add("add_submit");
@@ -398,7 +403,7 @@ async function addForm() {
 
                         ing_submit.addEventListener('click', (e) => {
                             e.preventDefault();
-                            ing_box.remove();
+                            ing_inputs.remove();
                         })
                     }
 
@@ -499,7 +504,7 @@ async function addForm() {
 
         ing_submit.addEventListener('click', (e) => {
             e.preventDefault();
-            ing_box.remove();
+            ing_inputs.remove();
         })
     })
 
@@ -576,7 +581,7 @@ async function addIngInput(field) {
 
     ing_submit.addEventListener('click', (e) => {
         e.preventDefault();
-        ing_box.remove();
+        ing_inputs.remove();
     })
 
     return [ing_input_name, ing_input_amount];
