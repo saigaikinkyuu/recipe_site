@@ -4,6 +4,8 @@ auth.onAuthStateChanged(async user => {
             .doc(user.uid)
             .get();
 
+        const user_data = userdata.data();
+
         const unsubscribe = db.collection("server")
             .doc("db")
             .onSnapshot((snapshot) => {
@@ -11,7 +13,7 @@ auth.onAuthStateChanged(async user => {
                     const db_data = snapshot.data();
 
                     let isRedirect = false;
-                    console.log(userdata)
+                    console.log(user_data)
 
                     if (db_data["status"] == "stop") {
                         if(userdata["status"] == "admin"){
