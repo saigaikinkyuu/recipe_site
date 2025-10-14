@@ -11,9 +11,9 @@ auth.onAuthStateChanged(async user => {
                     const db_data = snapshot.data();
 
                     let isRedirect = false;
+                    console.log(userdata)
 
                     if (db_data["status"] == "stop") {
-                        console.log(userdata)
                         if(userdata["status"] == "admin"){
                             Main();
                             return
