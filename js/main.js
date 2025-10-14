@@ -33,7 +33,7 @@ async function Main() {
     const list_defo = document.createElement("h3");
     list_defo.textContent = "確認する日付を選択してください";
     list_defo.classList.add("list_diet_ttl");
-    list_defo.className.add("isNone");
+    list_defo.classList.add("isNone");
 
     document.querySelector(".list").appendChild(list_defo);
 
