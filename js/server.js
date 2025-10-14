@@ -1,4 +1,4 @@
-const isRun = false;
+var isRun = false;
 auth.onAuthStateChanged(async user => {
     if (user) {
         const userdata = await db.collection("users")
