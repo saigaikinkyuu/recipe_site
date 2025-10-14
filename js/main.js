@@ -144,7 +144,7 @@ async function setCalender(last_date,month_first_day,cell_number,month){
             belong_week_box.appendChild(date_box);
         }
 
-        if(date_box.dataset.d == (new Date().getFullYear() + ("0" + new Date().getMonth()).slice(-2) + ("0" + new Date().getDate()).slice(-2))){
+        if(date_box.dataset.d == (new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + new Date().getDate()).slice(-2))){
             date_box.dataset.set = "today";
         }else if (recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "true";
