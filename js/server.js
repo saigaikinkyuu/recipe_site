@@ -16,26 +16,34 @@ auth.onAuthStateChanged(async user => {
                     let isRedirect = false;
 
                     if (db_data["status"] == "stop") {
-                        if(user_data["status"] == "admin"){
-                            if(!isRun){
+                        if (user_data["status"] == "admin") {
+                            if (!isRun) {
+                                isRun = true;
+                                Swal.fire({
+                                    icon: 'info',
+                                    position: 'top-end',
+                                    toast: true,
+                                    title: 'SERVER STATUS : STOP',
+                                    text: 'アドミン権限で停止しているサーバーに接続しています。',
+                                })
                                 Main();
                             }
                             return
                         }
                         window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
                         isRedirect = true;
-                    }else if(!isRun){
+                    } else if (!isRun) {
                         Main();
                     }
 
-                    if(isRedirect){
+                    if (isRedirect) {
                         const iframe = document.createElement("iframe");
                         iframe.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
 
                         document.body.appendChild(iframe);
                         document.title = "Error";
 
-                        document.body.addEventListener('click' , () => {
+                        document.body.addEventListener('click', () => {
                             window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
                         })
                     }
@@ -46,7 +54,7 @@ auth.onAuthStateChanged(async user => {
         window.location.href = "https://saigaikinkyuu.github.io/recipe_site/login/";
 
         window.body = "";
-        document.body.addEventListener('click' , () => {
+        document.body.addEventListener('click', () => {
             window.location.href = "https://saigaikinkyuu.github.io/recipe_site/login/";
         })
     }
