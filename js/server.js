@@ -1,5 +1,9 @@
 auth.onAuthStateChanged(user => {
     if (user) {
+        const userdata = db.collection("users")
+            .doc(user.uid)
+            .get();
+
         const unsubscribe = db.collection("server")
             .doc("db")
             .onSnapshot((snapshot) => {
@@ -9,6 +13,10 @@ auth.onAuthStateChanged(user => {
                     let isRedirect = false;
 
                     if (db_data["status"] == "stop") {
+                        if(userdata["status"] == "admin"){
+                            Main();
+                            return
+                        }
                         window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
                         isRedirect = true;
                     }else {
