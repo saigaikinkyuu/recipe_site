@@ -99,3 +99,17 @@ body{
     margin: 10px 0px;
     font-size: 22px;
 }
+
+.edit_btn{
+    display: block;
+    background-color: #ff9000;
+    color: white;
+    padding: 10px 15px;
+    margin: 10px 10% 0px 10%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    width: 80%;
+}

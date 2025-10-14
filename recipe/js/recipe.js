@@ -50,7 +50,7 @@ async function Main() {
                                window.location.href = `../setRecipe/?id=${id}&time=${time}`;
                             })
 
-                            document.body.appendChild(edit_btn);
+                            document.querySelector(".container").appendChild(edit_btn);
 
                             recipes.forEach(item => {
                                 const container = document.querySelector(".container");
