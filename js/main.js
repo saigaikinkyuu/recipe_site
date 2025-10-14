@@ -45,7 +45,7 @@ async function Main() {
         calenders.forEach(item => {
             item.remove();
         })
-        setCalender(calender_container,month_first_day,cell_number,[new Date().getFullYear() , (new Date().getMonth() + 1)])
+        setCalender(last_date,month_first_day,cell_number,[new Date().getFullYear() , (new Date().getMonth() + 1)])
         isEvent = false;
     })
     
@@ -59,7 +59,7 @@ async function Main() {
         const last_date_next = monthLastDate(new Date(`${next_month_num[0]}/${next_month_num[1]}/1 00:00`));
         const month_first_day_next = monthFirstDay(new Date(`${next_month_num[0]}/${next_month_num[1]}/1 00:00`));
         const cell_number_next = (last_date_next + month_first_day_next) <= 28 ? 28 : 35;
-        setCalender(calender_container,last_date_next,month_first_day_next,cell_number_next,next_month_num)
+        setCalender(last_date_next,month_first_day_next,cell_number_next,next_month_num)
         isEvent = false;
     })
     
@@ -68,19 +68,24 @@ async function Main() {
     document.querySelector(".todaysMenue").style.display = "none";
 
     await getRecipeList();
-    await setCalender(calender_container,last_date,month_first_day,cell_number,[new Date().getFullYear() , (new Date().getMonth() + 1)]);
+    await setCalender(last_date,month_first_day,cell_number,[new Date().getFullYear() , (new Date().getMonth() + 1)]);
 }
 
 async function setCalender(calender_container,last_date,month_first_day,cell_number,month){
+    const calender_container = document.querySelector(".calender");
     if(calender_container.querySelector(".calender_ttl")){
         calender_container.querySelector(".calender_ttl").remove();
     }
-    
+
     const calender_ttl = document.createElement("h2");
     calender_ttl.textContent = month[1] + "月";
     calender_ttl.classList.add("calender_ttl")
 
     calender_container.appendChild(calender_ttl);
+
+    if(document.querySelector(".list").querySelector(".list_diet_ttl")){
+        document.querySelector(".list").querySelector(".list_diet_ttl").remove();
+    }
 
     const list_defo = document.createElement("h3");
     list_defo.textContent = "確認する日付を選択してください";
