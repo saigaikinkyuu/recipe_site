@@ -84,7 +84,9 @@ async function setCalender(last_date,month_first_day,cell_number,month){
     calender_container.appendChild(calender_ttl);
 
     if(document.querySelector(".list").querySelector(".list_diet_ttl")){
-        document.querySelector(".list").querySelector(".list_diet_ttl").remove();
+        document.querySelector(".list").querySelectorAll("*").forEach(item => {
+            item.remove();
+        })
     }
 
     const list_defo = document.createElement("h3");
@@ -142,7 +144,7 @@ async function setCalender(last_date,month_first_day,cell_number,month){
             belong_week_box.appendChild(date_box);
         }
 
-        if(date_box.dataset.d == (month[0] + ("0" + month[1]).slice(-2) + ("0" + new Date().getDate()).slice(-2))){
+        if(date_box.dataset.d == (new Date().getFullYear() + ("0" + new Date().getMonth()).slice(-2) + ("0" + new Date().getDate()).slice(-2))){
             date_box.dataset.set = "today";
         }else if (recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "true";
