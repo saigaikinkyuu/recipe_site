@@ -42,16 +42,6 @@ async function Main() {
 
                             document.querySelector(".time").textContent = id.slice(0,4) + "年" + id.slice(4,6) + "月" + id.slice(6,8) + "日－" + time;
 
-                            const edit_btn = document.createElement("button");
-                            edit_btn.classList.add("edit_btn");
-                            edit_btn.textContent = "編集する";
-
-                            edit_btn.addEventListener('click' , () => {
-                               window.location.href = `../setRecipe/?id=${id}&time=${time}`;
-                            })
-
-                            document.querySelector(".container").appendChild(edit_btn);
-
                             recipes.forEach(item => {
                                 const container = document.querySelector(".container");
 
@@ -142,6 +132,16 @@ async function Main() {
 
                                 container.appendChild(box);
                             });
+
+                            const edit_btn = document.createElement("button");
+                            edit_btn.classList.add("edit_btn");
+                            edit_btn.textContent = "編集する";
+
+                            edit_btn.addEventListener('click' , () => {
+                               window.location.href = `../setRecipe/?id=${id}&time=${time}`;
+                            })
+
+                            document.querySelector(".container").appendChild(edit_btn);
 
                             return
                         }
