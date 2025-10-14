@@ -352,7 +352,17 @@ async function addForm() {
             if (url_json["ttl"] && url_json["ninzu"] && url_json["ingredients"] && url_json["steps"]) {
                 ttl_input.value = url_json["ttl"];
 
-                ninzu_input.value = (url_json["ninzu"]).replace("人分", "");
+                let isNum_ninzu = false;
+
+                if(Number((url_json["ninzu"]).replace("人分", ""))){
+                    isNum_ninzu = true;
+                }
+
+                if(isNum_ninzu){
+                    ninzu_input.value = Number((url_json["ninzu"]).replace("人分", ""));
+                }else {
+                    ninzu_input.value = 0;
+                }
 
                 let ingredients_num = 0;
 
@@ -383,7 +393,12 @@ async function addForm() {
                     }
 
                     ing_input_name.value = item["name"];
-                    ing_input_amount.value = item["amount"];
+
+                    if(item["amount"]){
+                        ing_input_amount.value = item["amount"];
+                    }else {
+                        ing_input_amount.value = "適量(不明)";
+                    }
 
                     ingredients_num++
                 });

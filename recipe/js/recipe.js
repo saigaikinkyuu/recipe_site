@@ -57,9 +57,16 @@ async function Main() {
                                 const box_ingredients = document.createElement("div");
                                 box_ingredients.classList.add("box_ingredients");
 
+                                let ninzu_value = "";
+                                if(item["ninzu"] !== "0"){
+                                    ninzu_value = `【 ${item["ninzu"]}人分 】`;
+                                }else {
+                                    ninzu_value = ``;
+                                }
+
                                 const ingredients_ttl = document.createElement("h3");
                                 ingredients_ttl.classList.add("ingredients_ttl");
-                                ingredients_ttl.textContent = `材料【 ${item["ninzu"]}人分 】`;
+                                ingredients_ttl.textContent = `材料${ninzu_value}`;
 
                                 box_ingredients.appendChild(ingredients_ttl);
 
