@@ -106,6 +106,8 @@ async function setCalender(last_date,month_first_day,cell_number,month){
             }
 
             calender_container.appendChild(week_box);
+
+            calenders.push(week_box);
         }
 
         const date_box = document.createElement("div");
@@ -363,7 +365,7 @@ function monthLastDate(newDate) {
 }
 
 function monthFirstDay(newDate) {
-    return new Date(newDate.getFullYear() + "/" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "/01").getDay()
+    return new Date(newDate.getFullYear() + "/" + ("0" + (newDate.getMonth() + 1)).slice(-2) + "/01").getDay()
 }
 
 auth.onAuthStateChanged(user => {
