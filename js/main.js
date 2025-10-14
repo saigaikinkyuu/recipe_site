@@ -126,28 +126,14 @@ async function Main() {
 
                             div_list.appendChild(diet_lists);
 
-                            const btns = document.createElement("div");
-                            btns.classList.add("btns_recipe");
-
                             const recipe_btn = document.createElement("button");
                             recipe_btn.classList.add("recipe_btn");
                             recipe_btn.textContent = "レシピを開く";
 
-                            const recipe_edit_btn = document.createElement("button");
-                            recipe_edit_btn.classList.add("recipe_btn");
-                            recipe_edit_btn.textContent = "レシピを編集する";
-
-                            btns.appendChild(recipe_btn);
-                            btns.appendChild(recipe_edit_btn);
-
-                            div_list.appendChild(btns);
+                            div_list.appendChild(recipe_btn);
 
                             recipe_btn.addEventListener('click', () => {
                                 window.location.href = `./recipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
-                            })
-
-                            recipe_edit_btn.addEventListener('click' , () => {
-                                window.location.href = `./setRecipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
                             })
 
                             continue
