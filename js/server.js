@@ -1,6 +1,6 @@
 auth.onAuthStateChanged(user => {
     if (user) {
-        const userdata = db.collection("users")
+        const userdata = await db.collection("users")
             .doc(user.uid)
             .get();
 
@@ -13,6 +13,7 @@ auth.onAuthStateChanged(user => {
                     let isRedirect = false;
 
                     if (db_data["status"] == "stop") {
+                        console.log(userdata)
                         if(userdata["status"] == "admin"){
                             Main();
                             return
