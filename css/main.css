@@ -70,6 +70,12 @@
     background-color: #ffc278;
 }
 
+.date[data-set="today"]{
+    background-color: #ff813a;
+    color: white;
+    font-weight: bold;
+}
+
 .date{
     display: flex;
     align-items: center;

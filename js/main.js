@@ -79,7 +79,9 @@ async function Main() {
             belong_week_box.appendChild(date_box);
         }
 
-        if (recipes_json[date_box.dataset.d] && isCorrectBox) {
+        if(date_box.dataset.d == (new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + c).slice(-2))){
+            date_box.dataset.set = "today";
+        }else if (recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "true";
         } else if (!recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "false";
