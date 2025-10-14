@@ -134,3 +134,67 @@
     border: 3px solid;
     text-align: center;
 }
+
+.month_btns{
+    display: flex;
+    border-radius: 5px;
+    overflow: hidden;
+    width: calc(100% - 2%);
+    margin: 0px 1%;
+    border: 3px solid white;
+    background-color: #00000087;
+    position: relative;
+}
+
+.month_btns[data-select="1"]::before{
+    content: "";
+    position: absolute;
+    height: -webkit-fill-available;
+    top: 0px;
+    left: 0px;
+    width: 50%;
+    background-color: rgb(255 150 0);
+    transform: translateX(0%);
+    border-radius: 3px;
+    transition: 0.5s;
+}
+
+.month_btns[data-select="2"]::before{
+    content: "";
+    position: absolute;
+    height: -webkit-fill-available;
+    top: 0px;
+    left: 0px;
+    width: 50%;
+    background-color: rgb(255 150 0);
+    transform: translateX(100%);
+    border-radius: 3px;
+    transition: 0.5s;
+}
+
+.now_month{
+    display: block;
+    background-color: #0000;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    width: 50%;
+    border: none;
+    border-right: 3px dashed white;
+    z-index: 100;
+}
+
+.next_month{
+    display: block;
+    background-color: #0000;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    width: 50%;
+    z-index: 100;
+}

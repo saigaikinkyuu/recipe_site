@@ -13,24 +13,19 @@ const auth = app.auth();
 const db = app.firestore();
 
 let recipes_json = {};
+const calenders = [];
+let isEvent = false;
 
 async function Main() {
     const calender_container = document.querySelector(".calender");
     const last_date = monthLastDate(new Date());
     const month_first_day = monthFirstDay(new Date());
     const cell_number = (last_date + month_first_day) <= 28 ? 28 : 35;
-    const next_month_num = (new Date().getMonth() + 1) >= 12 ? (new Date().getMonth() - 11) : (new Date().getMonth() + 1);
-
-    const calender_ttl = document.createElement("h2");
-    calender_ttl.textContent = (new Date().getMonth() + 1) + "月";
-    calender_ttl.classList.add("calender_ttl")
-
-    calender_container.appendChild(calender_ttl);
-
-    document.querySelector(".todaysMenue").style.display = "none";
+    const next_month_num = (new Date().getMonth() + 2) >= 13 ? [new Date().getFullYear() + 1 , (new Date().getMonth() - 10)] : [new Date().getFullYear() , (new Date().getMonth() + 2)];
 
     const month_btns = document.createElement("div");
     month_btns.classList.add("month_btns");
+    month_btns.dataset.select = "1";
 
     const now_month = document.createElement("button");
     now_month.classList.add("now_month");
@@ -38,14 +33,50 @@ async function Main() {
 
     const next_month = document.createElement("button");
     next_month.classList.add("next_month");
-    next_month.textContent = `${next_month_num}月`;
+    next_month.textContent = `${next_month_num[1]}月`;
 
     month_btns.appendChild(now_month);
     month_btns.appendChild(next_month);
+
+    now_month.addEventListener('click' , () => {
+        if(isEvent) return;
+        isEvent = true;
+        month_btns.dataset.select = "1";
+        calenders.forEach(item => {
+            item.remove();
+        })
+        setCalender(calender_container,month_first_day,cell_number,[new Date().getFullYear() , (new Date().getMonth() + 1)])
+        isEvent = false;
+    })
+    
+    next_month.addEventListener('click' , () => {
+        if(isEvent) return;
+        isEvent = true;
+        month_btns.dataset.select = "2";
+        calenders.forEach(item => {
+            item.remove();
+        })
+        const last_date_next = monthLastDate(new Date(`${next_month[0]}/${next_month[1]}/1 00:00`));
+        const month_first_day_next = monthFirstDay(new Date(`${next_month[0]}/${next_month[1]}/1 00:00`));
+        const cell_number_next = (last_date_next + month_first_day_next) <= 28 ? 28 : 35;
+        setCalender(calender_container,last_date_next,month_first_day_next,cell_number_next,next_month)
+        isEvent = false;
+    })
     
     calender_container.appendChild(month_btns);
 
+    document.querySelector(".todaysMenue").style.display = "none";
+
     await getRecipeList();
+    await setCalender(calender_container,last_date,month_first_day,cell_number,[new Date().getFullYear() , (new Date().getMonth() + 1)]);
+}
+
+async function setCalender(calender_container,last_date,month_first_day,cell_number,month){
+    const calender_ttl = document.createElement("h2");
+    calender_ttl.textContent = month[1] + "月";
+    calender_ttl.classList.add("calender_ttl")
+
+    calender_container.appendChild(calender_ttl);
 
     const list_defo = document.createElement("h3");
     list_defo.textContent = "確認する日付を選択してください";
@@ -70,7 +101,9 @@ async function Main() {
 
         const date_box = document.createElement("div");
         date_box.classList.add("date");
-        date_box.dataset.d = new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + c).slice(-2);
+        date_box.dataset.d = month[0] + ("0" + month[1]).slice(-2) + ("0" + c).slice(-2);
+
+        calenders.push(date_box);
 
         const date_txt = document.createElement("p");
         date_txt.classList.add("date_p");
@@ -98,7 +131,7 @@ async function Main() {
             belong_week_box.appendChild(date_box);
         }
 
-        if(date_box.dataset.d == (new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + new Date().getDate()).slice(-2))){
+        if(date_box.dataset.d == (month[0] + ("0" + month[1]).slice(-2) + ("0" + new Date().getDate()).slice(-2))){
             date_box.dataset.set = "today";
         }else if (recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "true";
