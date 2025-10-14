@@ -608,7 +608,7 @@ async function addStepsInput(field) {
     step_box.appendChild(step_input);
     step_box.appendChild(step_submit_box);
 
-    field.insertBefore(step_box, field.querySelector("button"));
+    field.insertBefore(step_box, field.querySelector(".steps_add"));
 
     step_submit.addEventListener('click', (e) => {
         e.preventDefault();
