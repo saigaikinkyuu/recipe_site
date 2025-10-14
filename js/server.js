@@ -40,6 +40,7 @@ auth.onAuthStateChanged(async user => {
                         })
                     }
                 }
+                isRun = true;
             })
     } else {
         window.location.href = "https://saigaikinkyuu.github.io/recipe_site/login/";
@@ -49,5 +50,4 @@ auth.onAuthStateChanged(async user => {
             window.location.href = "https://saigaikinkyuu.github.io/recipe_site/login/";
         })
     }
-    isRun = true;
 })
