@@ -21,8 +21,6 @@ async function Main() {
         const id = getParam("id");
         const time = getParam("time");
 
-        document.querySelector(".container").innerHTML = "";
-
         if (!id || !time) {
             const result = await Swal.fire({
                 title: 'データの受信に失敗しました',
@@ -35,9 +33,11 @@ async function Main() {
             const unsubscribe = db.collection("recipe")
                 .doc(id)
                 .onSnapshot(async (snapshot) => {
+                    document.querySelector(".container").innerHTML = "";
+
                     if (snapshot.exists) {
                         const recipe = snapshot.data();
-                        if (recipe[time]) {
+                        if (Object.keys(recipe[time]).length > 0) {
                             const recipes = recipe[time]["recipe"];
 
                             document.querySelector(".time").textContent = id.slice(0,4) + "年" + id.slice(4,6) + "月" + id.slice(6,8) + "日－" + time;

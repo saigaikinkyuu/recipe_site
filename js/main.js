@@ -26,10 +26,14 @@ async function Main() {
 
     calender_container.appendChild(calender_ttl);
 
+    document.querySelector(".todaysMenue").style.display = "none";
+
     await getRecipeList();
 
     const list_defo = document.createElement("h3");
     list_defo.textContent = "確認する日付を選択してください";
+
+    document.querySelector(".list").appendChild(list_defo);
 
     for (let i = 1; i <= cell_number; i++) {
         let c = i - month_first_day;
@@ -122,14 +126,28 @@ async function Main() {
 
                             div_list.appendChild(diet_lists);
 
+                            const btns = document.createElement("div");
+                            btns.classList.add("btns_recipe");
+
                             const recipe_btn = document.createElement("button");
                             recipe_btn.classList.add("recipe_btn");
                             recipe_btn.textContent = "レシピを開く";
 
-                            div_list.appendChild(recipe_btn);
+                            const recipe_edit_btn = document.createElement("button");
+                            recipe_edit_btn.classList.add("recipe_btn");
+                            recipe_edit_btn.textContent = "レシピを編集する";
+
+                            btns.appendChild(recipe_btn);
+                            btns.appendChild(recipe_edit_btn);
+
+                            div_list.appendChild(btns);
 
                             recipe_btn.addEventListener('click', () => {
                                 window.location.href = `./recipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
+                            })
+
+                            recipe_edit_btn.addEventListener('click' , () => {
+                                window.location.href = `./setRecipe/?id=${date_box.dataset.d}&time=${diet_txt_en[i]}`;
                             })
 
                             continue
@@ -252,6 +270,8 @@ async function getRecipeList() {
 
                     document.querySelector(".todaysMenue").appendChild(today_ttl);
                     document.querySelector(".todaysMenue").appendChild(today_ul);
+
+                    document.querySelector(".todaysMenue").style.display = "block";
 
                     today_ul.addEventListener('click', () => {
                         window.location.href = `./recipe/?id=${element["id"]}&time=${extra_txt}`;
