@@ -1,4 +1,4 @@
-auth.onAuthStateChanged(user => {
+auth.onAuthStateChanged(async user => {
     if (user) {
         const userdata = await db.collection("users")
             .doc(user.uid)
