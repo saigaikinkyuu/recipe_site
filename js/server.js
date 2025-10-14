@@ -24,7 +24,7 @@ auth.onAuthStateChanged(async user => {
                         }
                         window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
                         isRedirect = true;
-                    }else {
+                    }else if(!isRun){
                         Main();
                     }
 
