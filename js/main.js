@@ -20,7 +20,7 @@ async function Main() {
     const calender_container = document.querySelector(".calender");
     const last_date = monthLastDate(new Date());
     const month_first_day = monthFirstDay(new Date());
-    const cell_number = (last_date + month_first_day) <= 28 ? 28 : 35;
+    const cell_number = (last_date + month_first_day) <= 35 ? 35 : 42;
     const next_month_num = (new Date().getMonth() + 2) >= 13 ? [new Date().getFullYear() + 1 , (new Date().getMonth() - 10)] : [new Date().getFullYear() , (new Date().getMonth() + 2)];
 
     const month_btns = document.createElement("div");
@@ -58,7 +58,7 @@ async function Main() {
         })
         const last_date_next = monthLastDate(new Date(`${next_month_num[0]}/${next_month_num[1]}/1 00:00`));
         const month_first_day_next = monthFirstDay(new Date(`${next_month_num[0]}/${next_month_num[1]}/1 00:00`));
-        const cell_number_next = (last_date_next + month_first_day_next) <= 28 ? 28 : 35;
+        const cell_number_next = (last_date_next + month_first_day_next) <= 35 ? 35 : 42;
         setCalender(last_date_next,month_first_day_next,cell_number_next,next_month_num)
         isEvent = false;
     })
