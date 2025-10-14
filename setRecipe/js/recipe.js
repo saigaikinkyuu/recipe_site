@@ -354,20 +354,20 @@ async function addForm() {
 
                 let isNum_ninzu = false;
 
-                if(Number((url_json["ninzu"]).replace("人分", ""))){
+                if (Number((url_json["ninzu"]).replace("人分", ""))) {
                     isNum_ninzu = true;
                 }
 
-                if(isNum_ninzu){
+                if (isNum_ninzu) {
                     ninzu_input.value = Number((url_json["ninzu"]).replace("人分", ""));
-                }else {
+                } else {
                     ninzu_input.value = 0;
                 }
 
                 let ingredients_num = 0;
 
                 (url_json["ingredients"]).forEach(item => {
-                    let ing_input_name, ing_input_amount;
+                    let ing_input_name, ing_input_amount, ing_submit;
                     if (ingredients_num == 0) {
                         ing_input_name = ing_box.querySelector("div").querySelector(".ingredients_name");
                         ing_input_amount = ing_box.querySelector("div").querySelector(".ingredients_amount");
@@ -386,17 +386,27 @@ async function addForm() {
                         ing_input_amount.setAttribute("type", "text");
                         ing_input_amount.setAttribute("placeholder", "分量");
 
+                        ing_submit = document.createElement("button");
+                        ing_submit.classList.add("remove_cont");
+                        ing_submit.textContent = "×";
+
                         ing_inputs.appendChild(ing_input_name);
                         ing_inputs.appendChild(ing_input_amount);
+                        ing_inputs.appendChild(ing_submit);
 
-                        ing_box.insertBefore(ing_inputs, ing_box.querySelector("button"));
+                        ing_box.insertBefore(ing_inputs, ing_box.querySelector(".ing_add"));
+
+                        ing_submit.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            ing_box.remove();
+                        })
                     }
 
                     ing_input_name.value = item["name"];
 
-                    if(item["amount"]){
+                    if (item["amount"]) {
                         ing_input_amount.value = item["amount"];
-                    }else {
+                    } else {
                         ing_input_amount.value = "適量(不明)";
                     }
 
@@ -406,16 +416,36 @@ async function addForm() {
                 let steps_num = 0;
 
                 (url_json["steps"]).forEach(item => {
-                    let step_input;
+                    let step_box, step_input, step_submit_box, step_submit;
                     if (steps_num == 0) {
                         step_input = steps_box.querySelector(".steps");
                     } else {
+                        step_box = document.createElement("div");
+                        step_box.classList.add("step_txtarea_box");
+
                         step_input = document.createElement("textarea");
                         step_input.classList.add("steps");
                         step_input.setAttribute("name", "steps");
                         step_input.setAttribute("placeholder", "手順")
 
-                        steps_box.insertBefore(step_input, steps_box.querySelector("button"));
+                        step_submit_box = document.createElement("div");
+                        step_submit_box.classList.add("step_submit_box");
+
+                        step_submit = document.createElement("button");
+                        step_submit.classList.add("remove_cont");
+                        step_submit.textContent = "×";
+
+                        step_submit_box.appendChild(step_submit);
+
+                        step_box.appendChild(step_input);
+                        step_box.appendChild(step_submit_box);
+
+                        steps_box.insertBefore(step_box, steps_box.querySelector(".steps_add"));
+
+                        step_submit.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            step_box.remove();
+                        })
                     }
 
                     step_input.value = item;
@@ -457,20 +487,50 @@ async function addForm() {
         ing_input_amount.setAttribute("type", "text");
         ing_input_amount.setAttribute("placeholder", "分量");
 
+        const ing_submit = document.createElement("button");
+        ing_submit.classList.add("remove_cont");
+        ing_submit.textContent = "×";
+
         ing_inputs.appendChild(ing_input_name);
         ing_inputs.appendChild(ing_input_amount);
+        ing_inputs.appendChild(ing_submit);
 
-        ing_box.insertBefore(ing_inputs, ing_box.querySelector("button"));
+        ing_box.insertBefore(ing_inputs, ing_box.querySelector(".ing_add"));
+
+        ing_submit.addEventListener('click', (e) => {
+            e.preventDefault();
+            ing_box.remove();
+        })
     })
 
     steps_btn.addEventListener('click', (e) => {
         e.preventDefault();
+        const step_box = document.createElement("div");
+        step_box.classList.add("step_txtarea_box");
+
         const step_input = document.createElement("textarea");
         step_input.classList.add("steps");
         step_input.setAttribute("name", "steps");
         step_input.setAttribute("placeholder", "手順")
 
-        steps_box.insertBefore(step_input, steps_box.querySelector("button"));
+        const step_submit_box = document.createElement("div");
+        step_submit_box.classList.add("step_submit_box");
+
+        const step_submit = document.createElement("button");
+        step_submit.classList.add("remove_cont");
+        step_submit.textContent = "×";
+
+        step_submit_box.appendChild(step_submit);
+
+        step_box.appendChild(step_input);
+        step_box.appendChild(step_submit_box);
+
+        steps_box.insertBefore(step_box, steps_box.querySelector(".steps_add"));
+
+        step_submit.addEventListener('click', (e) => {
+            e.preventDefault();
+            step_box.remove();
+        })
     })
 }
 
@@ -504,21 +564,51 @@ async function addIngInput(field) {
     ing_input_amount.setAttribute("type", "text");
     ing_input_amount.setAttribute("placeholder", "分量");
 
+    const ing_submit = document.createElement("button");
+    ing_submit.classList.add("remove_cont");
+    ing_submit.textContent = "×";
+
     ing_inputs.appendChild(ing_input_name);
     ing_inputs.appendChild(ing_input_amount);
+    ing_inputs.appendChild(ing_submit);
 
-    field.insertBefore(ing_inputs, field.querySelector("button"));
+    field.insertBefore(ing_inputs, field.querySelector(".ing_add"));
+
+    ing_submit.addEventListener('click', (e) => {
+        e.preventDefault();
+        ing_box.remove();
+    })
 
     return [ing_input_name, ing_input_amount];
 }
 
 async function addStepsInput(field) {
+    const step_box = document.createElement("div");
+    step_box.classList.add("step_txtarea_box");
+
     const step_input = document.createElement("textarea");
     step_input.classList.add("steps");
     step_input.setAttribute("name", "steps");
     step_input.setAttribute("placeholder", "手順")
 
-    field.insertBefore(step_input, field.querySelector("button"));
+    const step_submit_box = document.createElement("div");
+    step_submit_box.classList.add("step_submit_box");
+
+    const step_submit = document.createElement("button");
+    step_submit.classList.add("remove_cont");
+    step_submit.textContent = "×";
+
+    step_submit_box.appendChild(step_submit);
+
+    step_box.appendChild(step_input);
+    step_box.appendChild(step_submit_box);
+
+    field.insertBefore(step_box, field.querySelector("button"));
+
+    step_submit.addEventListener('click', (e) => {
+        e.preventDefault();
+        step_box.remove();
+    })
 
     return step_input;
 }
@@ -569,9 +659,9 @@ async function setData(time) {
                     ingredients.forEach(async child => {
                         let fields;
 
-                        if(ingredients_num > 0){
+                        if (ingredients_num > 0) {
                             fields = await addIngInput(form_i.querySelector(".ingredients_box"));
-                        }else {
+                        } else {
                             fields = [];
                             fields.push(form_i.querySelector(".ingredients_box").querySelector("div").querySelector(".ingredients_name"));
                             fields.push(form_i.querySelector(".ingredients_box").querySelector("div").querySelector(".ingredients_amount"));
@@ -586,9 +676,9 @@ async function setData(time) {
                     let steps_num = 0;
                     steps.forEach(async child => {
                         let fields;
-                        if(steps_num > 0){
+                        if (steps_num > 0) {
                             fields = await addStepsInput(form_i.querySelector(".steps_box"));
-                        }else{
+                        } else {
                             fields = form_i.querySelector(".steps_box").querySelector(".steps");
                         }
                         fields.value = child;
