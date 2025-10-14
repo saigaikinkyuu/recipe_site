@@ -1,3 +1,4 @@
+const isRun = false;
 auth.onAuthStateChanged(async user => {
     if (user) {
         const userdata = await db.collection("users")
@@ -16,7 +17,9 @@ auth.onAuthStateChanged(async user => {
 
                     if (db_data["status"] == "stop") {
                         if(user_data["status"] == "admin"){
-                            Main();
+                            if(!isRun){
+                                Main();
+                            }
                             return
                         }
                         window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
@@ -46,4 +49,5 @@ auth.onAuthStateChanged(async user => {
             window.location.href = "https://saigaikinkyuu.github.io/recipe_site/login/";
         })
     }
+    isRun = true;
 })
