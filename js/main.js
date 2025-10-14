@@ -369,24 +369,3 @@ function monthLastDate(newDate) {
 function monthFirstDay(newDate) {
     return new Date(newDate.getFullYear() + "/" + ("0" + (newDate.getMonth() + 1)).slice(-2) + "/01").getDay()
 }
-/*
-auth.onAuthStateChanged(user => {
-    if (user) {
-        const unsubscribe = db.collection("server")
-            .doc("db")
-            .onSnapshot((snapshot) => {
-                if (snapshot.exists) {
-                    const db_data = snapshot.data();
-
-                    if (db_data["status"] == "stop") {
-                        window.location.href = "./error";
-                    }
-                }
-            })
-
-        Main();
-    } else {
-        window.location.href = "./login";
-    }
-})
-*/

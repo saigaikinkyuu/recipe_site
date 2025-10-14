@@ -9,7 +9,7 @@ auth.onAuthStateChanged(user => {
                     let isRedirect = false;
 
                     if (db_data["status"] == "stop") {
-                        window.location.href = "../error/";
+                        window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
                         isRedirect = true;
                     }else {
                         Main();
@@ -17,23 +17,23 @@ auth.onAuthStateChanged(user => {
 
                     if(isRedirect){
                         const iframe = document.createElement("iframe");
-                        iframe.href = "../error/";
+                        iframe.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
 
                         document.body.appendChild(iframe);
                         document.title = "Error";
 
                         document.body.addEventListener('click' , () => {
-                            window.location.href = "../error/";
+                            window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
                         })
                     }
                 }
             })
     } else {
-        window.location.href = "../login/";
+        window.location.href = "https://saigaikinkyuu.github.io/recipe_site/login/";
 
         window.body = "";
         document.body.addEventListener('click' , () => {
-            window.location.href = "../login/";
+            window.location.href = "https://saigaikinkyuu.github.io/recipe_site/login/";
         })
     }
 })

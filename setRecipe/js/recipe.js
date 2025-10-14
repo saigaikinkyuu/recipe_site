@@ -701,24 +701,3 @@ async function setData(time) {
         })
     }
 }
-/*
-auth.onAuthStateChanged(user => {
-    if (user) {
-        const unsubscribe = db.collection("server")
-            .doc("db")
-            .onSnapshot((snapshot) => {
-                if (snapshot.exists) {
-                    const db_data = snapshot.data();
-
-                    if (db_data["status"] == "stop") {
-                        window.location.href = "../error";
-                    }
-                }
-            })
-
-        Main();
-    } else {
-        window.location.href = "../login";
-    }
-})
-*/
