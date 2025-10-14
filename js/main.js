@@ -56,10 +56,10 @@ async function Main() {
         calenders.forEach(item => {
             item.remove();
         })
-        const last_date_next = monthLastDate(new Date(`${next_month[0]}/${next_month[1]}/1 00:00`));
-        const month_first_day_next = monthFirstDay(new Date(`${next_month[0]}/${next_month[1]}/1 00:00`));
+        const last_date_next = monthLastDate(new Date(`${next_month_num[0]}/${next_month_num[1]}/1 00:00`));
+        const month_first_day_next = monthFirstDay(new Date(`${next_month_num[0]}/${next_month_num[1]}/1 00:00`));
         const cell_number_next = (last_date_next + month_first_day_next) <= 28 ? 28 : 35;
-        setCalender(calender_container,last_date_next,month_first_day_next,cell_number_next,next_month)
+        setCalender(calender_container,last_date_next,month_first_day_next,cell_number_next,next_month_num)
         isEvent = false;
     })
     
@@ -72,6 +72,10 @@ async function Main() {
 }
 
 async function setCalender(calender_container,last_date,month_first_day,cell_number,month){
+    if(calender_container.querySelector(".calender_ttl")){
+        calender_container.querySelector(".calender_ttl").remove();
+    }
+    
     const calender_ttl = document.createElement("h2");
     calender_ttl.textContent = month[1] + "月";
     calender_ttl.classList.add("calender_ttl")
