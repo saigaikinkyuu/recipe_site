@@ -42,11 +42,17 @@ async function Main() {
 
                             document.querySelector(".time").textContent = id.slice(0,4) + "年" + id.slice(4,6) + "月" + id.slice(6,8) + "日－" + time;
 
+                            let recipe_num = 0;
+
                             recipes.forEach(item => {
                                 const container = document.querySelector(".container");
 
                                 const box = document.createElement("div");
                                 box.classList.add("box");
+
+                                if((recipe_num + 1) !== recipes.length){
+                                    box.dataset.border = "";
+                                }
 
                                 const box_ttl = document.createElement("h3");
                                 box_ttl.classList.add("box_ttl");
@@ -138,6 +144,8 @@ async function Main() {
                                 box.appendChild(box_steps);
 
                                 container.appendChild(box);
+
+                                recipe_num++
                             });
 
                             const edit_btn = document.createElement("button");

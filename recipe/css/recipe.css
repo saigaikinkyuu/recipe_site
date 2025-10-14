@@ -32,6 +32,12 @@ body{
     font-size: 25px;
 }
 
+.box[data-boder]{
+    border-bottom: 5px dashed orange;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
 .box_ingredients{
     width: 96%;
     margin: 20px 1%;
