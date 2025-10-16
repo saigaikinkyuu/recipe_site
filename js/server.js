@@ -1,5 +1,5 @@
 if (typeof firebaseConfig == 'undefined') {
-    const firebaseConfig = {
+    var firebaseConfig = {
         apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
         authDomain: "home-recipe-be23b.firebaseapp.com",
         projectId: "home-recipe-be23b",
@@ -9,9 +9,9 @@ if (typeof firebaseConfig == 'undefined') {
         measurementId: "G-Y12V9FEK27"
     };
 
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = app.auth();
-    const db = app.firestore();
+    var app = firebase.initializeApp(firebaseConfig);
+    var auth = app.auth();
+    var db = app.firestore();
 }
 
 var isRun = false;
