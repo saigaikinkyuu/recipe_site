@@ -33,5 +33,15 @@ async function Main() {
             icon: 'error',
             confirmButtonText: 'はい'
         });
+        if(e.name == "FirebaseError"){
+            const result = await Swal.fire({
+                title: 'アクセス権限がありません',
+                text: 'アクセスには管理者から認証される必要があります。',
+                icon: 'error',
+                confirmButtonText: 'はい'
+            });
+
+            window.location.href = "../";
+        }
     }
 }
