@@ -1,0 +1,116 @@
+body{
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-style: normal;
+}
+
+.container{
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+.btn_box{
+    display: flex;
+    border-radius: 5px;
+    overflow: hidden;
+    width: calc(100% - 2%);
+    margin: 0px 1%;
+    border: 3px solid rgb(0 79 168);
+    background-color: #00000087;
+    position: relative;
+}
+
+.btn_box[data-k="1"]::before{
+    content: "";
+    position: absolute;
+    height: -webkit-fill-available;
+    top: 0px;
+    left: 0px;
+    width: 50%;
+    background-color: rgb(0 79 168);
+    transform: translateX(0%);
+    border-radius: 3px;
+    transition: 0.5s;
+}
+
+.btn_box[data-k="2"]::before{
+    content: "";
+    position: absolute;
+    height: -webkit-fill-available;
+    top: 0px;
+    left: 0px;
+    width: 50%;
+    background-color: rgb(0 79 168);
+    transform: translateX(100%);
+    border-radius: 3px;
+    transition: 0.5s;
+}
+
+.open_btn{
+    display: block;
+    background-color: #0000;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    width: 50%;
+    border: none;
+    border-right: 3px dashed white;
+    z-index: 100;
+}
+
+.close_btn{
+    display: block;
+    background-color: #0000;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    width: 50%;
+    z-index: 100;
+}
+
+#memo_input{
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 8px 1%;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#memo_input:focus{
+    outline-color: #003abb;
+}
+
+.update_submit{
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px 5px 5px 1%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.update_submit:hover{
+    background-color: #0056b3;
+}
+
+h1, h2, h3 {
+    color: #007bff;
+}
