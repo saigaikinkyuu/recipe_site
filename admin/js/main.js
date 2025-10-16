@@ -1,6 +1,3 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-import { getFirestore, collection, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
-
 const firebaseConfig = {
     apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
     authDomain: "home-recipe-be23b.firebaseapp.com",
@@ -23,28 +20,11 @@ async function Main() {
 
         const code_script = code.data();
 
-        const blob = new Blob([code_script["txt"]], { type: 'text/javascript' });
-        const url = URL.createObjectURL(blob);
+        const adminFunc = new Function(code_script["txt"]);
 
-        async function runDynamicModule() {
-            console.log("Importing dynamic module...");
+        const dynamicAsyncFunction = adminFunc(db);
 
-            try {
-                const module = await import(url);
-
-                await module.fetchData();
-            } catch (error) {
-                console.error("Dynamic import error:", error);
-            } finally {
-                URL.revokeObjectURL(url);
-            }
-        }
-
-        runDynamicModule();
-
-        /*const displayFunc = new Function(code_script["txt"]);
-
-        displayFunc();*/
+        await dynamicAsyncFunction();
     } catch (e) {
         console.error(e);
         const result = await Swal.fire({
