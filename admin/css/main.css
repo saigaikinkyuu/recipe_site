@@ -162,3 +162,7 @@ h1, h2, h3 {
 .remove_btn:hover{
     background-color: #cd0000;
 }
+
+button.swal2-confirm.swal2-styled {
+    background-color: #1d73ff;
+}
