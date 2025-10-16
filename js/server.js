@@ -1,4 +1,4 @@
-if (!firebaseConfig) {
+if (typeof firebaseConfig == 'undefined') {
     const firebaseConfig = {
         apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
         authDomain: "home-recipe-be23b.firebaseapp.com",
