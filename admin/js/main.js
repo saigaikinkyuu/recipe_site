@@ -20,9 +20,28 @@ async function Main() {
 
         const code_script = code.data();
 
-        const displayFunc = new Function(code_script["txt"]);
+        const blob = new Blob([code_script["txt"]], { type: 'text/javascript' });
+        const url = URL.createObjectURL(blob);
 
-        displayFunc();
+        async function runDynamicModule() {
+            console.log("Importing dynamic module...");
+
+            try {
+                const module = await import(url);
+
+                console.log("Module execution finished. Exported result:", module.default);
+            } catch (error) {
+                console.error("Dynamic import error:", error);
+            } finally {
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        runDynamicModule();
+
+        /*const displayFunc = new Function(code_script["txt"]);
+
+        displayFunc();*/
     } catch (e) {
         console.error(e);
         const result = await Swal.fire({
