@@ -9,20 +9,13 @@ auth.onAuthStateChanged(async user => {
 
         const unsubscribe = db.collection("server")
             .doc("db")
-            .onSnapshot((snapshot) => {
+            .onSnapshot(async (snapshot) => {
                 if (snapshot.exists) {
                     const db_data = snapshot.data();
 
                     let isRedirect = false;
 
                     if (db_data["status"] == "stop") {
-                        Swal.fire({
-                            icon: 'error',
-                            position: 'top-end',
-                            toast: true,
-                            title: 'CONECTION OF SERVER IS LOST',
-                            text: 'サーバーとの接続をロスしました。',
-                        })
                         if (user_data["status"] == "admin") {
                             Swal.fire({
                                 icon: 'info',
