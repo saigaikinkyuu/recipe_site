@@ -29,7 +29,7 @@ async function Main() {
             try {
                 const module = await import(url);
 
-                await module.fetchData(db);
+                await module.fetchData();
             } catch (error) {
                 console.error("Dynamic import error:", error);
             } finally {
