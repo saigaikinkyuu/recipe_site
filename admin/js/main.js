@@ -14,7 +14,7 @@ const db = app.firestore();
 
 async function Main() {
     try {
-        const code = db.collection("script")
+        const code = await db.collection("script")
             .doc("admin")
             .get();
 
