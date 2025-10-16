@@ -131,6 +131,7 @@ h1, h2, h3 {
     align-items: center;
     width: 30%;
     justify-content: center;
+    margin: 0px;
 }
 
 .recipe_box > .cont_box{
@@ -145,7 +146,6 @@ h1, h2, h3 {
     width: 50%;
     text-align: center;
     margin: 15px;
-    margin: 0px;
 }
 
 .remove_btn{
