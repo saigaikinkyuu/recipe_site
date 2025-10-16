@@ -16,16 +16,23 @@ auth.onAuthStateChanged(async user => {
                     let isRedirect = false;
 
                     if (db_data["status"] == "stop") {
+                        Swal.fire({
+                            icon: 'error',
+                            position: 'top-end',
+                            toast: true,
+                            title: 'CONECTION OF SERVER IS LOST',
+                            text: 'サーバーとの接続をロスしました。',
+                        })
                         if (user_data["status"] == "admin") {
+                            Swal.fire({
+                                icon: 'info',
+                                position: 'top-end',
+                                toast: true,
+                                title: 'SERVER STATUS : STOP',
+                                text: 'アドミン権限で停止しているサーバーに接続しています。',
+                            })
                             if (!isRun) {
                                 isRun = true;
-                                Swal.fire({
-                                    icon: 'info',
-                                    position: 'top-end',
-                                    toast: true,
-                                    title: 'SERVER STATUS : STOP',
-                                    text: 'アドミン権限で停止しているサーバーに接続しています。',
-                                })
                                 Main();
                             }
                             return
