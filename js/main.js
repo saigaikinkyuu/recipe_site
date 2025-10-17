@@ -303,6 +303,7 @@ async function getRecipeList() {
         }
 
         recipes.forEach(element => {
+            if(element["id"] == 'test') return;
             if (element["id"] == id_t && element[extra_txt]) {
                 if (Object.keys(element[extra_txt]).length > 0) {
                     const today_ttl = document.createElement("h2");
