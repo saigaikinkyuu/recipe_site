@@ -21,7 +21,7 @@ async function Main() {
     const last_date = monthLastDate(new Date());
     const month_first_day = monthFirstDay(new Date());
     const cell_number = (last_date + month_first_day) <= 35 ? 35 : 42;
-    const next_month_num = (new Date().getMonth() + 2) >= 13 ? [new Date().getFullYear() + 1 , (new Date().getMonth() - 10)] : [new Date().getFullYear() , (new Date().getMonth() + 2)];
+    const next_month_num = (new Date().getMonth() + 2) >= 13 ? [new Date().getFullYear() + 1, (new Date().getMonth() - 10)] : [new Date().getFullYear(), (new Date().getMonth() + 2)];
 
     const month_btns = document.createElement("div");
     month_btns.classList.add("month_btns");
@@ -38,19 +38,19 @@ async function Main() {
     month_btns.appendChild(now_month);
     month_btns.appendChild(next_month);
 
-    now_month.addEventListener('click' , () => {
-        if(isEvent) return;
+    now_month.addEventListener('click', () => {
+        if (isEvent) return;
         isEvent = true;
         month_btns.dataset.select = "1";
         calenders.forEach(item => {
             item.remove();
         })
-        setCalender(last_date,month_first_day,cell_number,[new Date().getFullYear() , (new Date().getMonth() + 1)])
+        setCalender(last_date, month_first_day, cell_number, [new Date().getFullYear(), (new Date().getMonth() + 1)])
         isEvent = false;
     })
-    
-    next_month.addEventListener('click' , () => {
-        if(isEvent) return;
+
+    next_month.addEventListener('click', () => {
+        if (isEvent) return;
         isEvent = true;
         month_btns.dataset.select = "2";
         calenders.forEach(item => {
@@ -59,21 +59,21 @@ async function Main() {
         const last_date_next = monthLastDate(new Date(`${next_month_num[0]}/${next_month_num[1]}/1 00:00`));
         const month_first_day_next = monthFirstDay(new Date(`${next_month_num[0]}/${next_month_num[1]}/1 00:00`));
         const cell_number_next = (last_date_next + month_first_day_next) <= 35 ? 35 : 42;
-        setCalender(last_date_next,month_first_day_next,cell_number_next,next_month_num)
+        setCalender(last_date_next, month_first_day_next, cell_number_next, next_month_num)
         isEvent = false;
     })
-    
+
     calender_container.appendChild(month_btns);
 
     document.querySelector(".todaysMenue").style.display = "none";
 
     await getRecipeList();
-    await setCalender(last_date,month_first_day,cell_number,[new Date().getFullYear() , (new Date().getMonth() + 1)]);
+    await setCalender(last_date, month_first_day, cell_number, [new Date().getFullYear(), (new Date().getMonth() + 1)]);
 }
 
-async function setCalender(last_date,month_first_day,cell_number,month){
+async function setCalender(last_date, month_first_day, cell_number, month) {
     const calender_container = document.querySelector(".calender");
-    if(calender_container.querySelector(".calender_ttl")){
+    if (calender_container.querySelector(".calender_ttl")) {
         calender_container.querySelector(".calender_ttl").remove();
     }
 
@@ -83,7 +83,7 @@ async function setCalender(last_date,month_first_day,cell_number,month){
 
     calender_container.appendChild(calender_ttl);
 
-    if(document.querySelector(".list").querySelector(".list_diet_ttl")){
+    if (document.querySelector(".list").querySelector(".list_diet_ttl")) {
         document.querySelector(".list").querySelectorAll("*").forEach(item => {
             item.remove();
         })
@@ -144,9 +144,9 @@ async function setCalender(last_date,month_first_day,cell_number,month){
             belong_week_box.appendChild(date_box);
         }
 
-        if(date_box.dataset.d == (new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + new Date().getDate()).slice(-2))){
+        if (date_box.dataset.d == (new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + new Date().getDate()).slice(-2))) {
             date_box.dataset.set = "today";
-        }else if (recipes_json[date_box.dataset.d] && isCorrectBox) {
+        } else if (recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "true";
         } else if (!recipes_json[date_box.dataset.d] && isCorrectBox) {
             date_box.dataset.set = "false";
@@ -303,7 +303,7 @@ async function getRecipeList() {
         }
 
         recipes.forEach(element => {
-            if(element["id"] == 'test') return;
+            if (element["id"] == 'test') return;
             if (element["id"] == id_t && element[extra_txt]) {
                 if (Object.keys(element[extra_txt]).length > 0) {
                     const today_ttl = document.createElement("h2");
@@ -370,3 +370,33 @@ function monthLastDate(newDate) {
 function monthFirstDay(newDate) {
     return new Date(newDate.getFullYear() + "/" + ("0" + (newDate.getMonth() + 1)).slice(-2) + "/01").getDay()
 }
+
+async function fetchUserFromOtherSite(userId) {
+    // 1. エンドポイントURLを正確に指定
+    const BASE_URL = 'https://appdataserver.netlify.app';
+    const functionName = 'firestore-crud';
+    const collectionName = 'users';
+
+    // 2. クエリパラメータで操作に必要な情報を渡す
+    const endpoint = `${BASE_URL}/.netlify/functions/${functionName}?collection=${collectionName}&id=${userId}`;
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'GET' // 読み取り操作
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const userData = await response.json();
+        console.log("他のサイトから取得したデータ:", userData);
+        return userData;
+
+    } catch (error) {
+        console.error("データの取得に失敗しました:", error);
+        return null;
+    }
+}
+
+fetchUserFromOtherSite('n621PNOJ3uUx9UexizembQPngFn2');
