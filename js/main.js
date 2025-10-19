@@ -75,6 +75,8 @@ async function Main() {
 
     const api_response = callapi('get', {
         id: userId,
+        collection: 'recipe',
+        doc: 'test'
     })
 }
 
