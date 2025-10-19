@@ -70,7 +70,12 @@ async function Main() {
     await getRecipeList();
     await setCalender(last_date, month_first_day, cell_number, [new Date().getFullYear(), (new Date().getMonth() + 1)]);
 
-    console.log(fetchUserFromOtherSite());
+    const user = auth.currentUser;
+    const userId = user.uid;
+
+    const api_response = callapi('get', {
+        id: userId,
+    })
 }
 
 async function setCalender(last_date, month_first_day, cell_number, month) {
@@ -373,7 +378,7 @@ function monthFirstDay(newDate) {
     return new Date(newDate.getFullYear() + "/" + ("0" + (newDate.getMonth() + 1)).slice(-2) + "/01").getDay()
 }
 
-async function fetchUserFromOtherSite() {
+async function callapi(action, body) {
     const user = auth.currentUser;
 
     if (!user) {
@@ -382,7 +387,7 @@ async function fetchUserFromOtherSite() {
 
     const idToken = await user.getIdToken();
 
-    const res = await fetch(`https://apidataserver.netlify.app/.netlify/functions/api/get`, {
+    const res = await fetch(`https://apidataserver.netlify.app/.netlify/functions/api/${action}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
