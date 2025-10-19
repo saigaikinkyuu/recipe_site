@@ -387,7 +387,7 @@ async function callapi(action, body) {
 
     const idToken = await user.getIdToken();
 
-    const res = await fetch(`https://apidataserver.netlify.app/.netlify/functions/api/${action}`, {
+    const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
