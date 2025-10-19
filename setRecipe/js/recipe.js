@@ -702,13 +702,13 @@ async function setData(time) {
 }
 
 async function callapi(action, body) {
-    const user = auth.currentUser;
+    const idToken = await firebase.auth().currentUser.getIdToken();
 
     if (!user) {
         throw new Error("Not authenticated");
     }
 
-    const idToken = await user.getIdToken();
+    
 
     const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
         method: "POST",
