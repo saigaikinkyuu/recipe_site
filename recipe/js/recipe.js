@@ -204,7 +204,7 @@ async function callapi(action, body) {
     return res.json();
 }
 
-(() => {
+async function openDatabase(){
     return new Promise((resolve, reject) => {
         const request = indexedDB.open('authDatabase', 1);
 
@@ -223,4 +223,4 @@ async function callapi(action, body) {
             reject(event.target.error);
         };
     });
-})();
+};
