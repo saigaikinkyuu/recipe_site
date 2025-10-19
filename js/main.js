@@ -383,7 +383,7 @@ async function getUserData() {
 async function callapi(action, body) {
     const idToken = await getUserData();
 
-    if (!user) {
+    if (!idToken) {
         throw new Error("Not authenticated");
     }
 
