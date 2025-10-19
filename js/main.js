@@ -69,6 +69,8 @@ async function Main() {
 
     await getRecipeList();
     await setCalender(last_date, month_first_day, cell_number, [new Date().getFullYear(), (new Date().getMonth() + 1)]);
+
+    console.log(fetchUserFromOtherSite());
 }
 
 async function setCalender(last_date, month_first_day, cell_number, month) {
@@ -371,32 +373,28 @@ function monthFirstDay(newDate) {
     return new Date(newDate.getFullYear() + "/" + ("0" + (newDate.getMonth() + 1)).slice(-2) + "/01").getDay()
 }
 
-async function fetchUserFromOtherSite(userId) {
-    // 1. エンドポイントURLを正確に指定
-    const BASE_URL = 'https://appdataserver.netlify.app';
-    const functionName = 'firestore-crud';
-    const collectionName = 'users';
+async function fetchUserFromOtherSite() {
+    const user = auth.currentUser;
 
-    // 2. クエリパラメータで操作に必要な情報を渡す
-    const endpoint = `${BASE_URL}/.netlify/functions/${functionName}?collection=${collectionName}&id=${userId}`;
-
-    try {
-        const response = await fetch(endpoint, {
-            method: 'GET' // 読み取り操作
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const userData = await response.json();
-        console.log("他のサイトから取得したデータ:", userData);
-        return userData;
-
-    } catch (error) {
-        console.error("データの取得に失敗しました:", error);
-        return null;
+    if (!user) {
+        throw new Error("Not authenticated");
     }
-}
 
-fetchUserFromOtherSite('n621PNOJ3uUx9UexizembQPngFn2');
+    const idToken = await user.getIdToken();
+
+    const res = await fetch(`https://apidataserver.netlify.app/.netlify/functions/api/get`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${idToken}`
+        },
+        body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "API request failed");
+    }
+
+    return res.json();
+}
