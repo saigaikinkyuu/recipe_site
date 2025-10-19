@@ -1,5 +1,5 @@
 var isRun = false;
-auth.onAuthStateChanged(async user => {
+(() => {
     try {
         const db_data = await callapi('get', {
             collection: 'server',
@@ -45,4 +45,4 @@ auth.onAuthStateChanged(async user => {
         console.error(e);
         window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
     }
-})
+})()
