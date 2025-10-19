@@ -402,7 +402,7 @@ async function callapi(action, body) {
             throw new Error(error.error || "API request failed");
         }
 
-        return res.json();
+        return res;
     });
 }
 
