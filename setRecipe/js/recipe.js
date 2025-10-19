@@ -725,28 +725,29 @@ async function getUserData() {
 }
 
 async function callapi(action, body) {
-    const database = await getUserData();
-    const idToken = database.userId;
+    getUserData().then(user => {
+        const idToken = user.userId;
 
-    if (!user) {
-        throw new Error("Not authenticated");
-    }
+        if (!idToken) {
+            throw new Error("Not authenticated");
+        }
 
-    const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${idToken}`
-        },
-        body: JSON.stringify(body),
+        const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${idToken}`
+            },
+            body: JSON.stringify(body),
+        });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error || "API request failed");
+        }
+
+        return res.json();
     });
-
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.error || "API request failed");
-    }
-
-    return res.json();
 }
 
 async function openDatabase(){
