@@ -364,7 +364,7 @@ async function getUserData() {
     const store = transaction.objectStore('users');
     
     return new Promise((resolve, reject) => {
-        const request = store.get("userId");
+        const request = store.get(1);
 
         request.onsuccess = (event) => {
             resolve(event.target.result); 
