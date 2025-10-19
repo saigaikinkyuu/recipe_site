@@ -1,5 +1,5 @@
 var isRun = false;
-(() => {
+(async () => {
     try {
         const db_data = await callapi('get', {
             collection: 'server',
