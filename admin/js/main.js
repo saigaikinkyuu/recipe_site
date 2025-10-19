@@ -14,11 +14,10 @@ const db = app.firestore();
 
 async function Main() {
     try {
-        const code = await db.collection("script")
-            .doc("admin")
-            .get();
-
-        const code_script = code.data();
+        const code_script = await callapi('get' , {
+            collection: 'script',
+            doc: 'admin'
+        })
 
         const adminFunc = new Function(code_script["txt"]);
 
@@ -44,4 +43,30 @@ async function Main() {
             window.location.href = "../";
         }
     }
+}
+
+async function callapi(action, body) {
+    const user = auth.currentUser;
+
+    if (!user) {
+        throw new Error("Not authenticated");
+    }
+
+    const idToken = await user.getIdToken();
+
+    const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${idToken}`
+        },
+        body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "API request failed");
+    }
+
+    return res.json();
 }

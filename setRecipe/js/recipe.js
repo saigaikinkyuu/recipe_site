@@ -1,17 +1,3 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
-    authDomain: "home-recipe-be23b.firebaseapp.com",
-    projectId: "home-recipe-be23b",
-    storageBucket: "home-recipe-be23b.firebasestorage.app",
-    messagingSenderId: "801879261323",
-    appId: "1:801879261323:web:0d2f9552d1058ee99d948e",
-    measurementId: "G-Y12V9FEK27"
-};
-
-const app = firebase.initializeApp(firebaseConfig);
-const auth = app.auth();
-const db = app.firestore();
-
 const db_json = { "exist": null, "data": {} };
 
 var error_disavailabled_submit = false;
@@ -113,59 +99,77 @@ async function Main() {
 
                     if (db_json["exist"]) {
                         if (time == "breakfast") {
-                            await db.collection("recipe").doc(id).update({
-                                breakfast: {
-                                    recipe: cook_json
-                                },
-                                updateAt: firebase.firestore.FieldValue.serverTimestamp()
+                            await callapi('update', {
+                                collection: 'recipe',
+                                doc: id,
+                                data: {
+                                    breakfast: {
+                                        recipe: cook_json
+                                    }
+                                }
                             })
                             request_flag = true;
                         } else if (time == "lunch") {
-                            await db.collection("recipe").doc(id).update({
-                                lunch: {
-                                    recipe: cook_json
-                                },
-                                updateAt: firebase.firestore.FieldValue.serverTimestamp()
+                            await callapi('update', {
+                                collection: 'recipe',
+                                doc: id,
+                                data: {
+                                    lunch: {
+                                        recipe: cook_json
+                                    }
+                                }
                             })
                             request_flag = true;
                         } else if (time == "dinner") {
-                            await db.collection("recipe").doc(id).update({
-                                dinner: {
-                                    recipe: cook_json
-                                },
-                                updateAt: firebase.firestore.FieldValue.serverTimestamp()
+                            await callapi('update', {
+                                collection: 'recipe',
+                                doc: id,
+                                data: {
+                                    dinner: {
+                                        recipe: cook_json
+                                    }
+                                }
                             })
                             request_flag = true;
                         }
                     } else {
                         if (time == "breakfast") {
-                            await db.collection("recipe").doc(id).set({
-                                breakfast: {
-                                    recipe: cook_json
-                                },
-                                lunch: {},
-                                dinner: {},
-                                updateAt: firebase.firestore.FieldValue.serverTimestamp()
+                            await callapi('create', {
+                                collection: 'recipe',
+                                doc: id,
+                                data: {
+                                    breakfast: {
+                                        recipe: cook_json
+                                    },
+                                    lunch: {},
+                                    dinner: {}
+                                }
                             })
                             request_flag = true;
                         } else if (time == "lunch") {
-                            await db.collection("recipe").doc(id).set({
-                                breakfast: {},
-                                lunch: {
-                                    recipe: cook_json
-                                },
-                                dinner: {},
-                                updateAt: firebase.firestore.FieldValue.serverTimestamp()
+                            await callapi('create', {
+                                collection: 'recipe',
+                                doc: id,
+                                data: {
+                                    breakfast: {},
+                                    lunch: {
+                                        recipe: cook_json
+                                    },
+                                    dinner: {}
+                                }
                             })
                             request_flag = true;
                         } else if (time == "dinner") {
-                            await db.collection("recipe").doc(id).set({
-                                breakfast: {},
-                                lunch: {},
-                                dinner: {
-                                    recipe: cook_json
-                                },
-                                updateAt: firebase.firestore.FieldValue.serverTimestamp()
+                            await callapi('create', {
+                                collection: 'recipe',
+                                doc: id,
+                                data: {
+                                    breakfast: {},
+                                    lunch: {},
+                                    dinner: {
+                                        recipe: cook_json
+                                    }
+                                }
                             })
                             request_flag = true;
                         }
@@ -540,18 +544,13 @@ async function addForm() {
 }
 
 async function getDB(id) {
-    const snapshot = await db.collection("recipe")
-        .doc(id)
-        .get();
+    const db_data = await callapi('get', {
+        collection: 'recipe',
+        doc: id
+    })
 
-    if (snapshot.exists) {
-        const db_data = snapshot.data();
-
-        db_json["exist"] = true;
-        db_json["data"] = db_data;
-    } else {
-        db_json["exist"] = false;
-    }
+    db_json["exist"] = true;
+    db_json["data"] = db_data;
 }
 
 async function addIngInput(field) {
@@ -700,4 +699,30 @@ async function setData(time) {
             confirmButtonText: 'はい'
         })
     }
+}
+
+async function callapi(action, body) {
+    const user = auth.currentUser;
+
+    if (!user) {
+        throw new Error("Not authenticated");
+    }
+
+    const idToken = await user.getIdToken();
+
+    const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${idToken}`
+        },
+        body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "API request failed");
+    }
+
+    return res.json();
 }

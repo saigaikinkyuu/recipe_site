@@ -1,17 +1,3 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
-    authDomain: "home-recipe-be23b.firebaseapp.com",
-    projectId: "home-recipe-be23b",
-    storageBucket: "home-recipe-be23b.firebasestorage.app",
-    messagingSenderId: "801879261323",
-    appId: "1:801879261323:web:0d2f9552d1058ee99d948e",
-    measurementId: "G-Y12V9FEK27"
-};
-
-const app = firebase.initializeApp(firebaseConfig);
-const auth = app.auth();
-const db = app.firestore();
-
 let recipes_json = {};
 const calenders = [];
 let isEvent = false;
@@ -70,11 +56,7 @@ async function Main() {
     await getRecipeList();
     await setCalender(last_date, month_first_day, cell_number, [new Date().getFullYear(), (new Date().getMonth() + 1)]);
 
-    const user = auth.currentUser;
-    const userId = user.uid;
-
     const api_response = callapi('get', {
-        id: userId,
         collection: 'recipe',
         doc: 'test'
     })
@@ -286,16 +268,11 @@ async function setCalender(last_date, month_first_day, cell_number, month) {
 
 async function getRecipeList() {
     try {
-        const snapshot = await db.collection("recipe").get();
+        const data = await callapi('list', {
+            collection: 'recipe'
+        })
 
-        const recipes = [];
-        snapshot.forEach(doc => {
-            // ドキュメントIDとデータを取得
-            recipes.push({
-                id: doc.id,
-                ...doc.data()
-            });
-        });
+        recipes = data.shift();
 
         const now_h = new Date().getHours();
         const id_t = new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + new Date().getDate()).slice(-2);

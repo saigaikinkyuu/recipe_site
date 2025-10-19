@@ -1,17 +1,3 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
-    authDomain: "home-recipe-be23b.firebaseapp.com",
-    projectId: "home-recipe-be23b",
-    storageBucket: "home-recipe-be23b.firebasestorage.app",
-    messagingSenderId: "801879261323",
-    appId: "1:801879261323:web:0d2f9552d1058ee99d948e",
-    measurementId: "G-Y12V9FEK27"
-};
-
-const app = firebase.initializeApp(firebaseConfig);
-const auth = app.auth();
-const db = app.firestore();
-
 function getParam(propaty) {
     return new URLSearchParams(document.location.search).get(propaty)
 }
@@ -30,146 +16,134 @@ async function Main() {
             });
             window.location.href = "../";
         } else {
-            const unsubscribe = db.collection("recipe")
-                .doc(id)
-                .onSnapshot(async (snapshot) => {
-                    document.querySelector(".container").innerHTML = "";
+            const recipe = await callapi('get', {
+                collection: 'recipe',
+                doc: id
+            })
+            document.querySelector(".container").innerHTML = "";
+            if (Object.keys(recipe[time]).length > 0) {
+                const recipes = recipe[time]["recipe"];
 
-                    if (snapshot.exists) {
-                        const recipe = snapshot.data();
-                        if (Object.keys(recipe[time]).length > 0) {
-                            const recipes = recipe[time]["recipe"];
+                document.querySelector(".time").textContent = id.slice(0, 4) + "年" + id.slice(4, 6) + "月" + id.slice(6, 8) + "日－" + time;
 
-                            document.querySelector(".time").textContent = id.slice(0,4) + "年" + id.slice(4,6) + "月" + id.slice(6,8) + "日－" + time;
+                let recipe_num = 0;
 
-                            let recipe_num = 0;
+                recipes.forEach(item => {
+                    const container = document.querySelector(".container");
 
-                            recipes.forEach(item => {
-                                const container = document.querySelector(".container");
+                    const box = document.createElement("div");
+                    box.classList.add("box");
 
-                                const box = document.createElement("div");
-                                box.classList.add("box");
-
-                                if((recipe_num + 1) !== recipes.length){
-                                    box.dataset.border = "";
-                                }
-
-                                const box_ttl = document.createElement("h3");
-                                box_ttl.classList.add("box_ttl");
-                                box_ttl.textContent = item["ttl"];
-
-                                box.appendChild(box_ttl);
-
-                                const box_ingredients = document.createElement("div");
-                                box_ingredients.classList.add("box_ingredients");
-
-                                let ninzu_value = "";
-                                if(item["ninzu"] !== "0"){
-                                    ninzu_value = `【 ${item["ninzu"]}人分 】`;
-                                }else {
-                                    ninzu_value = ``;
-                                }
-
-                                const ingredients_ttl = document.createElement("h3");
-                                ingredients_ttl.classList.add("ingredients_ttl");
-                                ingredients_ttl.textContent = `材料${ninzu_value}`;
-
-                                box_ingredients.appendChild(ingredients_ttl);
-
-                                let ingredients_num = 0;
-
-                                const ingredients = item["ingredients"];
-                                ingredients.forEach(child => {
-                                    const ingredient_box = document.createElement("div");
-                                    ingredient_box.classList.add("ingredient_box");
-
-                                    const ingredient_name = document.createElement("h4");
-                                    ingredient_name.classList.add("ingredient_name");
-                                    ingredient_name.textContent = child["name"];
-
-                                    const ingredient_amount = document.createElement("h4");
-                                    ingredient_amount.classList.add("ingredient_amount");
-                                    ingredient_amount.textContent = child["amount"];
-
-                                    if((ingredients_num + 1) == ingredients.length){
-                                        ingredient_box.style.borderBottom = "0px";
-                                    }
-
-                                    ingredient_box.appendChild(ingredient_name);
-                                    ingredient_box.appendChild(ingredient_amount);
-
-                                    box_ingredients.appendChild(ingredient_box);
-
-                                    ingredients_num++
-                                })
-
-                                box.appendChild(box_ingredients);
-
-                                const box_steps = document.createElement("div");
-                                box_steps.classList.add("box_steps");
-
-                                const steps_ttl = document.createElement("h3");
-                                steps_ttl.classList.add("steps_ttl");
-                                steps_ttl.textContent = `【 手順 】`;
-                                
-                                box_steps.appendChild(steps_ttl);
-
-                                const steps = item["steps"];
-
-                                let step_num = 0;
-                                steps.forEach(child => {
-                                    const steps_box = document.createElement("div");
-                                    steps_box.classList.add("steps_box");
-
-                                    const steps_num_box = document.createElement("div");
-                                    steps_num_box.classList.add("steps_num");
-
-                                    const steps_num = document.createElement("h4");
-                                    steps_num.textContent = step_num + 1;
-
-                                    const steps_name = document.createElement("h4");
-                                    steps_name.classList.add("steps_name");
-                                    steps_name.textContent = child;
-
-                                    steps_num_box.appendChild(steps_num);
-
-                                    steps_box.appendChild(steps_num_box);
-                                    steps_box.appendChild(steps_name);
-
-                                    box_steps.appendChild(steps_box);
-
-                                    step_num++
-                                })
-
-                                box.appendChild(box_steps);
-
-                                container.appendChild(box);
-
-                                recipe_num++
-                            });
-
-                            const edit_btn = document.createElement("button");
-                            edit_btn.classList.add("edit_btn");
-                            edit_btn.textContent = "編集する";
-
-                            edit_btn.addEventListener('click' , () => {
-                               window.location.href = `../setRecipe/?id=${id}&time=${time}`;
-                            })
-
-                            document.querySelector(".container").appendChild(edit_btn);
-
-                            return
-                        }
+                    if ((recipe_num + 1) !== recipes.length) {
+                        box.dataset.border = "";
                     }
-                    const result = await Swal.fire({
-                        title: 'データがありません',
-                        text: 'リクエストのデータは削除された可能性があります。',
-                        icon: 'error',
-                        confirmButtonText: 'はい'
-                    });
-                    window.location.href = "../";
 
+                    const box_ttl = document.createElement("h3");
+                    box_ttl.classList.add("box_ttl");
+                    box_ttl.textContent = item["ttl"];
+
+                    box.appendChild(box_ttl);
+
+                    const box_ingredients = document.createElement("div");
+                    box_ingredients.classList.add("box_ingredients");
+
+                    let ninzu_value = "";
+                    if (item["ninzu"] !== "0") {
+                        ninzu_value = `【 ${item["ninzu"]}人分 】`;
+                    } else {
+                        ninzu_value = ``;
+                    }
+
+                    const ingredients_ttl = document.createElement("h3");
+                    ingredients_ttl.classList.add("ingredients_ttl");
+                    ingredients_ttl.textContent = `材料${ninzu_value}`;
+
+                    box_ingredients.appendChild(ingredients_ttl);
+
+                    let ingredients_num = 0;
+
+                    const ingredients = item["ingredients"];
+                    ingredients.forEach(child => {
+                        const ingredient_box = document.createElement("div");
+                        ingredient_box.classList.add("ingredient_box");
+
+                        const ingredient_name = document.createElement("h4");
+                        ingredient_name.classList.add("ingredient_name");
+                        ingredient_name.textContent = child["name"];
+
+                        const ingredient_amount = document.createElement("h4");
+                        ingredient_amount.classList.add("ingredient_amount");
+                        ingredient_amount.textContent = child["amount"];
+
+                        if ((ingredients_num + 1) == ingredients.length) {
+                            ingredient_box.style.borderBottom = "0px";
+                        }
+
+                        ingredient_box.appendChild(ingredient_name);
+                        ingredient_box.appendChild(ingredient_amount);
+
+                        box_ingredients.appendChild(ingredient_box);
+
+                        ingredients_num++
+                    })
+
+                    box.appendChild(box_ingredients);
+
+                    const box_steps = document.createElement("div");
+                    box_steps.classList.add("box_steps");
+
+                    const steps_ttl = document.createElement("h3");
+                    steps_ttl.classList.add("steps_ttl");
+                    steps_ttl.textContent = `【 手順 】`;
+
+                    box_steps.appendChild(steps_ttl);
+
+                    const steps = item["steps"];
+
+                    let step_num = 0;
+                    steps.forEach(child => {
+                        const steps_box = document.createElement("div");
+                        steps_box.classList.add("steps_box");
+
+                        const steps_num_box = document.createElement("div");
+                        steps_num_box.classList.add("steps_num");
+
+                        const steps_num = document.createElement("h4");
+                        steps_num.textContent = step_num + 1;
+
+                        const steps_name = document.createElement("h4");
+                        steps_name.classList.add("steps_name");
+                        steps_name.textContent = child;
+
+                        steps_num_box.appendChild(steps_num);
+
+                        steps_box.appendChild(steps_num_box);
+                        steps_box.appendChild(steps_name);
+
+                        box_steps.appendChild(steps_box);
+
+                        step_num++
+                    })
+
+                    box.appendChild(box_steps);
+
+                    container.appendChild(box);
+
+                    recipe_num++
+                });
+
+                const edit_btn = document.createElement("button");
+                edit_btn.classList.add("edit_btn");
+                edit_btn.textContent = "編集する";
+
+                edit_btn.addEventListener('click', () => {
+                    window.location.href = `../setRecipe/?id=${id}&time=${time}`;
                 })
+
+                document.querySelector(".container").appendChild(edit_btn);
+
+                return
+            }
         }
     } catch (e) {
         const result = await Swal.fire({
@@ -181,4 +155,30 @@ async function Main() {
 
         console.error(e);
     }
+}
+
+async function callapi(action, body) {
+    const user = auth.currentUser;
+
+    if (!user) {
+        throw new Error("Not authenticated");
+    }
+
+    const idToken = await user.getIdToken();
+
+    const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${idToken}`
+        },
+        body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "API request failed");
+    }
+
+    return res.json();
 }
