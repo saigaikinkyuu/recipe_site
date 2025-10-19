@@ -1,3 +1,17 @@
+const firebaseConfig = {
+    apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
+    authDomain: "home-recipe-be23b.firebaseapp.com",
+    projectId: "home-recipe-be23b",
+    storageBucket: "home-recipe-be23b.firebasestorage.app",
+    messagingSenderId: "801879261323",
+    appId: "1:801879261323:web:0d2f9552d1058ee99d948e",
+    measurementId: "G-Y12V9FEK27"
+};
+
+const app = firebase.initializeApp(firebaseConfig);
+const auth = app.auth();
+const db = app.firestore();
+
 let recipes_json = {};
 const calenders = [];
 let isEvent = false;
@@ -357,74 +371,29 @@ function monthFirstDay(newDate) {
     return new Date(newDate.getFullYear() + "/" + ("0" + (newDate.getMonth() + 1)).slice(-2) + "/01").getDay()
 }
 
-async function getUserData() {
-    const db = await openDatabase();
-
-    const transaction = db.transaction(['users'], 'readonly');
-    const store = transaction.objectStore('users');
-
-    return new Promise((resolve, reject) => {
-        const request = store.get(1);
-
-        request.onsuccess = (event) => {
-            resolve(event.target.result);
-        };
-
-        request.onerror = (event) => {
-            reject(event.target.error);
-        };
-
-        transaction.oncomplete = () => {
-            db.close();
-        };
-    });
-}
-
 async function callapi(action, body) {
-    await getUserData().then(async (user) => {
-        const idToken = user.userId;
+    const user = firebase.auth().currentUser;
+    const idToken = await user.getIdToken();
 
-        if (!idToken) {
-            throw new Error("Not authenticated");
-        }
+    if (!idToken) {
+        throw new Error("Not authenticated");
+    }
 
-        const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${idToken}`
-            },
-            body: JSON.stringify(body),
-        });
-
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.error || "API request failed");
-        }
-
-        res.json().then(async (user) => {
-            return user;
-        })
+    const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${idToken}`
+        },
+        body: JSON.stringify(body),
     });
-}
 
-async function openDatabase() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open('authDatabase', 1);
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "API request failed");
+    }
 
-        request.onupgradeneeded = (event) => {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains('users')) {
-                db.createObjectStore('users', { keyPath: 'id', autoIncrement: true });
-            }
-        };
-
-        request.onsuccess = (event) => {
-            resolve(event.target.result);
-        };
-
-        request.onerror = (event) => {
-            reject(event.target.error);
-        };
-    });
+    res.json().then(async (user) => {
+        return user;
+    })
 }
