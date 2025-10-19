@@ -6,6 +6,8 @@ var isRun = false;
             doc: 'db'
         })
 
+        console.log(db_data);
+
         let isRedirect = false;
 
         if (db_data["status"] == "stop") {
