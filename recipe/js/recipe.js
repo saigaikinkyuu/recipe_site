@@ -181,7 +181,7 @@ async function getUserData() {
 }
 
 async function callapi(action, body) {
-    getUserData().then(user => {
+    getUserData().then(async (user) => {
         const idToken = user.userId;
 
         if (!idToken) {
