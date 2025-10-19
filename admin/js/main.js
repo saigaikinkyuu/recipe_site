@@ -45,14 +45,35 @@ async function Main() {
     }
 }
 
+async function getUserData() {
+    const db = await openDatabase();
+    
+    const transaction = db.transaction(['users'], 'readonly');
+    const store = transaction.objectStore('users');
+    
+    return new Promise((resolve, reject) => {
+        const request = store.get("userId");
+
+        request.onsuccess = (event) => {
+            resolve(event.target.result); 
+        };
+
+        request.onerror = (event) => {
+            reject(event.target.error);
+        };
+        
+        transaction.oncomplete = () => {
+            db.close();
+        };
+    });
+}
+
 async function callapi(action, body) {
-    const idToken = await firebase.auth().currentUser.getIdToken();
+    const idToken = await getUserData();
 
     if (!user) {
         throw new Error("Not authenticated");
     }
-
-    
 
     const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
         method: "POST",
@@ -70,3 +91,24 @@ async function callapi(action, body) {
 
     return res.json();
 }
+
+(() => {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('authDatabase', 1);
+
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('users')) {
+                db.createObjectStore('users', { keyPath: 'id', autoIncrement: true });
+            }
+        };
+
+        request.onsuccess = (event) => {
+            resolve(event.target.result);
+        };
+
+        request.onerror = (event) => {
+            reject(event.target.error);
+        };
+    });
+})();
