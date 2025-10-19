@@ -1,4 +1,4 @@
-auth.onAuthStateChanged(user => {
+(async () => {
     try {
         const data = await callapi('get', {
             collection: 'server',

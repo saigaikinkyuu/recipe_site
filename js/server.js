@@ -23,14 +23,14 @@ var isRun = false;
                 }
                 return
             }
-            window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+            // window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
             isRedirect = true;
         } else if (!isRun) {
             Main();
         }
 
         if (isRedirect) {
-            const iframe = document.createElement("iframe");
+            /*const iframe = document.createElement("iframe");
             iframe.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
 
             document.body.appendChild(iframe);
@@ -38,11 +38,11 @@ var isRun = false;
 
             document.body.addEventListener('click', () => {
                 window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
-            })
+            })*/
         }
         isRun = true;
     } catch (e) {
         console.error(e);
-        window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+        // window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
     }
 })()
