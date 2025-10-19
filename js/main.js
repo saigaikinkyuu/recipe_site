@@ -397,6 +397,9 @@ async function callapi(action, body) {
             body: JSON.stringify(body),
         });
 
+        console.log(res);
+        console.log(res.json());
+
         if (!res.ok) {
             const error = await res.json();
             throw new Error(error.error || "API request failed");

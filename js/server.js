@@ -4,7 +4,7 @@ var isRun = false;
         const db_data = await callapi('get', {
             collection: 'server',
             doc: 'db'
-        })
+        });
 
         console.log(db_data);
 
