@@ -181,7 +181,8 @@ async function getUserData() {
 }
 
 async function callapi(action, body) {
-    const idToken = await getUserData();
+    const database = await getUserData();
+    const idToken = database.userId;
 
     if (!user) {
         throw new Error("Not authenticated");
