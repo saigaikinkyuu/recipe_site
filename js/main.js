@@ -394,7 +394,7 @@ function monthFirstDay(newDate) {
 
 async function callapi(action, body) {
     try {
-        const user = getAuth(app).currentUser;
+        const user = auth.currentUser;
         if (action == 'get') {
             const postDocRef = doc(db, body.collection, body.doc);
 
