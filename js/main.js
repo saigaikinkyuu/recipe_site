@@ -2,6 +2,7 @@ import { serverFunc } from "./server.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app-check.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
@@ -13,15 +14,15 @@ const firebaseConfig = {
     measurementId: "G-Y12V9FEK27"
 };
 
-const app = firebase.initializeApp(firebaseConfig);
-const auth = app.auth();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const RECAPTCHA_SITE_KEY = "6LeJnu8rAAAAACzYKvXoSxPDfgWlKHa7ftgB2GYN";
 
 const appCheck = initializeAppCheck(app, {
     provider: new ReCaptchaEnterpriseProvider(RECAPTCHA_SITE_KEY),
     isProactiveRefresh: true
 });
-const db = app.firestore();
+const db = getFirestore(app);
 
 let recipes_json = {};
 const calenders = [];
