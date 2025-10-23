@@ -1,4 +1,3 @@
-import { serverFunc } from "./server.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app-check.js";
@@ -440,5 +439,55 @@ async function callapi(action, body) {
         console.error(e);
 
         return 503;
+    }
+}
+
+async function serverFunc() {
+    try {
+        const db_data = await callapi('get', {
+            collection: 'server',
+            doc: 'db'
+        });
+
+        console.log(db_data);
+
+        let isRedirect = false;
+
+        if (db_data["status"] == "stop") {
+            if (db_data["userStatus"] == "admin") {
+                Swal.fire({
+                    icon: 'info',
+                    position: 'top-end',
+                    toast: true,
+                    title: 'SERVER STATUS : STOP',
+                    text: 'アドミン権限で停止しているサーバーに接続しています。',
+                })
+                if (!isRun) {
+                    isRun = true;
+                    return 200;
+                }
+                return
+            }
+            // window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+            isRedirect = true;
+        } else if (!isRun) {
+            return 200;
+        }
+
+        if (isRedirect) {
+            /*const iframe = document.createElement("iframe");
+            iframe.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+
+            document.body.appendChild(iframe);
+            document.title = "Error";
+
+            document.body.addEventListener('click', () => {
+                window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+            })*/
+        }
+        isRun = true;
+    } catch (e) {
+        console.error(e);
+        // window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
     }
 }
