@@ -1,5 +1,4 @@
-var isRun = false;
-(async () => {
+export async function serverFunc(){
     try {
         const db_data = await callapi('get', {
             collection: 'server',
@@ -21,14 +20,14 @@ var isRun = false;
                 })
                 if (!isRun) {
                     isRun = true;
-                    Main();
+                    return 200;
                 }
                 return
             }
             // window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
             isRedirect = true;
         } else if (!isRun) {
-            Main();
+            return 200;
         }
 
         if (isRedirect) {
@@ -47,4 +46,4 @@ var isRun = false;
         console.error(e);
         // window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
     }
-})()
+}

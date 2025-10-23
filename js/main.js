@@ -1,3 +1,8 @@
+import { serverFunc } from "./server.js";
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check';
+
 const firebaseConfig = {
     apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
     authDomain: "home-recipe-be23b.firebaseapp.com",
@@ -10,13 +15,22 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 const auth = app.auth();
+const RECAPTCHA_SITE_KEY = "6LeJnu8rAAAAACzYKvXoSxPDfgWlKHa7ftgB2GYN";
+
+const appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaEnterpriseProvider(RECAPTCHA_SITE_KEY),
+    isProactiveRefresh: true
+});
 const db = app.firestore();
 
 let recipes_json = {};
 const calenders = [];
 let isEvent = false;
+let isRun = false;
 
 async function Main() {
+    if (await serverFunc() !== 200) return;
+
     const calender_container = document.querySelector(".calender");
     const last_date = monthLastDate(new Date());
     const month_first_day = monthFirstDay(new Date());
@@ -69,11 +83,6 @@ async function Main() {
 
     await getRecipeList();
     await setCalender(last_date, month_first_day, cell_number, [new Date().getFullYear(), (new Date().getMonth() + 1)]);
-
-    const api_response = callapi('get', {
-        collection: 'recipe',
-        doc: 'test'
-    })
 }
 
 async function setCalender(last_date, month_first_day, cell_number, month) {
@@ -286,6 +295,16 @@ async function getRecipeList() {
             collection: 'recipe'
         })
 
+        if (typeof data == 'number') {
+            const result = await Swal.fire({
+                title: 'リクエストに失敗しました',
+                text: '数分後に再度お試しください',
+                icon: 'error',
+                confirmButtonText: 'はい'
+            });
+            return
+        }
+
         recipes = data.shift();
 
         const now_h = new Date().getHours();
@@ -372,28 +391,51 @@ function monthFirstDay(newDate) {
 }
 
 async function callapi(action, body) {
-    const user = firebase.auth().currentUser;
-    const idToken = await user.getIdToken();
+    try {
+        const user = firebase.auth().currentUser;
+        if (action == 'get') {
+            const postDocRef = doc(db, body.collection, body.doc);
 
-    if (!idToken) {
-        throw new Error("Not authenticated");
+            const docSnap = await getDoc(postDocRef);
+
+            if (docSnap.exists()) {
+                const postData = { id: docSnap.id, ...docSnap.data() };
+                return postData;
+            } else {
+                return 503;
+            }
+        } else if (action == 'list') {
+            const postsCollectionRef = collection(db, body.collection);
+
+            const snapshot = await getDocs(postsCollectionRef);
+
+            const posts = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            return posts;
+        } else if (action == 'create') {
+            const docRef = doc(db, body.collection, body.doc);
+            await setDoc(docRef, body.data);
+
+            return 200;
+        } else if (action == 'update') {
+            const postDocRef = doc(db, body.collection, body.doc);
+
+            await updateDoc(postDocRef, updates);
+
+            return 200;
+        } else if (action == 'delete') {
+            const postDocRef = doc(db, body.collection, body.doc);
+
+            await deleteDoc(postDocRef);
+
+            return 200;
+        }
+    } catch (e) {
+        console.error(e);
+
+        return 503;
     }
-
-    const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${idToken}`
-        },
-        body: JSON.stringify(body),
-    });
-
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.error || "API request failed");
-    }
-
-    res.json().then(async (user) => {
-        return user;
-    })
 }
