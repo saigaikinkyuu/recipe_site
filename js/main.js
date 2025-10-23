@@ -29,6 +29,8 @@ const calenders = [];
 let isEvent = false;
 let isRun = false;
 
+window.onload = Main();
+
 async function Main() {
     if (await serverFunc() !== 200) return;
 
