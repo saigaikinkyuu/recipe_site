@@ -26,10 +26,51 @@ function Main(){
     })
 }
 
-auth.onAuthStateChanged(user => {
+auth.onAuthStateChanged(async (user) => {
     if (user) {
         window.location.href = "../";
+        const response = await callapi('login',{},user.currentUser);
+        await setSafeCookie('token', response.token, 100);
     }else {
         Main();
     }
 })
+
+async function callapi(action, body, uid) {
+    if (!idToken) {
+        throw new Error("Not authenticated");
+    }
+
+    const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${idToken}`,
+            "uid": uid
+        },
+        body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "API request failed");
+    }
+
+    res.json().then(async (user) => {
+        return user;
+    })
+}
+
+async function setSafeCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (years * 365 * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+
+    const encodedValue = encodeURIComponent(value);
+
+    document.cookie = 
+        `${name}=${encodedValue}${expires}; path=/; SameSite=Strict; Secure`;
+}
