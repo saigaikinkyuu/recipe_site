@@ -1,5 +1,55 @@
-export async function serverFunc(){
+export async function serverFunc() {
     try {
+        async function callapi(action, body) {
+            try {
+                const user = firebase.auth().currentUser;
+                if (action == 'get') {
+                    const postDocRef = doc(db, body.collection, body.doc);
+
+                    const docSnap = await getDoc(postDocRef);
+
+                    if (docSnap.exists()) {
+                        const postData = { id: docSnap.id, ...docSnap.data() };
+                        return postData;
+                    } else {
+                        return 503;
+                    }
+                } else if (action == 'list') {
+                    const postsCollectionRef = collection(db, body.collection);
+
+                    const snapshot = await getDocs(postsCollectionRef);
+
+                    const posts = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+
+                    return posts;
+                } else if (action == 'create') {
+                    const docRef = doc(db, body.collection, body.doc);
+                    await setDoc(docRef, body.data);
+
+                    return 200;
+                } else if (action == 'update') {
+                    const postDocRef = doc(db, body.collection, body.doc);
+
+                    await updateDoc(postDocRef, updates);
+
+                    return 200;
+                } else if (action == 'delete') {
+                    const postDocRef = doc(db, body.collection, body.doc);
+
+                    await deleteDoc(postDocRef);
+
+                    return 200;
+                }
+            } catch (e) {
+                console.error(e);
+
+                return 503;
+            }
+        }
+        
         const db_data = await callapi('get', {
             collection: 'server',
             doc: 'db'
