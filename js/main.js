@@ -394,7 +394,7 @@ function monthFirstDay(newDate) {
 
 async function callapi(action, body) {
     try {
-        const user = firebase.auth().currentUser;
+        const user = getAuth(app).currentUser;
         if (action == 'get') {
             const postDocRef = doc(db, body.collection, body.doc);
 
