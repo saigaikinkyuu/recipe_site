@@ -413,14 +413,14 @@ async function callapi(action, body) {
 
             let documents = [];
 
-            console.log(snapshot);
+            console.log(snapshot.docs);
 
-            snapshot.forEach((doc) => (
+            snapshot.docs.forEach((doc) => {
                 documents.push({
                     id: doc.id,
                     ...doc.data()
                 })
-            ));
+            });
 
             return documents;
         } else if (action == 'create') {
