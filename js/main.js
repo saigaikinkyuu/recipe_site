@@ -447,6 +447,11 @@ async function callapi(action, body) {
 
 async function serverFunc() {
     try {
+        const db_user = await callapi('get', {
+            collection: 'users',
+            doc: auth.currentUser.uid
+        });
+
         const db_data = await callapi('get', {
             collection: 'server',
             doc: 'db'
@@ -457,7 +462,7 @@ async function serverFunc() {
         let isRedirect = false;
 
         if (db_data["status"] == "stop") {
-            if (db_data["userStatus"] == "admin") {
+            if (db_user["status"] == "admin") {
                 Swal.fire({
                     icon: 'info',
                     position: 'top-end',
