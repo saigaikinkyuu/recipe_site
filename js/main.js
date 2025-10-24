@@ -305,6 +305,8 @@ async function getRecipeList() {
             return
         }
 
+        console.log(data);
+
         let recipes = data.shift();
 
         const now_h = new Date().getHours();
