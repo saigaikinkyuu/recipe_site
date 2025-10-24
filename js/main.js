@@ -423,6 +423,8 @@ async function callapi(action, body) {
                 })
             });
 
+            console.log(documents);
+
             return documents;
         } else if (action == 'create') {
             const docRef = doc(db, body.collection, body.doc);
