@@ -1,3 +1,8 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+import { getFirestore, doc, setDoc, collection, getDoc, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app-check.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
     authDomain: "home-recipe-be23b.firebaseapp.com",
@@ -8,69 +13,39 @@ const firebaseConfig = {
     measurementId: "G-Y12V9FEK27"
 };
 
-const app = firebase.initializeApp(firebaseConfig);
-const auth = app.auth();
-const db = app.firestore();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const RECAPTCHA_SITE_KEY = "6LeJnu8rAAAAACzYKvXoSxPDfgWlKHa7ftgB2GYN";
 
-function Main(){
+const appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaEnterpriseProvider(RECAPTCHA_SITE_KEY),
+    isProactiveRefresh: true
+});
+const db = getFirestore(app);
+
+function Main() {
     const email = document.querySelector("#email");
     const pass = document.querySelector("#password");
     const submit = document.querySelector("#submit");
 
-    submit.addEventListener('click' , () => {
-        if(!email.value && !pass.value) return
-        auth.signInWithEmailAndPassword(email.value, pass.value)
-        .catch(error => {
-            alert(error.message);
-        });
+    submit.addEventListener('click', () => {
+        if (!email.value && !pass.value) return
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email.value, pass.value)
+            .then((userCredential) => {
+                //empty
+            })
+            .catch((error) => {
+                console.error(error);
+                alert(error);
+            });
     })
 }
 
-auth.onAuthStateChanged(async (user) => {
+onAuthStateChanged(auth, (user) => {
     if (user) {
         window.location.href = "../";
-        const response = await callapi('login',{},user.currentUser);
-        await setSafeCookie('token', response.token, 100);
-    }else {
+    } else {
         Main();
     }
 })
-
-async function callapi(action, body, uid) {
-    if (!idToken) {
-        throw new Error("Not authenticated");
-    }
-
-    const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${idToken}`,
-            "uid": uid
-        },
-        body: JSON.stringify(body),
-    });
-
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.error || "API request failed");
-    }
-
-    res.json().then(async (user) => {
-        return user;
-    })
-}
-
-async function setSafeCookie(name, value, days) {
-    let expires = "";
-    if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (years * 365 * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-
-    const encodedValue = encodeURIComponent(value);
-
-    document.cookie = 
-        `${name}=${encodedValue}${expires}; path=/; SameSite=Strict; Secure`;
-}
