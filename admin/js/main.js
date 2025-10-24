@@ -34,7 +34,7 @@ async function Main() {
 
         const dynamicAsyncFunction = adminFunc(db, auth);
 
-        await dynamicAsyncFunction();
+        await dynamicAsyncFunction(db, auth);
     } catch (e) {
         console.error(e);
         const result = await Swal.fire({
