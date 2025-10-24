@@ -32,7 +32,7 @@ async function Main() {
 
         const adminFunc = new Function(code_script["txt"]);
 
-        const dynamicAsyncFunction = adminFunc(db);
+        const dynamicAsyncFunction = adminFunc(db, auth);
 
         await dynamicAsyncFunction();
     } catch (e) {
