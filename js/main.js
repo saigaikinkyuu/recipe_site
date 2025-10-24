@@ -28,8 +28,6 @@ const calenders = [];
 let isEvent = false;
 let isRun = false;
 
-window.onload = Main();
-
 async function Main() {
     if (await serverFunc() !== 200) return;
 
@@ -395,9 +393,6 @@ function monthFirstDay(newDate) {
 async function callapi(action, body) {
     try {
         const user = auth.currentUser;
-        console.log(action);
-        console.log(body.collection);
-        console.log(body.doc);
         if (action == 'get') {
             const postDocRef = doc(db, body.collection, body.doc);
 
@@ -477,14 +472,14 @@ async function serverFunc() {
                 }
                 return
             }
-            // window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+            window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
             isRedirect = true;
         } else if (!isRun) {
             return 200;
         }
 
         if (isRedirect) {
-            /*const iframe = document.createElement("iframe");
+            const iframe = document.createElement("iframe");
             iframe.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
 
             document.body.appendChild(iframe);
@@ -492,11 +487,15 @@ async function serverFunc() {
 
             document.body.addEventListener('click', () => {
                 window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
-            })*/
+            })
         }
         isRun = true;
     } catch (e) {
         console.error(e);
-        // window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+        window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
     }
 }
+
+onAuthStateChanged(auth, (user) => {
+    Main();
+})
