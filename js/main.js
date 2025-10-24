@@ -416,6 +416,7 @@ async function callapi(action, body) {
             console.log(snapshot.docs);
 
             snapshot.docs.forEach((doc) => {
+                console.log(doc.id);
                 documents.push({
                     id: doc.id,
                     ...doc.data()
