@@ -418,7 +418,10 @@ async function callapi(action, body) {
                     id: doc.id,
                     ...doc.data()
                 });
-                return
+                return {
+                    id: doc.id,
+                    ...doc.data()
+                }
             });
 
             return id_data;
