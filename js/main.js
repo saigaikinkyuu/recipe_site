@@ -447,7 +447,7 @@ async function callapi(action, body) {
 
 async function serverFunc() {
     try {
-        const user = auth.currentUser;
+        const user = getAuth().currentUser;
         const db_user = await callapi('get', {
             collection: 'users',
             doc: user.uid
