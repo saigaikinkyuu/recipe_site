@@ -411,8 +411,6 @@ async function callapi(action, body) {
 
             const snapshot = await getDocs(postsCollectionRef);
 
-            let documents = [];
-
             console.log(snapshot.docs);
 
             const documents = snapshot.docs.map((doc) => {
