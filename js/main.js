@@ -447,9 +447,10 @@ async function callapi(action, body) {
 
 async function serverFunc() {
     try {
+        const user = auth.currentUser;
         const db_user = await callapi('get', {
             collection: 'users',
-            doc: auth.currentUser.uid
+            doc: user.uid
         });
 
         const db_data = await callapi('get', {
