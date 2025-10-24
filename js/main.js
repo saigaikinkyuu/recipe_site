@@ -415,12 +415,12 @@ async function callapi(action, body) {
 
             console.log(snapshot.docs);
 
-            snapshot.docs.forEach((doc) => {
+            const documents = snapshot.docs.map((doc) => {
                 console.log(doc.id);
-                documents.push({
+                return {
                     id: doc.id,
                     ...doc.data()
-                })
+                };
             });
 
             console.log(documents);
