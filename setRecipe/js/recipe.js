@@ -574,8 +574,13 @@ async function getDB(id) {
         doc: id
     })
 
-    db_json["exist"] = true;
-    db_json["data"] = db_data;
+    if (typeof db_data == 'object') {
+        db_json["exist"] = true;
+        db_json["data"] = db_data;
+    }else {
+        db_json["exist"] = false;
+        db_json["data"] = {};
+    }
 }
 
 async function addIngInput(field) {
