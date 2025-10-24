@@ -413,7 +413,7 @@ async function callapi(action, body) {
 
             let documents = [];
 
-            const posts = snapshot.docs.forEach(doc => (
+            const posts = snapshot.forEach(doc => (
                 documents.push({
                     id: doc.id,
                     ...doc.data()
