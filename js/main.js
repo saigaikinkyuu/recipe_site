@@ -305,7 +305,7 @@ async function getRecipeList() {
             return
         }
 
-        recipes = data.shift();
+        let recipes = data.shift();
 
         const now_h = new Date().getHours();
         const id_t = new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + ("0" + new Date().getDate()).slice(-2);
@@ -452,8 +452,6 @@ async function serverFunc() {
             collection: 'server',
             doc: 'db'
         });
-
-        console.log(db_data);
 
         let isRedirect = false;
 

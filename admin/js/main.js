@@ -1,3 +1,8 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+import { getFirestore, doc, setDoc, collection, getDoc, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app-check.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyDzslg1WbmtYBNFtR3BrrHVvXYTeqanDr8",
     authDomain: "home-recipe-be23b.firebaseapp.com",
@@ -8,13 +13,19 @@ const firebaseConfig = {
     measurementId: "G-Y12V9FEK27"
 };
 
-const app = firebase.initializeApp(firebaseConfig);
-const auth = app.auth();
-const db = app.firestore();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const RECAPTCHA_SITE_KEY = "6LeJnu8rAAAAACzYKvXoSxPDfgWlKHa7ftgB2GYN";
+
+const appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaEnterpriseProvider(RECAPTCHA_SITE_KEY),
+    isProactiveRefresh: true
+});
+const db = getFirestore(app);
 
 async function Main() {
     try {
-        const code_script = await callapi('get' , {
+        const code_script = await callapi('get', {
             collection: 'script',
             doc: 'admin'
         })
@@ -46,28 +57,109 @@ async function Main() {
 }
 
 async function callapi(action, body) {
-    const user = firebase.auth().currentUser;
-    const idToken = await user.getIdToken();
+    try {
+        const user = auth.currentUser;
+        if (action == 'get') {
+            const postDocRef = doc(db, body.collection, body.doc);
 
-    if (!idToken) {
-        throw new Error("Not authenticated");
+            const docSnap = await getDoc(postDocRef);
+
+            if (docSnap.exists()) {
+                const postData = { id: docSnap.id, ...docSnap.data() };
+                return postData;
+            } else {
+                return 503;
+            }
+        } else if (action == 'list') {
+            const postsCollectionRef = collection(db, body.collection);
+
+            const snapshot = await getDocs(postsCollectionRef);
+
+            const posts = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            return posts;
+        } else if (action == 'create') {
+            const docRef = doc(db, body.collection, body.doc);
+            await setDoc(docRef, body.data);
+
+            return 200;
+        } else if (action == 'update') {
+            const postDocRef = doc(db, body.collection, body.doc);
+
+            await updateDoc(postDocRef, updates);
+
+            return 200;
+        } else if (action == 'delete') {
+            const postDocRef = doc(db, body.collection, body.doc);
+
+            await deleteDoc(postDocRef);
+
+            return 200;
+        }
+    } catch (e) {
+        console.error(e);
+
+        return 503;
     }
-
-    const res = await fetch(`https://firebaseapidataserver.netlify.app/.netlify/functions/api/${action}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${idToken}`
-        },
-        body: JSON.stringify(body),
-    });
-
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.error || "API request failed");
-    }
-
-    res.json().then(async (user) => {
-        return user;
-    })
 }
+
+async function serverFunc() {
+    try {
+        const user = getAuth().currentUser;
+        const db_user = await callapi('get', {
+            collection: 'users',
+            doc: user.uid
+        });
+
+        const db_data = await callapi('get', {
+            collection: 'server',
+            doc: 'db'
+        });
+
+        let isRedirect = false;
+
+        if (db_data["status"] == "stop") {
+            if (db_user["status"] == "admin") {
+                Swal.fire({
+                    icon: 'info',
+                    position: 'top-end',
+                    toast: true,
+                    title: 'SERVER STATUS : STOP',
+                    text: 'アドミン権限で停止しているサーバーに接続しています。',
+                })
+                if (!isRun) {
+                    isRun = true;
+                    return 200;
+                }
+                return
+            }
+            window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+            isRedirect = true;
+        } else if (!isRun) {
+            return 200;
+        }
+
+        if (isRedirect) {
+            const iframe = document.createElement("iframe");
+            iframe.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+
+            document.body.appendChild(iframe);
+            document.title = "Error";
+
+            document.body.addEventListener('click', () => {
+                window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+            })
+        }
+        isRun = true;
+    } catch (e) {
+        console.error(e);
+        window.location.href = "https://saigaikinkyuu.github.io/recipe_site/error/";
+    }
+}
+
+onAuthStateChanged(auth, (user) => {
+    Main();
+})
