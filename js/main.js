@@ -423,7 +423,7 @@ async function callapi(action, body) {
         } else if (action == 'update') {
             const postDocRef = doc(db, body.collection, body.doc);
 
-            await updateDoc(postDocRef, updates);
+            await updateDoc(postDocRef, body.data);
 
             return 200;
         } else if (action == 'delete') {
