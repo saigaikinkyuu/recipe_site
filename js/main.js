@@ -415,6 +415,7 @@ async function callapi(action, body) {
 
             const documents = snapshot.docs.map((doc) => {
                 console.log(doc.id);
+                console.log(doc.data());
                 return {
                     id: doc.id,
                     ...doc.data()
