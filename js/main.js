@@ -427,6 +427,9 @@ async function callapi(action, body) {
                 };
             });
 
+            console.log(ids);
+            console.log(datas);
+
             console.log(documents);
 
             return documents;
