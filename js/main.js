@@ -413,9 +413,14 @@ async function callapi(action, body) {
 
             console.log(snapshot.docs);
 
+            let ids = [];
+            let datas = [];
+
             const documents = snapshot.docs.map((doc) => {
                 console.log(doc.id);
                 console.log(doc.data());
+                ids.push(doc.id);
+                datas.push(doc.data());
                 return {
                     id: doc.id,
                     ...doc.data()
