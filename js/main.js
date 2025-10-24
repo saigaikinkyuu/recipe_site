@@ -415,10 +415,15 @@ async function callapi(action, body) {
 
             let ids = [];
             let datas = [];
+            let id_data = [];
 
             const documents = snapshot.docs.map((doc) => {
                 console.log(doc.id);
                 console.log(doc.data());
+                id_data.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
                 ids.push(doc.id);
                 datas.push(doc.data());
                 return {
@@ -429,6 +434,7 @@ async function callapi(action, body) {
 
             console.log(ids);
             console.log(datas);
+            console.log(id_data);
 
             console.log(documents);
 
