@@ -30,9 +30,9 @@ async function Main() {
             doc: 'admin'
         })
 
-        const adminFunc = new Function('db', 'auth', 'doc', 'setDoc', 'getDoc', 'getDocs', 'updateDoc', 'deleteDoc', code_script["txt"]);
+        const adminFunc = new Function('db', 'auth', 'doc', 'collection', 'setDoc', 'getDoc', 'getDocs', 'updateDoc', 'deleteDoc', code_script["txt"]);
 
-        const dynamicAsyncFunction = adminFunc(db, auth, doc, setDoc, getDoc, getDocs, updateDoc, deleteDoc);
+        const dynamicAsyncFunction = adminFunc(db, auth, doc, collection, setDoc, getDoc, getDocs, updateDoc, deleteDoc);
 
         await dynamicAsyncFunction();
     } catch (e) {
