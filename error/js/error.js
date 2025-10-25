@@ -39,7 +39,7 @@ const db = getFirestore(app);
         console.error(e);
         window.location.href = "../login";
     }
-})
+})();
 
 async function callapi(action, body) {
     try {
