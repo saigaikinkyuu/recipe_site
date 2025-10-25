@@ -410,10 +410,11 @@ async function callapi(action, body) {
         } else if (action == 'list') {
             const postsCollectionRef = collection(db, body.collection);
 
-            const snapshot = await getDocs(postsCollectionRef);
-
             let ids = [];
             let datas = [];
+            let docList = [];
+
+            const snapshot = await getDocs(postsCollectionRef);
 
             snapshot.forEach(doc => {
                 ids.push(doc.id);
@@ -424,8 +425,6 @@ async function callapi(action, body) {
             console.log(datas);
 
             if(ids.length !== datas.length)return 503;
-
-            let docList = [];
 
             for(let i = 0;i < ids.length;i++){
                 docList.push({id: ids[i], ...datas[i]});
