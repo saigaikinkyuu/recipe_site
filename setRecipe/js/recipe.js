@@ -811,6 +811,10 @@ async function serverFunc() {
 
         let isRedirect = false;
 
+        if(typeof db_user == 'number'){
+            window.location.href = "https://saigaikinkyuu.github.io/recipe_site/login/"
+        }
+
         if (db_data["status"] == "stop") {
             if (db_user["status"] == "admin") {
                 Swal.fire({

@@ -454,6 +454,10 @@ async function serverFunc() {
             doc: 'db'
         });
 
+        if(typeof db_user == 'number'){
+            window.location.href = "https://saigaikinkyuu.github.io/recipe_site/login/"
+        }
+
         let isRedirect = false;
 
         if (db_data["status"] == "stop") {
