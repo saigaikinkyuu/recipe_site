@@ -395,8 +395,7 @@ function monthFirstDay(newDate) {
 async function callapi(action, body) {
     try {
         const user = auth.currentUser;
-        let docsList = [];
-        
+
         if (action == 'get') {
             const postDocRef = doc(db, body.collection, body.doc);
 
@@ -413,13 +412,20 @@ async function callapi(action, body) {
 
             const snapshot = await getDocs(postsCollectionRef);
 
+            let ids = [];
+            let datas = [];
+
             snapshot.forEach(doc => {
-                docsList.push({ id: doc.id, ...doc.data() });
+                console.log(doc.id);
+                console.log(doc.data);
+                ids.push(doc.id);
+                datas.push(doc.data());
             });
 
-            console.log(docsList);
+            console.log(ids);
+            console.log(datas);
 
-            return docsList;
+            return [{}];
         } else if (action == 'create') {
             const docRef = doc(db, body.collection, body.doc);
             await setDoc(docRef, body.data);
