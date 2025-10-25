@@ -411,23 +411,14 @@ async function callapi(action, body) {
 
             const snapshot = await getDocs(postsCollectionRef);
 
-            let id_data = [];
+            const docsList = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
 
-            const documents = snapshot.docs.map((doc) => {
-                id_data.push({
-                    id: doc.id,
-                    data: doc.data()
-                });
-                return {
-                    id: doc.id,
-                    data: doc.data()
-                }
-            });
+            console.log(docsList);
 
-            console.log(id_data);
-            console.log(id_data);
-
-            return id_data;
+            return docsList;
         } else if (action == 'create') {
             const docRef = doc(db, body.collection, body.doc);
             await setDoc(docRef, body.data);
