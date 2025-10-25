@@ -416,13 +416,16 @@ async function callapi(action, body) {
             const documents = snapshot.docs.map((doc) => {
                 id_data.push({
                     id: doc.id,
-                    ...doc.data()
+                    data: doc.data()
                 });
                 return {
                     id: doc.id,
-                    ...doc.data()
+                    data: doc.data()
                 }
             });
+
+            console.log(id_data);
+            console.log(id_data);
 
             return id_data;
         } else if (action == 'create') {
