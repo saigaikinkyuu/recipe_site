@@ -24,6 +24,7 @@ const appCheck = initializeAppCheck(app, {
 const db = getFirestore(app);
 
 const db_json = { "exist": null, "data": {} };
+let isRun = false;
 
 var error_disavailabled_submit = false;
 
@@ -54,6 +55,8 @@ function getAllLocalStorageData() {
 }
 
 async function Main() {
+    if (await serverFunc() !== 200) return;
+
     const id = getParam("id");
     const time = getParam("time");
 

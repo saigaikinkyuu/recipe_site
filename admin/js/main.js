@@ -23,8 +23,12 @@ const appCheck = initializeAppCheck(app, {
 });
 const db = getFirestore(app);
 
+let isRun = false;
+
 async function Main() {
     try {
+        if (await serverFunc() !== 200) return;
+
         const code_script = await callapi('get', {
             collection: 'script',
             doc: 'admin'

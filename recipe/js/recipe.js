@@ -22,6 +22,7 @@ const appCheck = initializeAppCheck(app, {
     isProactiveRefresh: true
 });
 const db = getFirestore(app);
+let isRun = false;
 
 function getParam(propaty) {
     return new URLSearchParams(document.location.search).get(propaty)
@@ -29,6 +30,8 @@ function getParam(propaty) {
 
 async function Main() {
     try {
+        if (await serverFunc() !== 200) return;
+
         const id = getParam("id");
         const time = getParam("time");
 
@@ -212,10 +215,10 @@ async function callapi(action, body) {
                 datas.push(doc.data());
             });
 
-            if(ids.length !== datas.length)return 503;
+            if (ids.length !== datas.length) return 503;
 
-            for(let i = 0;i < ids.length;i++){
-                docList.push({id: ids[i], ...datas[i]});
+            for (let i = 0; i < ids.length; i++) {
+                docList.push({ id: ids[i], ...datas[i] });
             }
 
             return docList;
