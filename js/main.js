@@ -408,6 +408,9 @@ async function callapi(action, body) {
         } else if (action == 'list') {
             const postsCollectionRef = collection(db, body.collection);
 
+            /* mapやforEachで配列型に一括で直そうとすると最後に入力されたデータのみになる */
+            /* 原因はわからないが、次のコードで治った */
+
             let ids = [];
             let datas = [];
             let docList = [];
@@ -415,20 +418,14 @@ async function callapi(action, body) {
             const snapshot = await getDocs(postsCollectionRef);
 
             snapshot.forEach(doc => {
-                ids.push(doc.id);
                 datas.push(doc.data());
             });
-
-            console.log(ids);
-            console.log(datas);
 
             if(ids.length !== datas.length)return 503;
 
             for(let i = 0;i < ids.length;i++){
                 docList.push({id: ids[i], ...datas[i]});
             }
-
-            console.log(docList);
 
             return docList;
         } else if (action == 'create') {
