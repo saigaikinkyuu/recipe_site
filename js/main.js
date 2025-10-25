@@ -416,8 +416,6 @@ async function callapi(action, body) {
             let datas = [];
 
             snapshot.forEach(doc => {
-                console.log(doc.id);
-                console.log(doc.data);
                 ids.push(doc.id);
                 datas.push(doc.data());
             });
@@ -425,7 +423,17 @@ async function callapi(action, body) {
             console.log(ids);
             console.log(datas);
 
-            return [{}];
+            if(ids.length !== datas.length)return 503;
+
+            let docList = [];
+
+            for(let i = 0;i < ids.length;i++){
+                docList.push({id: ids[i], ...datas[i]});
+            }
+
+            console.log(docList);
+
+            return docList;
         } else if (action == 'create') {
             const docRef = doc(db, body.collection, body.doc);
             await setDoc(docRef, body.data);
